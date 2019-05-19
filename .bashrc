@@ -116,6 +116,12 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# Add ~/.local/bin to PATH
+
+if [ -d "$HOME/.local/bin" ] ; then
+  PATH="$HOME/.local/bin:$PATH"
+fi
+
 . $HOME/.asdf/asdf.sh
 
 . $HOME/.asdf/completions/asdf.bash
