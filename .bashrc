@@ -116,12 +116,32 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Add ~/.local/bin to PATH
-
-if [ -d "$HOME/.local/bin" ] ; then
-  PATH="$HOME/.local/bin:$PATH"
+# Person (non-public) bashrc bits should live in this file.
+if [ -f ~/.bash_files/personal ]; then
+  . ~/.bash_files/personal
 fi
 
-. $HOME/.asdf/asdf.sh
+if [ -f ~/.bash_files/aliases ]; then
+  . ~/.bash_files/aliases
+fi
 
-. $HOME/.asdf/completions/asdf.bash
+if [ -f ~/.bash_files/functions ]; then
+  . ~/.bash_files/functions
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+# asdf-vm
+if [ -f $HOME/.asdf/asdf.sh ]; then
+  . $HOME/.asdf/asdf.sh
+fi
+
+if [ -f $HOME/.asdf/completions/asdf.bash ]; then
+  . $HOME/.asdf/completions/asdf.bash
+fi
+
+# the fuck
+eval "$(thefuck --alias)"
