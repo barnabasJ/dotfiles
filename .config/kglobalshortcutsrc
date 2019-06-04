@@ -237,3 +237,7 @@ show dashboard=Ctrl+F12,Ctrl+F12,Show Desktop
 show-barcode=none,none,Show Barcode...
 show-on-mouse-pos=none,none,Open Klipper at Mouse Position
 stop current activity=Meta+S,Meta+S,Stop Current Activity
+
+[yakuake]
+_k_friendly_name=Yakuake
+toggle-window-state=Alt+T,F12,Open/Retract Yakuake
