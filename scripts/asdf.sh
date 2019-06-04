@@ -90,3 +90,22 @@ asdf plugin-add elm
 asdf install elm "${elm_version}"
 
 asdf global elm "${elm_version}"
+
+### Python =====================================================================
+
+python_version="3.7.3"
+
+asdf plugin-add python
+
+# install dependencies =========================================================
+
+sudo apt install -y --no-install-recommends make build-essential libssl-dev \
+	zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+	libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev \
+	liblzma-dev
+
+# install python ===============================================================
+
+asdf install python "${python_version}"
+
+asdf global python "${python_version}"
