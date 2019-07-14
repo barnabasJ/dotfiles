@@ -145,3 +145,5 @@ fi
 
 # the fuck
 eval "$(thefuck --alias)"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
