@@ -487,3 +487,6 @@ complete -F _complete_alias gco
 complete -F _complete_alias ga
 complete -F _complete_alias yma
 complete -F _complete_alias ympu
+complete -F _complete_alias gp
+complete -F _complete_alias gpur
+complete -F _complete_alias gbn

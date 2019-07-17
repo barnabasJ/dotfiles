@@ -65,3 +65,6 @@ alias yma='yadm add'
 alias ympu='yadm push'
 alias ymcm='yadm commit -m'
 
+function ymln() {
+  yadm log "-$1"
+}
