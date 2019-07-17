@@ -125,6 +125,10 @@ if [ -f ~/.bash_files/aliases ]; then
   . ~/.bash_files/aliases
 fi
 
+if [ -f ~/.bash_completion ]; then
+  . ~/.bash_completion
+fi
+
 if [ -f ~/.bash_files/functions ]; then
   . ~/.bash_files/functions
 fi

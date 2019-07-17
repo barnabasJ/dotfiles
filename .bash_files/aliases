@@ -1,0 +1,59 @@
+################################################################################
+# git
+################################################################################
+
+
+alias ga='git add'
+alias gaa='git add -A'
+alias gba='git branch --all'
+alias gbn='git checkout -b'
+alias gca='git commit --amend'
+alias gcan='git commit --amend --no-edit'
+alias gcl='git clone'
+alias gcm='git commit -m'
+alias gco='git checkout'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gfa='git fetch --all'
+alias gp='git push'
+alias gpf='git push -f'
+alias gpuff='git pull --ff-only'
+alias gpur='git pull --rebase --autostash'
+alias gr='git rebase'
+alias gra='git rebase --abort'
+alias grc='git rebase --continue'
+alias greh='git reset --hard'
+alias gri='git rebase --interactive'
+alias grsh='git reset --hard'
+alias gs='git status'
+
+function gln() {
+  git log "-$1"
+}
+################################################################################
+# bash
+################################################################################
+
+alias sbr='source ~/.bashrc'
+
+function completeAlias() {
+  echo "complete -F _complete_alias ${1}" >> ~/.bash_completion
+}
+
+################################################################################
+# gradle
+################################################################################
+
+alias gw='cd $(git rev-parse --show-toplevel) && ./gradlew'
+
+################################################################################
+# docker
+################################################################################
+
+alias d='docker'
+alias dp='docker ps'
+alias di='docker images'
+alias dspa='docker system prune -a'
+alias dsa='docker stop $(docker ps -q)'
+
+
