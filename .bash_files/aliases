@@ -56,4 +56,12 @@ alias di='docker images'
 alias dspa='docker system prune -a'
 alias dsa='docker stop $(docker ps -q)'
 
+################################################################################
+# yadm
+################################################################################
+
+alias yms='yadm status'
+alias yma='yadm add'
+alias ympu='yadm push'
+alias ymcm='yadm commit -m'
 
