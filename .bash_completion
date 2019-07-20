@@ -490,3 +490,7 @@ complete -F _complete_alias ympu
 complete -F _complete_alias gp
 complete -F _complete_alias gpur
 complete -F _complete_alias gbn
+complete -F _complete_alias gpur
+complete -F _complete_alias gpu
+complete -F _complete_alias gd
+complete -F _complete_alias ymd

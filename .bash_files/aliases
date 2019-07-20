@@ -12,20 +12,26 @@ alias gcan='git commit --amend --no-edit'
 alias gcl='git clone'
 alias gcm='git commit -m'
 alias gco='git checkout'
+alias gcz='git-cz'
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias gfa='git fetch --all'
 alias gp='git push'
 alias gpf='git push -f'
+alias gpu='git pull'
 alias gpuff='git pull --ff-only'
 alias gpur='git pull --rebase --autostash'
+alias gpurm='git fetch --all && git pull --rebase --autostash origin master'
+alias gmm='git fetch --all && git merge origin/master'
 alias gr='git rebase'
 alias gra='git rebase --abort'
 alias grc='git rebase --continue'
+alias grs='git rebase --skip'
 alias greh='git reset --hard'
 alias gri='git rebase --interactive'
 alias grsh='git reset --hard'
 alias gs='git status'
+alias gstl='git stash list'
 
 function gln() {
   git log "-$1"
@@ -44,7 +50,12 @@ function completeAlias() {
 # gradle
 ################################################################################
 
-alias gw='cd $(git rev-parse --show-toplevel) && ./gradlew'
+function gw() {
+  DIR=$(pwd) 
+  cd $(git rev-parse --show-toplevel) 
+  ./gradlew "$@" 
+  cd "$DIR"
+}
 
 ################################################################################
 # docker
@@ -62,8 +73,10 @@ alias dsa='docker stop $(docker ps -q)'
 
 alias yms='yadm status'
 alias yma='yadm add'
-alias ympu='yadm push'
+alias ymp='yadm push'
 alias ymcm='yadm commit -m'
+alias ymd='yadm diff'
+alias ymdc='yadm diff --cached'
 
 function ymln() {
   yadm log "-$1"
