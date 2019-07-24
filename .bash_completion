@@ -494,3 +494,10 @@ complete -F _complete_alias gpur
 complete -F _complete_alias gpu
 complete -F _complete_alias gd
 complete -F _complete_alias ymd
+complete -F _complete_alias gri
+complete -F _complete_alias t
+complete -F _complete_alias ta
+complete -F _complete_alias gr
+complete -F _complete_alias gbd
+complete -F _complete_alias gbD
+complete -F _complete_alias dei
