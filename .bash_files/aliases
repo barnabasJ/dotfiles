@@ -2,7 +2,6 @@
 # git
 ################################################################################
 
-
 alias ga='git add'
 alias gaa='git add -A'
 alias gba='git branch --all'
@@ -19,15 +18,15 @@ alias gcr='git-cz --retry'
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias gfa='git fetch --all'
-alias gp='git push || fuck --yeah'
+alias gp='git push'  
 alias gpf='git push -f'
 alias gpu='git pull'
 alias gpuff='git pull --ff-only'
 alias gpur='git pull --rebase --autostash'
 alias gpurm='git fetch --all && git pull --rebase --autostash origin master'
-alias gpurmi='git fetch --all && git pull --rebase --autostash --interactive   origin master'
+alias gpurmi='git fetch --all && git pull --rebase --autostash --interactive origin master'
 alias gmm='git fetch --all && git merge origin/master'
-alias gr='git rebase'
+alias gr='git rebase --autostash'
 alias gri='git rebase --interactive'
 alias gra='git rebase --abort'
 alias grc='git rebase --continue'
@@ -39,6 +38,7 @@ alias gs='git status'
 alias gstl='git stash list'
 alias gst='git stash'
 alias gstp='git stash pop'
+alias gstpi='git stash pop --index'
 alias gsta='git stash apply'
 alias gcp='git cherry-pick'
 alias gcpc='git cherry-pick --continue'
@@ -47,6 +47,7 @@ alias gcpa='git cherry-pick --abort'
 function gln() {
   git log "-$1"
 }
+
 ################################################################################
 # bash
 ################################################################################
@@ -81,6 +82,24 @@ alias dsa='docker stop $(docker ps -q)'
 alias dsta='docker start $(docker ps -qa)'
 alias dei='docker exec -ti'
 
+################################################################################
+# docker
+################################################################################
+
+alias dcu='docker-compose up -d'
+alias dcd='docker-compose down'
+
+function dcuf() {
+  FILE=$1
+  shift
+  docker-compose -f $FILE up -d $@
+}
+
+function dcdf() {
+  FILE=$1
+  shift
+  docker-compose -f $FILE down $@
+}
 
 ################################################################################
 # yadm
@@ -114,4 +133,5 @@ alias t='tmux'
 alias tn='tmux new -s'
 alias ta='tmux attach -t'
 alias tl='tmux ls'
-alias cz='/home/joba/.asdf/installs/nodejs/10.15.3/.npm/bin/git-cz'
+
+################################################################################
