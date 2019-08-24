@@ -24,7 +24,7 @@ alias gpu='git pull'
 alias gpuff='git pull --ff-only'
 alias gpur='git pull --rebase --autostash'
 alias gpurm='git fetch --all && git pull --rebase --autostash origin master'
-alias gpurmi='git fetch --all && git pull --rebase --autostash --interactive origin master'
+alias gpurmi='git fetch --all && git rebase --interactive --autostash origin/master'
 alias gmm='git fetch --all && git merge origin/master'
 alias gr='git rebase --autostash'
 alias gri='git rebase --interactive'
@@ -83,7 +83,7 @@ alias dsta='docker start $(docker ps -qa)'
 alias dei='docker exec -ti'
 
 ################################################################################
-# docker
+# docker-compose
 ################################################################################
 
 alias dcu='docker-compose up -d'
@@ -102,6 +102,13 @@ function dcdf() {
 }
 
 ################################################################################
+# swarms
+################################################################################
+
+alias muri='~/lovely/az-dev/muri/docker'
+alias murip='muri ps'
+
+################################################################################
 # yadm
 ################################################################################
 
@@ -109,6 +116,7 @@ alias yms='yadm status'
 alias yma='yadm add'
 alias ymp='yadm push'
 alias ymcm='yadm commit -m'
+alias ymc='yadm commit -m'
 alias ymd='yadm diff'
 alias ymdc='yadm diff --cached'
 
@@ -117,11 +125,18 @@ function ymln() {
 }
 
 ################################################################################
+# npm
+################################################################################
+
+alias nc='npm-check'
+
+################################################################################
 # yarn
 ################################################################################
 
 alias y='yarn'
 alias ywt='yarn watch-test'
+alias yt='yarn test'
 alias yw='yarn watch'
 alias yss='yarn start-storybook'
 
