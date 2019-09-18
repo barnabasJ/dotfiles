@@ -18,6 +18,7 @@ alias gcr='git-cz --retry'
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias gfa='git fetch --all'
+alias gl='git log --branches --remotes --tags --graph --oneline --decorate'
 alias gp='git push'  
 alias gpf='git push -f'
 alias gpu='git pull'
@@ -45,13 +46,21 @@ alias gcpc='git cherry-pick --continue'
 alias gcpa='git cherry-pick --abort'
 
 function gln() {
-  git log "-$1"
+  n=${1:-1}
+  git log "-$n"
 }
+function gbDm() {
+  for branch in $(gba | grep $1 | grep -v origin) ; do 
+    gbD $branch; 
+  done
+}
+
 
 ################################################################################
 # bash
 ################################################################################
 
+alias cdr='cd $(git rev-parse --show-toplevel)'
 alias sbr='source ~/.bashrc'
 
 function completeAlias() {
@@ -139,6 +148,9 @@ alias ywt='yarn watch-test'
 alias yt='yarn test'
 alias yw='yarn watch'
 alias yss='yarn start-storybook'
+alias ytl='yarn test && yarn lint'
+alias yc='yarn-check'
+alias ycu='yarn-check -u'
 
 ################################################################################
 # tmux
@@ -148,5 +160,6 @@ alias t='tmux'
 alias tn='tmux new -s'
 alias ta='tmux attach -t'
 alias tl='tmux ls'
+alias tk='tmux kill-session -t'
 
 ################################################################################
