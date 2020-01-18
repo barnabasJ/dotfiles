@@ -38,6 +38,7 @@ alias grsh='git reset --hard'
 alias gs='git status'
 alias gstl='git stash list'
 alias gst='git stash'
+alias gsts='git stash show'
 alias gstp='git stash pop'
 alias gstpi='git stash pop --index'
 alias gsta='git stash apply'
@@ -49,6 +50,7 @@ function gln() {
   n=${1:-1}
   git log "-$n"
 }
+
 function gbDm() {
   for branch in $(gba | grep $1 | grep -v origin) ; do 
     gbD $branch; 
@@ -151,6 +153,7 @@ alias yss='yarn start-storybook'
 alias ytl='yarn test && yarn lint'
 alias yc='yarn-check'
 alias ycu='yarn-check -u'
+alias ycz='yarn commit'
 
 ################################################################################
 # tmux
@@ -161,5 +164,12 @@ alias tn='tmux new -s'
 alias ta='tmux attach -t'
 alias tl='tmux ls'
 alias tk='tmux kill-session -t'
+
+
+################################################################################
+# tmux
+################################################################################
+
+alias kubectl='kubectl-eks.kubectl'
 
 ################################################################################
