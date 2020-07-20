@@ -1,3 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_cnt =5
 let g:netrw_dirhist_1='/home/joba/lovely/pilatus/pilatus_migration/lib/pilatus_migration'
+let g:netrw_dirhist_2='/home/joba/lovely/az-sysop/swarms/aarau/stacks/cms'
+let g:netrw_dirhist_3='/etc/sanoid'
+let g:netrw_dirhist_4='/home/joba/skytala/canary_chat_app/__mocks__'
+let g:netrw_dirhist_5='/home/joba/.pgpass'

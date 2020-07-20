@@ -503,3 +503,4 @@ complete -F _complete_alias gbD
 complete -F _complete_alias dei
 complete -F _complete_alias gcan
 complete -F _complete_alias kubectl
+complete -F _complete_alias iex
