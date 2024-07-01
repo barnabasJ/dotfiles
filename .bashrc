@@ -163,3 +163,21 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 # Lovely Stuff
 
 export DOCKER_GATEWAY_HOST=172.17.0.1
+
+# Kubernetes
+
+source <(kubectl completion bash)
+
+alias k=kubectl
+complete -o default -F __start_kubectl k
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+source <(velero completion bash)
+
+alias v=velero
+complete -F __start_velero v
+
+source <(helm completion bash)
+alias h=helm
+complete -o default -F __start_helm h
