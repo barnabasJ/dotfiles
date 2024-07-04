@@ -1,3 +1,4 @@
+-- requires ripgrep and fzf to be installed
 return {
     "nvim-telescope/telescope.nvim",
 
