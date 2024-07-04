@@ -30,3 +30,15 @@ vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "80"
 
+vim.opt.foldmethod = "indent"
+
+
+-- open all folds when opening a file
+local autocmd = vim.api.nvim_create_autocmd
+
+autocmd("BufWinEnter", {
+    pattern = "*",
+    callback = function()
+        vim.cmd("silent! :%foldopen!")
+    end
+})
