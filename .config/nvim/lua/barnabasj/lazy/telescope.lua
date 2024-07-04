@@ -11,20 +11,24 @@ return {
         require('telescope').setup({})
 
         local builtin = require('telescope.builtin')
-        vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
+
+        local wk = require("which-key")
+
+        wk.register({
+            t = {
+                name = "Telescope",
+                f = { builtin.find_files, "file" },
+                g = { builtin.git_files, "git file" },
+                w = { builtin.grep_string, "word" },
+                l = { builtin.live_grep, "word live" },
+                t = {
+                    names = "Tags",
+                    h = { builtin.help_tags, "help" }
+                },
+
+            },
+        }, { prefix = "<leader>" })
+
         vim.keymap.set('n', '<C-p>', builtin.git_files, {})
-        vim.keymap.set('n', '<leader>pws', function()
-            local word = vim.fn.expand("<cword>")
-            builtin.grep_string({ search = word })
-        end)
-        vim.keymap.set('n', '<leader>pWs', function()
-            local word = vim.fn.expand("<cWORD>")
-            builtin.grep_string({ search = word })
-        end)
-        vim.keymap.set('n', '<leader>ps', function()
-            builtin.grep_string({ search = vim.fn.input("Grep > ") })
-        end)
-        vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
     end
 }
-
