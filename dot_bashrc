@@ -181,3 +181,7 @@ complete -F __start_velero v
 source <(helm completion bash)
 alias h=helm
 complete -o default -F __start_helm h
+
+# chezmoi
+
+source <(chezmoi completion bash)
