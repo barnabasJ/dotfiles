@@ -186,6 +186,6 @@ alias iex='iex --erl "-kernel shell_history enabled"'
 # ash
 ################################################################################
 
-alias ash_gen_migrations="mix ecto.rollback && rm -rf priv && gco origin/main priv && mix ash_postgres.generate_migrations --name extend_booking_resources --apis JdlEngine.Support && mix ecto.migrate"
+alias ash_gen_migrations="mix ecto.rollback && rm -rf priv && gco origin/main priv && mix ash_postgres.generate_migrations --name extend_booking_resources --domains Domain && mix ecto.migrate"
 
 ################################################################################
