@@ -5,13 +5,13 @@ return {
     tag = "0.1.5",
 
     dependencies = {
-        "nvim-lua/plenary.nvim"
+        "nvim-lua/plenary.nvim",
     },
 
     config = function()
-        require('telescope').setup({})
+        require("telescope").setup({})
 
-        local builtin = require('telescope.builtin')
+        local builtin = require("telescope.builtin")
 
         local wk = require("which-key")
 
@@ -21,15 +21,20 @@ return {
                 f = { builtin.find_files, "file" },
                 g = { builtin.git_files, "git file" },
                 w = { builtin.grep_string, "word" },
+                s = {
+                    function()
+                        builtin.grep_string({ search = vim.fn.input("Grep for > ") })
+                    end,
+                    "search",
+                },
                 l = { builtin.live_grep, "word live" },
                 t = {
                     names = "Tags",
-                    h = { builtin.help_tags, "help" }
+                    h = { builtin.help_tags, "help" },
                 },
-
             },
         }, { prefix = "<leader>" })
 
-        vim.keymap.set('n', '<C-p>', builtin.git_files, {})
-    end
+        vim.keymap.set("n", "<C-p>", builtin.git_files, {})
+    end,
 }
