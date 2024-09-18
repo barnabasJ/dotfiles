@@ -188,4 +188,6 @@ source <(chezmoi completion bash)
 
 # Exercism
 
-source ~/Apps/exercism/shell/exercism_completion.bash
+if [ -f $HOME/Apps/exercism/shell/exercism_completion.bash ]; then
+  . $HOME/Apps/exercism/shell/exercism_completion.bash
+end
