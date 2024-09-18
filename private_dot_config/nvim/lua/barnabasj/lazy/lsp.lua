@@ -62,6 +62,7 @@ return {
 				"rust_analyzer",
 				"elixirls",
 				"efm",
+                "zls",
 			},
 			handlers = {
 				function(server_name) -- default handler (optional)
@@ -146,7 +147,6 @@ return {
 				focusable = false,
 				style = "minimal",
 				border = "rounded",
-				source = "always",
 				header = "",
 				prefix = "",
 			},

@@ -185,3 +185,7 @@ complete -o default -F __start_helm h
 # chezmoi
 
 source <(chezmoi completion bash)
+
+# Exercism
+
+source ~/Apps/exercism/shell/exercism_completion.bash

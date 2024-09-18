@@ -33,6 +33,7 @@ return {
 					h = { builtin.help_tags, "help" },
 				},
 				r = { builtin.resume, "resume" },
+				o = { builtin.oldfiles, "opened files" },
 			},
 		}, { prefix = "<leader>" })
 
