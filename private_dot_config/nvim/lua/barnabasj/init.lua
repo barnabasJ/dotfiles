@@ -31,16 +31,12 @@ vim.filetype.add({
 })
 
 -- leader keys
-wk.register({
-    f = {
-        name = "File",
-        e = { vim.cmd.Ex, "Open explorer" },
-    },
-    c = {
-        name = "Config",
-        r = { "<cmd>source $MYVIMRC<CR>", "Reload config" },
-    },
-}, { prefix = "<leader>" })
+wk.add({
+    { "<leader>c",  group = "Config" },
+    { "<leader>cr", "<cmd>source $MYVIMRC<CR>", desc = "Reload config" },
+    { "<leader>f",  group = "File" },
+    { "<leader>fe", vim.cmd.Ex,                 desc = "Open explorer" },
+})
 
 autocmd("TextYankPost", {
     group = yank_group,
@@ -84,29 +80,28 @@ autocmd("LspAttach", {
         vim.keymap.set("n", "]d", function()
             vim.diagnostic.goto_prev()
         end, opts)
-        wk.register({
-            l = {
-                name = "LSP",
-                g = {
-                    name = "Goto",
-                    d = { vim.lsp.buf.definition, "Go to definition" },
-                    r = {
-                        require("telescope.builtin").lsp_references,
-                        "Open a telescope window with references",
-                    },
-                },
-                f = {
-                    function()
-                        vim.lsp.buf.format({
-                            filter = function(client)
-                                return client.name ~= "tsserver"
-                            end,
-                        })
-                    end,
-                    "Format the current buffer",
-                },
+        wk.add({
+            buffer = e.buf,
+            { "<leader>l",   group = "LSP" },
+            {
+                "<leader>lf",
+                function()
+                    vim.lsp.buf.format({
+                        filter = function(client)
+                            return client.name ~= "tsserver"
+                        end,
+                    })
+                end,
+                desc = "Format the current buffer",
             },
-        }, vim.tbl_extend("error", opts, { prefix = "<leader>" }))
+            { "<leader>lg",  group = "Goto" },
+            { "<leader>lgd", vim.lsp.buf.definition, desc = "Go to definition" },
+            {
+                "<leader>lgr",
+                require("telescope.builtin").lsp_references,
+                desc = "Open a telescope window with references",
+            },
+        })
     end,
 })
 

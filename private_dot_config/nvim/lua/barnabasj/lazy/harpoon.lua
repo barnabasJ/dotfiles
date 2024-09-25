@@ -4,20 +4,18 @@ return {
         "theprimeagen/harpoon",
 
         config = function()
-            require('harpoon').setup({})
+            require("harpoon").setup({})
 
             local wk = require("which-key")
 
-            wk.register({
-                h = {
-                    name = "Harpoon",
-                    m = { require("harpoon.ui").toggle_quick_menu, "Menu" },
-                    n = { require("harpoon.ui").nav_next, "next" },
-                    p = { require("harpoon.ui").nav_prev, "prev" },
-                    a = { require("harpoon.mark").add_file, "add file" },
-                    r = { require("harpoon.mark").rm_file, "remove file" }
-                },
-            }, { prefix = "<leader>" })
-        end
-    }
+            wk.add({
+                { "<leader>h",  group = "Harpoon" },
+                { "<leader>hm", require("harpoon.ui").toggle_quick_menu, desc = "Menu" },
+                { "<leader>hn", require("harpoon.ui").nav_next,          desc = "next" },
+                { "<leader>hp", require("harpoon.ui").nav_prev,          desc = "prev" },
+                { "<leader>ha", require("harpoon.mark").add_file,        desc = "add file" },
+                { "<leader>hr", require("harpoon.mark").rm_file,         desc = "remove file" },
+            })
+        end,
+    },
 }
