@@ -1,6 +1,8 @@
 return {
+    -- https://github.com/laytan/cloak.nvim
+    -- Cloak sensitive information in files
     "laytan/cloak.nvim",
-    config = function() 
+    config = function()
         require("cloak").setup({
             enabled = true,
             cloak_character = "*",
@@ -18,9 +20,9 @@ return {
                     -- Match an equals sign and any character after it.
                     -- This can also be a table of patterns to cloak,
                     -- example: cloak_pattern = { ":.+", "-.+" } for yaml files.
-                    cloak_pattern = "=.+"
+                    cloak_pattern = "=.+",
                 },
             },
         })
-    end
+    end,
 }

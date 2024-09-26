@@ -1,60 +1,11 @@
-require("barnabasj.set")
-require("barnabasj.remap")
+require("barnabasj.globals")
+require("barnabasj.options")
 require("barnabasj.lazy_init")
+require("barnabasj.autocomands")
+require("barnabasj.remap")
 
--- DO.not
--- DO NOT INCLUDE THIS
-
--- If i want to keep doing lsp debugging
--- function restart_htmx_lsp()
---     require("lsp-debug-tools").restart({ expected = {}, name = "htmx-lsp", cmd = { "htmx-lsp", "--level", "DEBUG" }, root_dir = vim.loop.cwd(), });
--- end
-
--- DO NOT INCLUDE THIS
--- DO.not
---
-
--- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = true
-
-local augroup = vim.api.nvim_create_augroup
-local BarnabasJGroup = augroup("barnabasj", {})
-
-local autocmd = vim.api.nvim_create_autocmd
-local yank_group = augroup("HighlightYank", {})
-local wk = require("which-key")
-
-function R(name)
-    require("plenary.reload").reload_module(name)
-end
-
-vim.filetype.add({
-    extension = {
-        templ = "templ",
-    },
-})
-
--- leader keys
-wk.add({
-    { "<leader>c",  group = "Config" },
-    { "<leader>cr", "<cmd>source $MYVIMRC<CR>", desc = "Reload config" },
-    { "<leader>f",  group = "File" },
-    { "<leader>fe", vim.cmd.Ex,                 desc = "Open explorer" },
-})
-
-autocmd("TextYankPost", {
-    group = yank_group,
-    pattern = "*",
-    callback = function()
-        vim.highlight.on_yank({
-            higroup = "IncSearch",
-            timeout = 40,
-        })
-    end,
-})
-
-autocmd("LspAttach", {
-    group = BarnabasJGroup,
+vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("Barnabasj", { clear = true }),
     callback = function(e)
         local opts = { buffer = e.buf }
         vim.keymap.set("n", "K", function()
@@ -84,7 +35,7 @@ autocmd("LspAttach", {
         vim.keymap.set("n", "]d", function()
             vim.diagnostic.goto_prev()
         end, opts)
-        wk.add({
+        require("which-key").add({
             buffer = e.buf,
             { "<leader>l",   group = "LSP" },
             {
@@ -108,7 +59,3 @@ autocmd("LspAttach", {
         })
     end,
 })
-
-vim.g.netrw_browse_split = 0
-vim.g.netrw_banner = 0
-vim.g.netrw_winsize = 25
