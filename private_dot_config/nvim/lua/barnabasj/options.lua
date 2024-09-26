@@ -76,7 +76,7 @@ vim.opt.incsearch = true
 
 vim.opt.isfname:append("@-@")
 
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "120"
 
 vim.opt.foldmethod = "indent"
 vim.opt.foldlevelstart = 99
