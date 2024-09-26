@@ -29,7 +29,7 @@ vim.opt.smartindent = true
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
-    vim.opt.clipboard = "unnamedplus"
+	vim.opt.clipboard = "unnamedplus"
 end)
 
 -- Set the tab size to 4 spaces
@@ -79,3 +79,4 @@ vim.opt.isfname:append("@-@")
 vim.opt.colorcolumn = "80"
 
 vim.opt.foldmethod = "indent"
+vim.opt.foldlevelstart = 99
