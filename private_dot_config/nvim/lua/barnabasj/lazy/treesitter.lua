@@ -20,6 +20,7 @@ return { -- Highlight, edit, and navigate code
 			"markdown_inline",
 			"query",
 			"rust",
+			"sql",
 			"typescript",
 			"vim",
 			"vimdoc",
