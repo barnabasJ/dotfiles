@@ -25,6 +25,13 @@ wk.add({
 	{ "<leader>tm", vim.cmd.tabmove, desc = "Move tab" },
 })
 
+-- search
+wk.add({
+	mode = { "v" },
+	{ "<leader>*", '"vy/<C-R>v<CR>', desc = "Search visually selected text ↓" },
+	{ "<leader>#", '"vy?<C-R>v<CR>', desc = "Search visually selected text ↑" },
+})
+
 -- convenience
 wk.add({
 	{ "<ESC>", "<cmd>nohlsearch<CR>", desc = "clear hl search" },
