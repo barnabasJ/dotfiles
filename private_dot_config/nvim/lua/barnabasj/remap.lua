@@ -12,7 +12,7 @@ wk.add({
 -- netrw
 wk.add({
 	{ "<leader>f", group = "File" },
-	{ "<leader>fe", vim.cmd.Ex, desc = "Open explorer" },
+	{ "<leader>fe", ":lua MiniFiles.open()<CR>", desc = "Open explorer" },
 })
 
 -- tabs

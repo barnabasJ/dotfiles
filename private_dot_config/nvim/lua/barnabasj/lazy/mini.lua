@@ -9,6 +9,9 @@ return { -- Collection of various small independent plugins/modules
 		--  - ci'  - [C]hange [I]nside [']quote
 		require("mini.ai").setup({ n_lines = 500 })
 
+		-- Edit files like editing a buffer
+		require("mini.files").setup({})
+
 		-- Add/delete/replace surroundings (brackets, quotes, etc.)
 		--
 		-- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
