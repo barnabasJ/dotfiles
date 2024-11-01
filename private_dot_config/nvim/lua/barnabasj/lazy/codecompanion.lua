@@ -14,6 +14,17 @@ return {
 				provider = "mini_diff",
 			},
 		},
+		adapters = {
+			ollama = function()
+				return require("codecompanion.adapters").extend("ollama", {
+					schema = {
+						model = {
+							default = "codellama:latest",
+						},
+					},
+				})
+			end,
+		},
 		strategies = {
 			--NOTE: Change the adapter as required
 			chat = {
