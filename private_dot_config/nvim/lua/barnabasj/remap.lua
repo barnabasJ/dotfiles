@@ -32,6 +32,14 @@ wk.add({
 	{ "<leader>#", '"vy?<C-R>v<CR>', desc = "Search visually selected text ↑" },
 })
 
+wk.add({
+	{
+		"<leader>*",
+		':let @/ =  expand("<cword>")<CR>', -- @/ is the search register
+		desc = "Sets the current word into the search register",
+	},
+})
+
 -- convenience
 wk.add({
 	{ "<ESC>", "<cmd>nohlsearch<CR>", desc = "clear hl search" },
