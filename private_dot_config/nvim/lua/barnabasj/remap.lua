@@ -44,3 +44,43 @@ wk.add({
 wk.add({
 	{ "<ESC>", "<cmd>nohlsearch<CR>", desc = "clear hl search" },
 })
+
+local quicker = require("quicker")
+-- quickfix
+wk.add({
+	{ "<leader>q", group = "Quickfix" },
+	{
+		"<leader>qo",
+		function()
+			quicker.open()
+		end,
+		desc = "Open quickfix",
+	},
+	{
+		"<leader>qc",
+		function()
+			quicker.close()
+		end,
+		desc = "Close quickfix",
+	},
+	{
+		"<leader>qe",
+		function()
+			quicker.expand({
+				add_to_existing = true,
+			})
+		end,
+		desc = "Expand context",
+	},
+	{
+		"<leader>qcc",
+		function()
+			quicker.collapse()
+		end,
+		desc = "Collapse context",
+	},
+	{ "<leader>qn", ":cnext<CR>", desc = "Next quickfix" },
+	{ "<leader>qp", ":cprev<CR>", desc = "Previous quickfix" },
+	{ "<leader>ql", ":lnext<CR>", desc = "Next location" },
+	{ "<leader>qh", ":lprev<CR>", desc = "Previous location" },
+})
