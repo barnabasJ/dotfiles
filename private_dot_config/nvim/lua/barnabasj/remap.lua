@@ -9,10 +9,19 @@ wk.add({
 		desc = "[R]eload [c]onfig",
 	},
 })
+
 -- netrw
 wk.add({
 	{ "<leader>f", group = "File" },
-	{ "<leader>fe", ":lua MiniFiles.open()<CR>", desc = "Open explorer" },
+	{
+		"<leader>fe",
+		function()
+			local current_file = vim.api.nvim_buf_get_name(0)
+			local current_dir = vim.fn.fnamemodify(current_file, ":h")
+			require("mini.files").open(current_dir)
+		end,
+		desc = "Open explorer",
+	},
 })
 
 -- tabs
