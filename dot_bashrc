@@ -192,3 +192,7 @@ if [ -f $HOME/Apps/exercism/shell/exercism_completion.bash ]; then
   . $HOME/Apps/exercism/shell/exercism_completion.bash
 fi
 
+# direnv
+
+eval "$(direnv hook bash)"
+
