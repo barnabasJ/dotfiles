@@ -10,7 +10,7 @@ wk.add({
 	},
 })
 
--- netrw
+-- file explorer
 wk.add({
 	{ "<leader>f", group = "File" },
 	{
