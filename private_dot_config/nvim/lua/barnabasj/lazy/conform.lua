@@ -46,6 +46,8 @@ return { -- Autoformat
 			javascript = { "prettier" },
 			sql = { "sql_formatter" },
 			markdown = { "prettier" },
+			json = { "prettier" },
+			html = { "prettier" },
 		},
 	},
 }
