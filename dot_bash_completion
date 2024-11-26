@@ -507,3 +507,4 @@ complete -F _complete_alias c
 complete -F _complete_alias ds
 complete -F _complete_alias dst
 complete -F _complete_alias fly
+complete -F _complete_alias dc
