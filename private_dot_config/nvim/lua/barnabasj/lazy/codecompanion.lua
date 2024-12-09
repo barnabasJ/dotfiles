@@ -9,13 +9,8 @@ return {
 	},
 	opts = {
 		--Refer to: https://github.com/olimorris/codecompanion.nvim/blob/main/lua/codecompanion/config.lua
-		display = {
-			diff = {
-				provider = "mini_diff",
-			},
-		},
 		adapters = {
-			ollama = function()
+			codellama = function()
 				return require("codecompanion.adapters").extend("ollama", {
 					schema = {
 						model = {
@@ -24,11 +19,20 @@ return {
 					},
 				})
 			end,
+			qwen14b = function()
+				return require("codecompanion.adapters").extend("ollama", {
+					schema = {
+						model = {
+							default = "qwen2.5-coder:14b",
+						},
+					},
+				})
+			end,
 		},
 		strategies = {
 			--NOTE: Change the adapter as required
 			chat = {
-				adapter = "ollama",
+				adapter = "qwen14b",
 			},
 			inline = {
 				adapter = "copilot",
