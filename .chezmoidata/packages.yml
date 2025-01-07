@@ -11,7 +11,7 @@ packages:
     elixir:
       version: 1.18.1-otp-27
       dependencies: {}
-    go:
+    golang:
       version: 1.23.1
       dependencies: {}
     lua:
@@ -28,3 +28,18 @@ packages:
           "build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev
           libsqlite3-dev curl git libncursesw5-dev xz-utils tk-dev libxml2-dev
           libxmlsec1-dev libffi-dev liblzma-dev"
+    fzf:
+      version: 0.57.0
+      dependencies: {}
+    helm:
+      version: 3.16.4
+      dependencies: {}
+    kubectl:
+      version: 1.31.4
+      dependencies: {}
+    direnv:
+      version: 2.35.0
+      dependencies: {}
+    flyctl:
+      version: 0.3.59
+      dependencies: {}
