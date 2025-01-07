@@ -1,0 +1,20 @@
+#!/bin/bash
+echo "Installing packages via asdf"
+
+{{ range $key, $value := .packages.asdf -}}
+echo "Installing asdf plugin {{ $key }}"
+asdf plugin add {{ $key }}
+
+{{ if eq $.chezmoi.osRelease.id "ubuntu" -}}
+{{ if index $value.dependencies "ubuntu" -}}
+echo "Installing dependencies"
+sudo apt install -y {{ $value.dependencies.ubuntu }}
+{{ end -}}
+{{ end -}}
+
+echo "Installing {{ $key }}:{{ $value.version }}"
+asdf install {{ $key }} {{ $value.version }}
+
+echo "Setting {{ $key }}:{{ $value.version }} as the global version"
+asdf global {{ $key }} {{ $value.version }}
+{{ end -}}

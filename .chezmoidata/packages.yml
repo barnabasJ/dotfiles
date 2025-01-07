@@ -1,0 +1,13 @@
+packages:
+  asdf:
+    erlang:
+      version: 27.2
+      dependencies:
+        ubuntu:
+          "build-essential autoconf m4 libncurses5-dev libwxgtk3.2-dev
+          libwxgtk-webview3.2-dev libgl1-mesa-dev libglu1-mesa-dev libpng-dev
+          libssh-dev unixodbc-dev xsltproc fop libxml2-utils libncurses-dev
+          openjdk-11-jdk"
+    elixir:
+      version: 1.18.1-otp-27
+      dependencies: {}
