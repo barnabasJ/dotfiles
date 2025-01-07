@@ -2,6 +2,11 @@
 echo "Installing packages via asdf"
 
 {{ range $key, $value := .packages.asdf -}}
+echo " "
+echo "====================================================="
+echo "          Installing {{ $key }} "
+echo "====================================================="
+echo " "
 echo "Installing asdf plugin {{ $key }}"
 asdf plugin add {{ $key }}
 
