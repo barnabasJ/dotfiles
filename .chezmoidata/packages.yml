@@ -43,3 +43,6 @@ packages:
     flyctl:
       version: 0.3.59
       dependencies: {}
+    ripgrep:
+      version: 14.1.1
+      dependencies: {}
