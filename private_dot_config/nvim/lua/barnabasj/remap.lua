@@ -54,6 +54,12 @@ wk.add({
 	{ "<ESC>", "<cmd>nohlsearch<CR>", desc = "clear hl search" },
 })
 
+-- terminal
+wk.add({
+	mode = { "t" },
+	{ "<Esc><Esc>", "<C-\\><C-n>", desc = "Exit terminal mode" },
+})
+
 local quicker = require("quicker")
 -- quickfix
 wk.add({
