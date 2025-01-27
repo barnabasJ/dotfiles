@@ -44,6 +44,9 @@ return { -- Autoformat
 			-- You can use 'stop_after_first' to run the first available formatter from the list
 			html = { "prettier" },
 			javascript = { "prettier" },
+			typescript = { "prettier" },
+			typescriptreact = { "prettier" },
+			graphql = { "prettier" },
 			json = { "prettier" },
 			lua = { "stylua" },
 			markdown = { "prettier" },
