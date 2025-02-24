@@ -19,6 +19,15 @@ return {
 					},
 				})
 			end,
+			deepseek = function()
+				return require("codecompanion.adapters").extend("ollama", {
+					schema = {
+						model = {
+							default = "deepseek-r1:14b",
+						},
+					},
+				})
+			end,
 			qwen14b = function()
 				return require("codecompanion.adapters").extend("ollama", {
 					schema = {
@@ -32,7 +41,7 @@ return {
 		strategies = {
 			--NOTE: Change the adapter as required
 			chat = {
-				adapter = "qwen14b",
+				adapter = "deepseek",
 			},
 			inline = {
 				adapter = "copilot",
