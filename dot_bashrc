@@ -139,13 +139,9 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 # asdf-vm
-if [ -f $HOME/.asdf/asdf.sh ]; then
-  . $HOME/.asdf/asdf.sh
-fi
-
-if [ -f $HOME/.asdf/completions/asdf.bash ]; then
-  . $HOME/.asdf/completions/asdf.bash
-fi
+export ASDF_DATA_DIR=/home/joba/.asdf
+export PATH="$ASDF_DATA_DIR/shims:$PATH"
+. <(asdf completion bash)
 
 # the fuck
 eval "$(thefuck --alias)"

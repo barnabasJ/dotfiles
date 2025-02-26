@@ -21,5 +21,5 @@ echo "Installing {{ $key }}:{{ $value.version }}"
 asdf install {{ $key }} {{ $value.version }}
 
 echo "Setting {{ $key }}:{{ $value.version }} as the global version"
-asdf global {{ $key }} {{ $value.version }}
+asdf set --home {{ $key }} {{ $value.version }}
 {{ end -}}

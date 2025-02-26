@@ -2,14 +2,82 @@
 {{   if eq .chezmoi.osRelease.id "ubuntu" -}}
 #!/bin/bash
 
-if [ ! -d "$HOME/.asdf" ]; then
-  echo "Installing asdf"
+set -e
 
-  echo "Installing dependencies"
-  sudo apt install -y curl git
+if [ ! -f "$HOME/.local/bin/asdf" ]; then
 
-  echo "Cloning asdf"
-  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.15.0
+  echo "Installing asdf version manager binary release..."
+
+  # Check if curl is installed
+  if ! command -v curl &> /dev/null; then
+      echo "Error: curl is required but not installed. Please install curl and try again."
+      exit 1
+  fi
+
+  # Detect the platform (OS) and architecture
+  PLATFORM=$(uname -s | tr '[:upper:]' '[:lower:]')
+  ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
+
+  # Map architecture to the format used in the release assets
+  case "$ARCH" in
+      x86_64)
+          ARCH="amd64"
+          ;;
+      arm64|aarch64)
+          ARCH="arm64"
+          ;;
+      *)
+          echo "Error: Unsupported architecture '$ARCH'. This script supports x86_64 and arm64."
+          exit 1
+          ;;
+  esac
+
+  # Check if the platform is supported
+  if [[ "$PLATFORM" != "linux" && "$PLATFORM" != "darwin" ]]; then
+      echo "Error: Unsupported platform '$PLATFORM'. This script supports Linux and macOS only."
+      exit 1
+  fi
+
+  # Get the latest release version and URL
+  echo "Detecting latest asdf release..."
+  LATEST_RELEASE_INFO=$(curl -s https://api.github.com/repos/asdf-vm/asdf/releases/latest)
+  LATEST_VERSION=$(echo "$LATEST_RELEASE_INFO" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+
+  if [ -z "$LATEST_VERSION" ]; then
+      echo "Error: Failed to detect latest asdf release version."
+      exit 1
+  fi
+
+  echo "Latest asdf version: $LATEST_VERSION"
+
+  # Construct the correct asset URL
+  ASSET_NAME="asdf-$LATEST_VERSION-$PLATFORM-$ARCH.tar.gz"
+  ASSET_URL="https://github.com/asdf-vm/asdf/releases/download/$LATEST_VERSION/$ASSET_NAME"
+
+  if [ -z "$ASSET_URL" ]; then
+      echo "Error: Failed to construct download URL for asdf binary."
+      exit 1
+  fi
+
+  echo "Downloading from: $ASSET_URL"
+
+  # Create a temporary directory
+  TMP_DIR=$(mktemp -d)
+  trap 'rm -rf "$TMP_DIR"' EXIT
+
+  # Download and extract the release
+  curl -L "$ASSET_URL" -o "$TMP_DIR/asdf.tar.gz"
+  tar -xzf "$TMP_DIR/asdf.tar.gz" -C "$TMP_DIR"
+
+  # Find and copy the binary
+  if [ -f "$TMP_DIR/asdf" ]; then
+      cp "$TMP_DIR/asdf" ~/.local/bin/asdf
+      chmod +x ~/.local/bin/asdf
+      echo "Successfully installed asdf binary to ~/.local/bin/asdf"
+  else
+      echo "Error: Could not find asdf binary in the downloaded package."
+      exit 1
+  fi
 else
   echo "asdf already installed"
 fi
