@@ -46,3 +46,12 @@ packages:
     ripgrep:
       version: 14.1.1
       dependencies: {}
+    fd:
+      version: 10.2.0
+      dependencies: {}
+    postgres:
+      version: 16.8
+      dependencies: {}
+    github-cli:
+      version: 2.67.0
+      dependencies: {}

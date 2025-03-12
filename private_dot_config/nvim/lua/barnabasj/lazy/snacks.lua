@@ -35,6 +35,13 @@ return {
 			desc = "Smart Find Files",
 		},
 		{
+			"<C-p>",
+			function()
+				Snacks.picker.smart()
+			end,
+			desc = "Smart Find Files",
+		},
+		{
 			"<leader>,",
 			function()
 				Snacks.picker.buffers()
