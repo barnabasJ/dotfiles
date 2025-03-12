@@ -1,0 +1,13 @@
+README.md
+notes.md
+{{ if eq .chezmoi.os "darwin" }}
+.bash*
+Scripts/
+.local/
+.fonts
+.config/environment.d
+.config/systemd
+.config/.kwalletrc
+{{ else }}
+.zprofile
+{{ end }}

@@ -1,5 +1,8 @@
 packages:
   asdf:
+    neovim:
+      version: 0.10.4
+      dependencies: {}
     erlang:
       version: 27.2
       dependencies:

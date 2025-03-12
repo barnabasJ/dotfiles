@@ -1,0 +1,17 @@
+{{ if or (eq .chezmoi.os "darwin") -}}
+#!/bin/bash
+
+set -e
+
+# install homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+{{ else if (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu")) -}}
+{{ else -}}
+echo "Unsupported OS: {{ .chezmoi.os }}"
+{{ end -}}
+
+# install tmux plugin manager
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

@@ -1,4 +1,4 @@
-{{- if (eq .chezmoi.os "linux" and eq .chezmoi.osRelease.id "ubuntu") or eq .chezmoi.os "darwim" }}
+{{ if or (eq .chezmoi.os "darwin") (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu")) -}}
 #!/bin/bash
 
 set -e
@@ -70,6 +70,7 @@ if [ ! -f "$HOME/.local/bin/asdf" ]; then
 
   # Find and copy the binary
   if [ -f "$TMP_DIR/asdf" ]; then
+      mkdir -p ~/.local/bin
       cp "$TMP_DIR/asdf" ~/.local/bin/asdf
       chmod +x ~/.local/bin/asdf
       echo "Successfully installed asdf binary to ~/.local/bin/asdf"
@@ -80,7 +81,7 @@ if [ ! -f "$HOME/.local/bin/asdf" ]; then
 else
   echo "asdf already installed"
 fi
-{{ else }}
-echo "Unsupported OS: {{ .chezmoi.os }} {{ .chezmoi.osRelease.id }}"
-{{ end }}
+{{ else -}}
+echo "Unsupported OS: {{ .chezmoi.os }}"
+{{ end -}}
 

@@ -10,10 +10,13 @@ echo " "
 echo "Installing asdf plugin {{ $key }}"
 asdf plugin add {{ $key }}
 
+{{if eq $.chezmoi.os "darwin" -}}
+{{ else }}
 {{ if eq $.chezmoi.osRelease.id "ubuntu" -}}
 {{ if index $value.dependencies "ubuntu" -}}
 echo "Installing dependencies"
 sudo apt install -y {{ $value.dependencies.ubuntu }}
+{{ end -}}
 {{ end -}}
 {{ end -}}
 

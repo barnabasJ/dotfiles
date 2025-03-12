@@ -86,6 +86,7 @@ function gw() {
 # docker
 ################################################################################
 
+alias docker='podman'
 alias d='docker'
 alias dp='docker ps'
 alias dpa='docker ps -a'
