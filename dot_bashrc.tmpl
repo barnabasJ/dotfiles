@@ -183,6 +183,9 @@ if [ -f $HOME/Apps/exercism/shell/exercism_completion.bash ]; then
   . $HOME/Apps/exercism/shell/exercism_completion.bash
 fi
 
+# nvim avante code ai
+export export ANTHROPIC_API_KEY="{{ (bitwarden "item" "avante key").login.password }}"
+
 # direnv
 
 eval "$(direnv hook bash)"
