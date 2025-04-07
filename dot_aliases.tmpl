@@ -178,7 +178,7 @@ alias ash_gen_migrations="mix ecto.rollback && rm -rf priv && gco origin/main pr
 alias c=chezmoi
 
 ################################################################################
-# chezmoi
+# fly
 ################################################################################
 
 alias fly=flyctl
@@ -192,3 +192,9 @@ alias fly=flyctl
 # so that the created files have proper permissions
 alias livebook="docker run -p 8080:8080 -p 8081:8081 --pull always -u $(id -u):$(id -g) -v $HOME/sandbox/livebook_data:/data ghcr.io/livebook-dev/livebook"
 
+
+################################################################################
+# taskwarrior-tui
+################################################################################
+
+alias twt='taskwarrior-tui --taskrc ~/.taskrc'
