@@ -86,7 +86,9 @@ function gw() {
 # docker
 ################################################################################
 
+{{ if eq .podman true -}}
 alias docker='podman'
+{{ end -}}
 alias d='docker'
 alias dp='docker ps'
 alias dpa='docker ps -a'
