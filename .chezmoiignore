@@ -10,4 +10,5 @@ Scripts/
 .config/.kwalletrc
 {{ else }}
 .zprofile
+.zshrc
 {{ end }}
