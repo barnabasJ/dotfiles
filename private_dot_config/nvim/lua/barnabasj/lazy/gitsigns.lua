@@ -5,6 +5,19 @@ return {
 		dependencies = {
 			"folke/which-key.nvim",
 		},
+		init = function()
+			require("gitsigns").setup({
+				current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+				current_line_blame_opts = {
+					virt_text = true,
+					virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
+					delay = 300,
+					ignore_whitespace = false,
+					virt_text_priority = 100,
+					use_focus = true,
+				},
+			})
+		end,
 		keys = {
 			-- Navigation
 			{
@@ -36,6 +49,13 @@ return {
 					require("gitsigns").toggle_current_line_blame()
 				end,
 				desc = "[T]oggle git show [b]lame line",
+			},
+			{
+				"<leader>bl",
+				function()
+					require("gitsigns").blame()
+				end,
+				desc = "git [b]lame",
 			},
 		},
 	},
