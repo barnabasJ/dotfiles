@@ -52,8 +52,8 @@ wk.add({
 -- convenience
 wk.add({
 	{ "<ESC>", "<cmd>nohlsearch<CR>", desc = "clear hl search" },
-	{ "<leader>y", '"+y', desc = "yank to clipboard", mode = { "v" } },
-	{ "<leader>p", '"_dP', desc = "paste from clipboard", mode = { "v" } },
+	{ "<leader>y", '"+y', desc = "yank to clipboard", mode = "v" },
+	{ "<leader>p", '"_dP', desc = "paste from clipboard", mode = "v" },
 })
 
 -- terminal
