@@ -13,6 +13,10 @@ return {
 			enabled = true,
 			timeout = 3000,
 		},
+		gitbrowse = {
+			enabled = true,
+			what = "permalink",
+		},
 		picker = { enabled = true },
 		quickfile = { enabled = true },
 		scope = { enabled = true },
@@ -457,11 +461,17 @@ return {
 			mode = { "n", "v" },
 		},
 		{
-			"<leader>gg",
+			"<leader>gY",
 			function()
-				Snacks.lazygit()
+				Snacks.gitbrowse({
+					open = function(url)
+						vim.fn.setreg("+", url)
+					end,
+					notify = false,
+				})
 			end,
-			desc = "Lazygit",
+			desc = "Git Browse (copy)",
+			mode = { "n", "x" },
 		},
 		{
 			"<leader>un",
