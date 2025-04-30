@@ -80,3 +80,6 @@ vim.opt.colorcolumn = "120"
 
 vim.opt.foldmethod = "indent"
 vim.opt.foldlevelstart = 99
+
+-- allow a bit of space between the last line and the bottom of the screen
+vim.o.scrolloff = 8 -- For 8 lines of context
