@@ -1,0 +1,31 @@
+{
+  "mcpServers": {
+    "tidewave": {
+      "args": [
+        "/home/joba/.asdf/installs/elixir/1.18.3-otp-27/.mix/escripts/mcp-proxy",
+        "http://localhost:4000/tidewave/mcp?include_fs_tools=true"
+      ],
+      "command": "/home/joba/.asdf/shims/escript",
+      "disabled": true
+    }
+  },
+  "nativeMCPServers": {
+    "neovim": {
+      "disabled": false,
+      "disabled_tools": [
+        "delete_item",
+        "execute_command",
+        "execute_lua",
+        "find_files",
+        "list_directory",
+        "move_item",
+        "read_file",
+        "replace_in_file",
+        "write_file"
+      ]
+    },
+    "mcphub": {
+      "disabled": false
+    }
+  }
+}

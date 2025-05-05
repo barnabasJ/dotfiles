@@ -18,6 +18,22 @@ return {
 			temperature = 0,
 			max_tokens = 4096,
 		},
+		system_prompt = function()
+			local hub = require("mcphub").get_hub_instance()
+
+			if hub == nil then
+				-- if mcphub is not loaded, return nil
+				-- this will use the default system prompt
+				return nil
+			end
+			return hub:get_active_servers_prompt()
+		end,
+		-- The custom_tools type supports both a list and a function that returns a list. Using a function here prevents requiring mcphub before it's loaded
+		custom_tools = function()
+			return {
+				require("mcphub.extensions.avante").mcp_tool(),
+			}
+		end,
 	},
 	-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
 	build = "make",
