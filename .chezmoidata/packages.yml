@@ -22,7 +22,7 @@ packages:
       dependencies:
         ubuntu: "build-essential"
     nodejs:
-      version: 22.15.0
+      version: 22.14.0
       dependencies: {}
     python:
       version: 3.11.10
