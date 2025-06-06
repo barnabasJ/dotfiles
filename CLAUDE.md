@@ -15,6 +15,9 @@ This is a personal dotfiles repository managed with [Chezmoi](https://www.chezmo
 - `chezmoi edit ~/.zshrc` - Edit the source file (with templates)
 - `chezmoi update` - Pull and apply latest changes
 
+The user needs to run chezmoi commands manually because of an interaction with bitwarden.
+Tell the user which commands you want them to run, so they can run it and tell you the result.
+
 ### Development Tools
 - Package management: Uses `asdf` for managing language/tool versions
 - Container management: Podman is configured (Docker aliases available)

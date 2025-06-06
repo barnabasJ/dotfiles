@@ -1,6 +1,7 @@
 README.md
 notes.md
 notes/
+private_dot_config/nvim/local_lazy-lock.json
 {{ if eq .chezmoi.os "darwin" }}
 .bash*
 Scripts/
