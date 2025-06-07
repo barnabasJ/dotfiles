@@ -65,6 +65,18 @@ wk.add({
 })
 
 local quicker = require("quicker")
+-- window navigation
+wk.add({
+	{ "<leader>w", group = "Window" },
+	{
+		"<leader>wn",
+		function()
+			require("split-navigator").show()
+		end,
+		desc = "Navigate to numbered split",
+	},
+})
+
 -- quickfix
 wk.add({
 	{ "<leader>q", group = "Quickfix" },
@@ -102,4 +114,28 @@ wk.add({
 	{ "<leader>qp", ":cprev<CR>", desc = "Previous quickfix" },
 	{ "<leader>ql", ":lnext<CR>", desc = "Next location" },
 	{ "<leader>qh", ":lprev<CR>", desc = "Previous location" },
+})
+
+-- testing
+wk.add({
+	{ "<leader>t", group = "Test" },
+	{
+		"<leader>Tt",
+		function()
+			require("plenary.test_harness").test_directory(vim.fn.getcwd() .. "/tests")
+		end,
+		desc = "Run all tests",
+	},
+	{
+		"<leader>Tf",
+		function()
+			local current_file = vim.api.nvim_buf_get_name(0)
+			if current_file:match("_spec%.lua$") then
+				require("plenary.test_harness").test_file(current_file)
+			else
+				vim.notify("Current file is not a test file (_spec.lua)", vim.log.levels.WARN)
+			end
+		end,
+		desc = "Run current test file",
+	},
 })
