@@ -61,7 +61,6 @@ wk.add({
 	mode = { "t" },
 	{ "<Esc><Esc>", "<C-\\><C-n>", desc = "Exit terminal mode" },
 	{ "<C-q>", "<C-\\><C-n>", desc = "Exit terminal mode (Claude safe)" },
-	{ "<leader>td", "<C-\\><C-n>", desc = "Detach from terminal" },
 })
 
 local quicker = require("quicker")
