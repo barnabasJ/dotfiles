@@ -1,8 +1,9 @@
 README.md
+CLAUDE.md
 notes.md
 notes/
-private_dot_config/nvim/local_lazy-lock.json
-dot_claude/local_CLAUDE.md
+.config/nvim/lazy-lock.json
+.claude/CLAUDE.md
 {{ if eq .chezmoi.os "darwin" }}
 .bash*
 Scripts/
