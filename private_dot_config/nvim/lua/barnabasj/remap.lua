@@ -22,6 +22,13 @@ wk.add({
 		end,
 		desc = "Open explorer",
 	},
+	{
+		"<leader>fp",
+		function()
+			require("mini.files").open()
+		end,
+		desc = "Open explorer",
+	},
 })
 
 -- tabs
