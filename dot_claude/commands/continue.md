@@ -1,0 +1,10 @@
+- look at the name current git branch to see what we are working on
+  - depending on the type there should be one of the following files:
+  - notes/feature/<feature_name>.md
+  - notes/fix/<fix_name>.md
+  - notes/tasks/<task_name>.md
+- if it is a feature read @~/.claude/commands/feature.md
+- if it is a fix read @~/.claude/commands/fix.md
+- read the planning document
+- continue with the plan
+- claude does not reference it self in the git commit messages

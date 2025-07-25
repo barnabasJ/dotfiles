@@ -1,0 +1,8 @@
+- decide if $ARGUMENTS is a feature, fix or somthing else
+- if it is a feature follow @~/.claude/commands/feature.md
+- if it is a fix follow @~/.claude/commands/fix.md
+- if it is something else
+  - create a task plan in ./notes/tasks/<task_name>.md
+    - add a task description
+    - add a todo list
+- Do not reference claude in the commit messages

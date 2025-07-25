@@ -1,0 +1,8 @@
+- look at the git branch we are on to see what we have been working on
+- make sure all docs are up to date and reflect the current state of the code
+  - look for the current feature docs in notes/**/**.md
+  - look for related docs in notes/**/**.md
+  - look for related docs in docs/**/**.md
+  - Project.md
+  - CLAUDE.md
+- commit the changes
