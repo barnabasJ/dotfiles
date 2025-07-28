@@ -18,6 +18,8 @@ Follow these steps:
    - Create parallel sub-agents and analyse the problem from the following
      perspectives: factual, senior engineer, security expert, consistency
      reviewer, and let their feedback guide the fix
+   - Create sub agent to check usage-rules and docs for the libraries we are
+     going to use while fixing the issue
    - Save investigation docs in the notes/fixes folder in the project (unless
      otherwise specified)
 

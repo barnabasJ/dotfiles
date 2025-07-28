@@ -9,6 +9,8 @@ Follow these steps:
    - Create parallel sub-agents and analyse the changes from the following
      perspectives: factual, senior engineer, security expert, consistency
      reviewer, and let their feedback guide the implementation
+   - Create sub agent to check usage-rules and docs for the libraries we are
+     going to use while implementing the feature
    - Save planning docs in the notes/features folder in the project (unless
      otherwise specified)
    - Always keep the planning document up to date with the current state of
