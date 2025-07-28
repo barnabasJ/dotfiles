@@ -55,6 +55,7 @@ consistency reviewer, redundancy checker:
 
 - Are complex logic sections commented appropriately?
 - Is the code self-documenting where possible?
+  - Are there comments that only explain the obvious?
 - Are API changes documented?
 - Would another developer understand this code in 6 months?
 - Are there any TODOs that should be addressed?
