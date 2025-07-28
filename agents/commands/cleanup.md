@@ -1,0 +1,12 @@
+- run MIX_ENV=test mix compile --warnings-as-errors
+  - fix all issues
+- run mix credo --strict
+  - fix all issues
+  - also fix minor issues
+- run mix test
+  - fix all issues
+  - also fix compile warnings
+- remove all unnecessary one-line comments
+- run mix format
+- commit changes using conventional commits
+  - DO NOT mention claude in the commit message

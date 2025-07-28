@@ -1,0 +1,11 @@
+- use gh to check the PR for this branch for unresolved comments
+- update the planning doc with the feedback
+  - depending on the type there should be one of the following files:
+  - notes/feature/<feature_name>.md
+  - notes/fix/<fix_name>.md
+  - notes/tasks/<task_name>.md
+- if it is a feature read @~/.claude/commands/feature.md
+- if it is a fix read @~/.claude/commands/fix.md
+- update documentation to align with the feedback
+- create a new Implementation Plan for the changes requested
+- continue with the new plan
