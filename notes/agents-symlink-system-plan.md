@@ -103,5 +103,33 @@ Content...
 - Directory name `agent-definitions` avoids confusion with `agents/` root folder
 - Future: Could add agent templates or scaffolding tools
 
-## Current Status
-Planning complete, ready to begin implementation.
+## Current Status - IMPLEMENTATION COMPLETED ✅
+
+**Feature Successfully Implemented:**
+- ✅ Agent symlink system implemented following commands pattern
+- ✅ `agents/agent-definitions/` directory created with elixir-code-reviewer agent
+- ✅ `dot_claude/symlink_agents.tmpl` created to link to agent definitions
+- ✅ Agent files now tracked in version control
+- ✅ Same organizational pattern as commands applied to agents
+
+**Final Structure Achieved:**
+```
+agents/                          # Ignored by chezmoi
+├── AGENTS.md                   # Agent workflow guidance (existing)
+├── commands/                   # Command files (existing)
+│   ├── create_feature.md, add-tests.md, etc.
+└── agent-definitions/          # NEW: Agent definition files
+    └── elixir-code-reviewer.md
+
+dot_claude/                     # Managed by chezmoi
+├── symlink_CLAUDE.md.tmpl      # → agents/AGENTS.md (existing)
+├── symlink_commands.tmpl       # → agents/commands/ (existing)  
+└── symlink_agents.tmpl         # NEW: → agents/agent-definitions/
+```
+
+**Next Steps:**
+- Apply changes with `chezmoi apply` to create the symlinks
+- Test that Claude Code can find and use agents through symlinks
+- Verify external agent modifications don't conflict with chezmoi
+
+**Implementation ready for testing and deployment.**
