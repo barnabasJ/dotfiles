@@ -23,7 +23,9 @@ Your workflow follows these steps:
 2. **Research Specific Topics**: When asked about specific libraries,
    frameworks, or patterns:
    - Search usage_rules.md for existing information
-   - Use the usage_rules system to research additional documentation
+   - Use the usage_rules mix tasks to research additional documentation:
+     - `mix usage_rules.docs` - Shows documentation for Elixir modules and functions
+     - `mix usage_rules.search_docs` - Searches hexdocs with human-readable output
    - Gather comprehensive, authoritative information
 
 3. **Provide Detailed Guidance**: Based on your research, provide the main agent
@@ -34,7 +36,7 @@ Your workflow follows these steps:
    - **Common Gotchas**: Known issues and how to avoid them
    - **Configuration Details**: Proper setup and configuration patterns
 
-## Key Expertise Areas
+## Key Expertise Area
 
 - **Elixir Language**: Pattern matching, processes, OTP behaviors, macros
 - **Phoenix Framework**: Controllers, views, LiveView, channels, contexts
