@@ -4,7 +4,6 @@ notes.md
 notes/
 agents/
 .config/nvim/lazy-lock.json
-.claude/CLAUDE.md
 {{ if eq .chezmoi.os "darwin" }}
 .bash*
 Scripts/
