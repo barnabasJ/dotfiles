@@ -1,3 +1,30 @@
+# Agent-First Development Workflow
+
+## Specialized Agents - Use Them Heavily!
+
+**CRITICAL**: This system includes specialized agents that you should use extensively. Do not attempt to work without consulting the appropriate specialized agents first.
+
+### Available Specialized Agents
+
+#### **elixir-expert** - MANDATORY for All Elixir Work
+- **When to use**: ALWAYS when working with Elixir, Phoenix, Ecto, Ash, or any Elixir libraries
+- **Purpose**: Consults usage_rules.md and provides documentation-backed guidance
+- **Never**: Attempt Elixir work without consulting this agent first
+- **Tools**: `mix usage_rules.docs`, `mix usage_rules.search_docs`
+
+#### **research-agent** - MANDATORY for Technical Research  
+- **When to use**: ALWAYS when researching documentation, APIs, libraries, frameworks, or technical information
+- **Purpose**: Conducts comprehensive web research with authoritative sources
+- **Never**: Make assumptions about unfamiliar technologies - research them first
+- **Specializes in**: Official docs, API research, technology comparisons, usage patterns
+
+### Agent Usage Principles
+
+1. **Agent-First Approach**: Always identify which specialized agent(s) to use before starting work
+2. **Multiple Agent Consultation**: Complex tasks may require multiple agents (e.g., research-agent + elixir-expert)
+3. **Trust Agent Expertise**: Follow agent recommendations rather than making assumptions
+4. **Iterative Consultation**: Re-consult agents as work progresses and new questions arise
+
 # Development Workflow
 
 ## Git Workflow
@@ -8,19 +35,16 @@
   if necessary
 - Do not reference claude in the commit messages
 
-## Planning Documents
+## Planning Documents with Agent Integration
 
-- Always create a planning document before starting any non-trivial
-  implementation
-- Always check the existing codebase, API documentation, and webhook structures
-  before creating a plan. Don't assume - verify the actual data structures and
-  patterns used.
-- Save planning docs in the notes folder in the project (unless otherwise
-  specified)
-- Always keep the planning document up to date with the current state of
-  implementation
-- Mark tasks as completed as you progress
-- Update technical details if implementation differs from plan
+- **Always create a planning document** before starting any non-trivial implementation
+- **Consult specialized agents first**: Use research-agent for unfamiliar technologies, elixir-expert for Elixir work
+- **Agent-informed planning**: Base your plan on agent research rather than assumptions
+- **Document agent consultations**: Include which agents were consulted and their recommendations
+- **Save planning docs** in the notes folder in the project (unless otherwise specified)
+- **Keep plans updated** with current implementation state and new agent insights
+- **Mark tasks as completed** as you progress
+- **Update technical details** when implementation differs from plan based on agent guidance
 
 ### Planning Document Structure
 
@@ -62,35 +86,53 @@ features: break into logical steps, each with its own testing
 - Future improvements
 - Related issues
 
-### Example: Simple Feature
+### Example: Agent-Informed Planning
 
 ```markdown
-# Add Git Aliases Implementation Plan
+# Phoenix LiveView Chat Implementation Plan
+
+## Agent Consultations Performed
+- **elixir-expert**: Researched Phoenix LiveView patterns, PubSub usage, and authentication
+- **research-agent**: Found official Phoenix LiveView documentation and examples
 
 ## Problem Statement
 
-Missing commonly used git aliases in shell configuration
+Need to implement real-time chat functionality using Phoenix LiveView
 
-## Solution Overview
+## Solution Overview (Based on Agent Research)
 
-Add git aliases to dot_aliases.tmpl file
+Implement LiveView-based chat following Phoenix best practices:
+- LiveView for real-time UI updates
+- PubSub for message broadcasting  
+- Presence for user tracking
+- Database persistence with Ecto
 
 ## Implementation Plan
 
-- [ ] Define aliases needed (gs, gaa, gcm, gp)
-- [ ] Add git aliases to dot_aliases.tmpl
-- [ ] Run `chezmoi apply` and test each alias works
-- [ ] Verify aliases don't conflict with existing commands
+### Step 1: Agent-Guided Setup
+- [ ] Consult elixir-expert for LiveView project structure
+- [ ] Research-agent: Find latest LiveView authentication patterns
+- [ ] Follow agent recommendations for dependencies
 
-## Technical Details
+### Step 2: Implementation
+- [ ] Create chat LiveView following elixir-expert patterns
+- [ ] Implement PubSub messaging per agent guidance
+- [ ] Add user presence tracking
+- [ ] Test real-time functionality
 
-- **File**: `dot_aliases.tmpl`
-- **Aliases**: gs, gaa, gcm, gp, etc.
+## Technical Details (From Agent Research)
+
+- **LiveView Module**: `MyAppWeb.ChatLive`
+- **PubSub Topic**: `"chat:lobby"`
+- **Database**: Messages schema with user associations
+- **Authentication**: LiveView mount/3 with user session
 
 ## Success Criteria
 
-- All aliases functional in both bash and zsh
-- No conflicts with existing system commands
+- Real-time messaging works across multiple clients
+- User presence accurately tracked
+- Messages persist to database
+- Follows Phoenix/LiveView best practices per agent guidance
 ```
 
 ### Example: Complex Feature
