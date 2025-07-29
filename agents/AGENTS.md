@@ -50,226 +50,87 @@
 - **Purpose**: Code duplication detection, refactoring opportunities
 - **Focus**: Eliminating redundancy, improving maintainability
 
+### Planning Specialists
+
+#### **feature-planner** - Comprehensive Feature Planning
+- **When to use**: For complex new functionality requiring detailed planning
+- **Purpose**: Creates comprehensive feature plans with research integration and expert consultation
+- **Consults**: research-agent, elixir-expert, senior-engineer-reviewer as needed
+- **Output**: Structured planning documents in notes/features/
+
+#### **fix-planner** - Focused Fix Planning  
+- **When to use**: For bug fixes, issues, or problem resolution requiring systematic analysis
+- **Purpose**: Creates focused fix plans with root cause analysis and risk assessment
+- **Consults**: elixir-expert, research-agent, security-reviewer as needed
+- **Output**: Fix planning documents in notes/fixes/
+
+#### **task-planner** - Lightweight Task Planning
+- **When to use**: For simple tasks and quick work items
+- **Purpose**: Creates minimal overhead planning while maintaining essential structure
+- **Smart Escalation**: Recommends feature-planner or fix-planner for complex work
+- **Output**: Task planning documents in notes/tasks/
+
+### Methodology Specialists
+
+#### **test-developer** - Systematic Test Development
+- **When to use**: When developing comprehensive test coverage for new features or existing code
+- **Purpose**: Language-agnostic test development methodology with expert consultation
+- **Consults**: elixir-expert, research-agent, consistency-reviewer, qa-reviewer
+- **Focus**: Incremental development, comprehensive coverage, quality assurance
+
+#### **test-fixer** - Test Failure Resolution
+- **When to use**: When systematically diagnosing and fixing failing tests
+- **Purpose**: Language-agnostic debugging methodology with expert consultation  
+- **Consults**: elixir-expert, research-agent, consistency-reviewer, qa-reviewer
+- **Focus**: Root cause analysis, systematic resolution, regression prevention
+
 ### Agent Usage Principles
 
 1. **Agent-First Approach**: Always identify which specialized agent(s) to use before starting work
-2. **Multiple Agent Consultation**: Complex tasks may require multiple agents (e.g., research-agent + elixir-expert)
-3. **Trust Agent Expertise**: Follow agent recommendations rather than making assumptions
-4. **Iterative Consultation**: Re-consult agents as work progresses and new questions arise
-5. **Complete Elixir Workflow**: elixir-expert (before & during) → implement → elixir-reviewer (after)
+2. **Use Right-Sized Planning**: feature-planner → fix-planner → task-planner based on complexity
+3. **Leverage Methodology Agents**: Use test-developer and test-fixer for systematic testing approaches
+4. **Multiple Agent Consultation**: Complex tasks require multiple agents (e.g., research-agent + elixir-expert)
+5. **Trust Agent Expertise**: Follow agent recommendations rather than making assumptions
+6. **Complete Elixir Workflow**: elixir-expert (before & during) → implement → elixir-reviewer (after)
 
 # Development Workflow
+
+## Command-Agent Integration
+
+Commands now delegate to specialized agents rather than containing detailed procedures:
+
+- **feature.md** → Uses **feature-planner** for comprehensive planning
+- **fix.md** → Uses **fix-planner** for focused problem resolution  
+- **task.md** → Uses **task-planner** for lightweight planning
+- **add-tests.md** → Uses **test-developer** for systematic test development
+- **fix-tests.md** → Uses **test-fixer** for test failure resolution
+- **review.md** → Uses all review agents for comprehensive analysis
+
+## Planning Document Creation
+
+- **Use appropriate planning agent**: feature-planner → fix-planner → task-planner based on complexity
+- **Agent consultations documented**: All planning agents automatically document expert consultations
+- **Right-sized approach**: Each planner provides appropriate level of detail for work type
+- **Save in correct location**: notes/features/, notes/fixes/, or notes/tasks/
+- **Keep updated**: Mark tasks completed and update status as work progresses
 
 ## Git Workflow
 
 - Always check out a new branch when starting to work on a new feature
 - Use conventional commits
-- Make small commits while working, so we can better analyze changes and revert
-  if necessary
+- Make small commits while working, so we can better analyze changes and revert if necessary
 - Do not reference claude in the commit messages
 
-## Planning Documents with Agent Integration
+## Planning Examples
 
-- **Always create a planning document** before starting any non-trivial implementation
-- **Consult specialized agents first**: Use research-agent for unfamiliar technologies, elixir-expert for Elixir work
-- **Agent-informed planning**: Base your plan on agent research rather than assumptions
-- **Document agent consultations**: Include which agents were consulted and their recommendations
-- **Save planning docs** in the notes folder in the project (unless otherwise specified)
-- **Keep plans updated** with current implementation state and new agent insights
-- **Mark tasks as completed** as you progress
-- **Update technical details** when implementation differs from plan based on agent guidance
+The specialized planning agents (**feature-planner**, **fix-planner**, **task-planner**) contain comprehensive examples and templates. Each agent provides:
 
-### Planning Document Structure
+- **Structured templates** for their specific work type
+- **Agent consultation patterns** with clear examples
+- **Complete workflows** from planning through implementation
+- **Quality standards** and success criteria
 
-#### 1. Problem Statement
-
-- Clear description of the issue or need
-- Why this matters / impact
-
-#### 2. Solution Overview
-
-- High-level approach
-- Key design decisions
-
-#### 3. Implementation Plan
-
-For simple features: single checklist with integrated testing For complex
-features: break into logical steps, each with its own testing
-
-##### Step Format (for complex features)
-
-- [ ] Define expected behavior/test criteria
-- [ ] Implement the feature
-- [ ] Verify it works as expected
-
-#### 4. Technical Details
-
-- File locations and naming conventions
-- Configuration specifics
-- Dependencies or prerequisites
-
-#### 5. Success Criteria
-
-- Overall verification that the feature works
-- Expected behavior after all changes
-
-#### 6. Notes/Considerations (optional)
-
-- Edge cases
-- Future improvements
-- Related issues
-
-### Example: Agent-Informed Planning
-
-```markdown
-# Phoenix LiveView Chat Implementation Plan
-
-## Agent Consultations Performed
-- **elixir-expert**: Researched Phoenix LiveView patterns, PubSub usage, and authentication
-- **research-agent**: Found official Phoenix LiveView documentation and examples
-
-## Problem Statement
-
-Need to implement real-time chat functionality using Phoenix LiveView
-
-## Solution Overview (Based on Agent Research)
-
-Implement LiveView-based chat following Phoenix best practices:
-- LiveView for real-time UI updates
-- PubSub for message broadcasting  
-- Presence for user tracking
-- Database persistence with Ecto
-
-## Implementation Plan
-
-### Step 1: Agent-Guided Setup
-- [ ] Consult elixir-expert for LiveView project structure
-- [ ] Research-agent: Find latest LiveView authentication patterns
-- [ ] Follow agent recommendations for dependencies
-
-### Step 2: Implementation
-- [ ] Create chat LiveView following elixir-expert patterns
-- [ ] Implement PubSub messaging per agent guidance
-- [ ] Add user presence tracking
-- [ ] Test real-time functionality
-
-## Technical Details (From Agent Research)
-
-- **LiveView Module**: `MyAppWeb.ChatLive`
-- **PubSub Topic**: `"chat:lobby"`
-- **Database**: Messages schema with user associations
-- **Authentication**: LiveView mount/3 with user session
-
-## Success Criteria
-
-- Real-time messaging works across multiple clients
-- User presence accurately tracked
-- Messages persist to database
-- Follows Phoenix/LiveView best practices per agent guidance
-```
-
-### Example: Complex Feature
-
-```markdown
-# Neovim AI Integration Implementation Plan
-
-## Problem Statement
-
-Need to integrate multiple AI tools (CodeCompanion, Copilot, Avante) into Neovim
-configuration with proper keybindings, lazy loading, and API key management
-
-## Solution Overview
-
-Configure AI plugins with non-conflicting keybindings, proper lazy loading for
-performance, and secure API key handling through environment variables
-
-## Implementation Plan
-
-### Step 1: Core Plugin Installation
-
-- [ ] Add CodeCompanion, Copilot, and Avante to lazy plugin specs
-- [ ] Configure basic plugin options and dependencies
-- [ ] Start Neovim and verify all plugins install without errors
-- [ ] Check `:checkhealth` for each plugin
-
-### Step 2: API Key Configuration
-
-- [ ] Set up ANTHROPIC_API_KEY for CodeCompanion
-- [ ] Configure GitHub Copilot authentication
-- [ ] Add OPENAI_API_KEY for Avante if needed
-- [ ] Test each plugin authenticates successfully
-- [ ] Ensure no API keys are hardcoded in configs
-
-### Step 3: Keybinding Setup
-
-- [ ] Define leader-based keybindings for each plugin
-- [ ] Add <leader>cc for CodeCompanion chat
-- [ ] Configure <leader>cp for Copilot suggestions
-- [ ] Set up <leader>av for Avante commands
-- [ ] Test all keybindings work without conflicts
-- [ ] Update which-key descriptions
-
-### Step 4: Performance Optimization
-
-- [ ] Configure lazy loading with appropriate events/commands
-- [ ] Set CodeCompanion to load on first use
-- [ ] Configure Copilot to load on InsertEnter
-- [ ] Measure startup time stays under 100ms
-- [ ] Verify plugins load when expected
-
-### Step 5: Integration Testing
-
-- [ ] Test CodeCompanion chat and inline completions
-- [ ] Verify Copilot suggestions appear in insert mode
-- [ ] Check Avante features work as expected
-- [ ] Ensure no conflicts between AI suggestions
-- [ ] Test in different file types (lua, python, js)
-
-## Technical Details
-
-- **Config files**:
-  - `lua/barnabasj/lazy/codecompanion.lua`
-  - `lua/barnabasj/lazy/copilot.lua`
-  - `lua/barnabasj/lazy/avante.lua`
-- **Dependencies**:
-  - curl for API calls
-  - Node.js for Copilot
-- **Environment variables**:
-  - `ANTHROPIC_API_KEY`
-  - `OPENAI_API_KEY`
-
-## Success Criteria
-
-- All three AI tools accessible via keybindings
-- No performance impact on startup
-- Smooth integration without conflicts
-- API keys securely managed
-- Works across different project types
-
-## Notes
-
-- Consider adding toggle commands for each AI tool
-- May need to adjust inline completion priorities
-- Future: Add custom prompts for CodeCompanion
-```
-
-## Progress Tracking and Documentation
-
-### Planning Document Maintenance
-
-- **Update the plan frequently** as you complete tasks and discover new
-  requirements
-- **Mark completed tasks clearly** with ✅ and add detailed status summaries
-- **Include current status section** with "what works", "what's next", and "how
-  to run"
-- **Document discovered limitations** immediately when found, plan next steps
-
-### Status Communication
-
-- **Be explicit about what's working vs. what's planned**
-- **Provide clear instructions for testing current functionality**
-- **Explain technical debt and mock implementations**
-- **Update status after each major milestone**
+Refer to the individual agent definitions for detailed examples and guidance.
 
 ## Critical Success Factors
 
