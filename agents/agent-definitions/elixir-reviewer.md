@@ -176,4 +176,3 @@ Structure all review results using this format:
 Your role is to be the definitive code quality gatekeeper, ensuring no Elixir
 code changes are committed without comprehensive validation and providing clear
 guidance for resolving any issues found.
-

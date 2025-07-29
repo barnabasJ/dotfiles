@@ -2,105 +2,147 @@
 
 ## Specialized Agents - Use Them Heavily!
 
-**CRITICAL**: This system includes specialized agents that you should use extensively. Do not attempt to work without consulting the appropriate specialized agents first.
+**CRITICAL**: This system includes specialized agents that you should use
+extensively. Do not attempt to work without consulting the appropriate
+specialized agents first.
 
 ### Available Specialized Agents
 
 #### **elixir-expert** - MANDATORY for All Elixir Work
-- **When to use**: ALWAYS when working with Elixir, Phoenix, Ecto, Ash, or any Elixir libraries
-- **Purpose**: Consults usage_rules.md and provides documentation-backed guidance
+
+- **When to use**: ALWAYS when working with Elixir, Phoenix, Ecto, Ash, or any
+  Elixir libraries
+- **Purpose**: Consults usage_rules.md and provides documentation-backed
+  guidance
 - **Never**: Attempt Elixir work without consulting this agent first
 - **Tools**: `mix usage_rules.docs`, `mix usage_rules.search_docs`
 
-#### **research-agent** - MANDATORY for Technical Research  
-- **When to use**: ALWAYS when researching documentation, APIs, libraries, frameworks, or technical information
+#### **research-agent** - MANDATORY for Technical Research
+
+- **When to use**: ALWAYS when researching documentation, APIs, libraries,
+  frameworks, or technical information
 - **Purpose**: Conducts comprehensive web research with authoritative sources
-- **Never**: Make assumptions about unfamiliar technologies - research them first
-- **Specializes in**: Official docs, API research, technology comparisons, usage patterns
+- **Never**: Make assumptions about unfamiliar technologies - research them
+  first
+- **Specializes in**: Official docs, API research, technology comparisons, usage
+  patterns
 
 #### **elixir-reviewer** - MANDATORY After Elixir Changes
-- **When to use**: ALWAYS after making changes to Elixir code, Ash applications, Phoenix applications, or Ecto schemas
-- **Purpose**: Runs comprehensive code quality checks, security analysis, and validation tools
+
+- **When to use**: ALWAYS after making changes to Elixir code, Ash applications,
+  Phoenix applications, or Ecto schemas
+- **Purpose**: Runs comprehensive code quality checks, security analysis, and
+  validation tools
 - **Never**: Commit Elixir changes without running this agent first
-- **Tools**: mix format, credo, dialyzer, sobelow, deps.audit, test coverage, security scanning
+- **Tools**: mix format, credo, dialyzer, sobelow, deps.audit, test coverage,
+  security scanning
 
 ### Specialized Review Agents (Use in Parallel)
 
 #### **factual-reviewer** - Implementation vs Planning Verification
-- **Purpose**: Objective analysis comparing implementation against planning documents
+
+- **Purpose**: Objective analysis comparing implementation against planning
+  documents
 - **Focus**: Factual assessment, functional correctness, documentation alignment
 
 #### **qa-reviewer** - Testing & Quality Assurance
-- **Purpose**: Test coverage analysis, edge case identification, functional validation
+
+- **Purpose**: Test coverage analysis, edge case identification, functional
+  validation
 - **Focus**: Test gaps, error scenarios, quality assurance processes
 
 #### **senior-engineer-reviewer** - Architecture & Design Review
-- **Purpose**: Architectural assessment, design patterns, scalability considerations
+
+- **Purpose**: Architectural assessment, design patterns, scalability
+  considerations
 - **Focus**: Long-term maintainability, system impact, technical debt analysis
 
 #### **security-reviewer** - Security & Vulnerability Analysis
+
 - **Purpose**: Security vulnerability identification, attack vector assessment
 - **Focus**: OWASP Top 10, secure coding practices, threat modeling
 
 #### **consistency-reviewer** - Codebase Consistency
+
 - **Purpose**: Pattern consistency, naming conventions, style guidelines
 - **Focus**: Maintaining codebase coherence and established patterns
 
 #### **redundancy-reviewer** - Duplication & Consolidation
+
 - **Purpose**: Code duplication detection, refactoring opportunities
 - **Focus**: Eliminating redundancy, improving maintainability
 
 ### Planning Specialists
 
 #### **feature-planner** - Comprehensive Feature Planning
+
 - **When to use**: For complex new functionality requiring detailed planning
-- **Purpose**: Creates comprehensive feature plans with research integration and expert consultation
-- **Consults**: research-agent, elixir-expert, senior-engineer-reviewer as needed
+- **Purpose**: Creates comprehensive feature plans with research integration and
+  expert consultation
+- **Consults**: research-agent, elixir-expert, senior-engineer-reviewer as
+  needed
 - **Output**: Structured planning documents in notes/features/
 
-#### **fix-planner** - Focused Fix Planning  
-- **When to use**: For bug fixes, issues, or problem resolution requiring systematic analysis
-- **Purpose**: Creates focused fix plans with root cause analysis and risk assessment
+#### **fix-planner** - Focused Fix Planning
+
+- **When to use**: For bug fixes, issues, or problem resolution requiring
+  systematic analysis
+- **Purpose**: Creates focused fix plans with root cause analysis and risk
+  assessment
 - **Consults**: elixir-expert, research-agent, security-reviewer as needed
 - **Output**: Fix planning documents in notes/fixes/
 
 #### **task-planner** - Lightweight Task Planning
+
 - **When to use**: For simple tasks and quick work items
-- **Purpose**: Creates minimal overhead planning while maintaining essential structure
-- **Smart Escalation**: Recommends feature-planner or fix-planner for complex work
+- **Purpose**: Creates minimal overhead planning while maintaining essential
+  structure
+- **Smart Escalation**: Recommends feature-planner or fix-planner for complex
+  work
 - **Output**: Task planning documents in notes/tasks/
 
 ### Methodology Specialists
 
 #### **test-developer** - Systematic Test Development
-- **When to use**: When developing comprehensive test coverage for new features or existing code
-- **Purpose**: Language-agnostic test development methodology with expert consultation
+
+- **When to use**: When developing comprehensive test coverage for new features
+  or existing code
+- **Purpose**: Language-agnostic test development methodology with expert
+  consultation
 - **Consults**: elixir-expert, research-agent, consistency-reviewer, qa-reviewer
 - **Focus**: Incremental development, comprehensive coverage, quality assurance
 
 #### **test-fixer** - Test Failure Resolution
+
 - **When to use**: When systematically diagnosing and fixing failing tests
-- **Purpose**: Language-agnostic debugging methodology with expert consultation  
+- **Purpose**: Language-agnostic debugging methodology with expert consultation
 - **Consults**: elixir-expert, research-agent, consistency-reviewer, qa-reviewer
 - **Focus**: Root cause analysis, systematic resolution, regression prevention
 
 ### Agent Usage Principles
 
-1. **Agent-First Approach**: Always identify which specialized agent(s) to use before starting work
-2. **Use Right-Sized Planning**: feature-planner → fix-planner → task-planner based on complexity
-3. **Leverage Methodology Agents**: Use test-developer and test-fixer for systematic testing approaches
-4. **Multiple Agent Consultation**: Complex tasks require multiple agents (e.g., research-agent + elixir-expert)
-5. **Trust Agent Expertise**: Follow agent recommendations rather than making assumptions
-6. **Complete Elixir Workflow**: elixir-expert (before & during) → implement → elixir-reviewer (after)
+1. **Agent-First Approach**: Always identify which specialized agent(s) to use
+   before starting work
+2. **Use Right-Sized Planning**: feature-planner → fix-planner → task-planner
+   based on complexity
+3. **Leverage Methodology Agents**: Use test-developer and test-fixer for
+   systematic testing approaches
+4. **Multiple Agent Consultation**: Complex tasks require multiple agents (e.g.,
+   research-agent + elixir-expert)
+5. **Trust Agent Expertise**: Follow agent recommendations rather than making
+   assumptions
+6. **Complete Elixir Workflow**: elixir-expert (before & during) → implement →
+   elixir-reviewer (after)
 
 # Development Workflow
 
 ## Command-Agent Integration
 
-Commands now delegate to specialized agents rather than containing detailed procedures:
+Commands now delegate to specialized agents rather than containing detailed
+procedures:
 
 - **feature.md** → Uses **feature-planner** for comprehensive planning
-- **fix.md** → Uses **fix-planner** for focused problem resolution  
+- **fix.md** → Uses **fix-planner** for focused problem resolution
 - **task.md** → Uses **task-planner** for lightweight planning
 - **add-tests.md** → Uses **test-developer** for systematic test development
 - **fix-tests.md** → Uses **test-fixer** for test failure resolution
@@ -108,9 +150,12 @@ Commands now delegate to specialized agents rather than containing detailed proc
 
 ## Planning Document Creation
 
-- **Use appropriate planning agent**: feature-planner → fix-planner → task-planner based on complexity
-- **Agent consultations documented**: All planning agents automatically document expert consultations
-- **Right-sized approach**: Each planner provides appropriate level of detail for work type
+- **Use appropriate planning agent**: feature-planner → fix-planner →
+  task-planner based on complexity
+- **Agent consultations documented**: All planning agents automatically document
+  expert consultations
+- **Right-sized approach**: Each planner provides appropriate level of detail
+  for work type
 - **Save in correct location**: notes/features/, notes/fixes/, or notes/tasks/
 - **Keep updated**: Mark tasks completed and update status as work progresses
 
@@ -118,12 +163,15 @@ Commands now delegate to specialized agents rather than containing detailed proc
 
 - Always check out a new branch when starting to work on a new feature
 - Use conventional commits
-- Make small commits while working, so we can better analyze changes and revert if necessary
+- Make small commits while working, so we can better analyze changes and revert
+  if necessary
 - Do not reference claude in the commit messages
 
 ## Planning Examples
 
-The specialized planning agents (**feature-planner**, **fix-planner**, **task-planner**) contain comprehensive examples and templates. Each agent provides:
+The specialized planning agents (**feature-planner**, **fix-planner**,
+**task-planner**) contain comprehensive examples and templates. Each agent
+provides:
 
 - **Structured templates** for their specific work type
 - **Agent consultation patterns** with clear examples

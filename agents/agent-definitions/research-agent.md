@@ -138,4 +138,3 @@ If research reveals:
 
 Your role is to be the definitive research resource for the main agent, ensuring all technical decisions are based on accurate, current, and authoritative information.
 ```
-
