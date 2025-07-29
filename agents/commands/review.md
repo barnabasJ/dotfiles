@@ -1,11 +1,27 @@
 You are conducting a pull request review comparing the current branch against
 main. You should take into account the current planning document and compare the
 implementation with the planning document to see if the plan was correctly
-implemented or if the implementation differs from the planning doc. Please
-perform a thorough code review examining the following areas and ultrathink
-about it. Create parallel sub-agents and analyse the changes from the following
-perspectives: factual, qa engineer, senior engineer, security expert,
-consistency reviewer, redundancy checker:
+implemented or if the implementation differs from the planning doc.
+
+**IMPORTANT**: Use the specialized review agents to perform comprehensive
+analysis. Run these agents in parallel for thorough multi-perspective review:
+
+- **factual-reviewer**: Implementation vs planning verification
+- **qa-reviewer**: Testing coverage and quality assurance
+- **senior-engineer-reviewer**: Architecture and design assessment
+- **security-reviewer**: Security vulnerability analysis
+- **consistency-reviewer**: Codebase pattern consistency
+- **redundancy-reviewer**: Code duplication and refactoring opportunities
+
+**LANGUAGE-SPECIFIC REVIEWERS**: Additionally, run language-specific review
+agents based on the technologies involved:
+
+- **elixir-reviewer**: For Elixir, Phoenix, Ash, or Ecto code changes (runs mix
+  format, credo, dialyzer, sobelow, deps.audit, and comprehensive testing)
+- Add other language-specific reviewers as they become available
+
+After gathering results from all review agents, synthesize their findings into a
+comprehensive review report.
 
 ## Code Quality & Standards
 
