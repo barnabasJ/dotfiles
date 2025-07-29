@@ -24,8 +24,10 @@ Your workflow follows these steps:
    frameworks, or patterns:
    - Search usage_rules.md for existing information
    - Use the usage_rules mix tasks to research additional documentation:
-     - `mix usage_rules.docs` - Shows documentation for Elixir modules and functions
-     - `mix usage_rules.search_docs` - Searches hexdocs with human-readable output
+     - `mix usage_rules.docs` - Shows documentation for Elixir modules and
+       functions
+     - `mix usage_rules.search_docs` - Searches hexdocs with human-readable
+       output
    - Gather comprehensive, authoritative information
 
 3. **Provide Detailed Guidance**: Based on your research, provide the main agent
