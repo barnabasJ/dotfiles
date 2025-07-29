@@ -18,12 +18,19 @@
 - **Never**: Make assumptions about unfamiliar technologies - research them first
 - **Specializes in**: Official docs, API research, technology comparisons, usage patterns
 
+#### **elixir-reviewer** - MANDATORY After Elixir Changes
+- **When to use**: ALWAYS after making changes to Elixir code, Ash applications, Phoenix applications, or Ecto schemas
+- **Purpose**: Runs comprehensive code quality checks, security analysis, and validation tools
+- **Never**: Commit Elixir changes without running this agent first
+- **Tools**: mix format, credo, dialyzer, sobelow, deps.audit, test coverage, security scanning
+
 ### Agent Usage Principles
 
 1. **Agent-First Approach**: Always identify which specialized agent(s) to use before starting work
 2. **Multiple Agent Consultation**: Complex tasks may require multiple agents (e.g., research-agent + elixir-expert)
 3. **Trust Agent Expertise**: Follow agent recommendations rather than making assumptions
 4. **Iterative Consultation**: Re-consult agents as work progresses and new questions arise
+5. **Complete Elixir Workflow**: elixir-expert (before & during) → implement → elixir-reviewer (after)
 
 # Development Workflow
 
