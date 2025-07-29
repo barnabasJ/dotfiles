@@ -1,4 +1,5 @@
 ---
+name: feature-planner
 description:
   ALWAYS use this agent when creating planning documents for new features. This
   agent creates comprehensive feature planning documents with proper structure,

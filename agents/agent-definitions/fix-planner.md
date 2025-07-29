@@ -1,4 +1,5 @@
 ---
+name: fix-planner
 description:
   ALWAYS use this agent when creating planning documents for bug fixes, issues,
   or problem resolution. This agent creates focused fix planning documents with

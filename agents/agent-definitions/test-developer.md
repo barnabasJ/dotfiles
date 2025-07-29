@@ -1,4 +1,5 @@
 ---
+name: test-developer
 description:
   ALWAYS use this agent when developing comprehensive test coverage for new
   features or existing code. This agent provides systematic test development

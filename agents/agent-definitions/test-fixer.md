@@ -1,4 +1,5 @@
 ---
+name: test-fixer
 description:
   ALWAYS use this agent when systematically diagnosing and fixing failing tests.
   This agent provides proven methodology for test failure resolution while
