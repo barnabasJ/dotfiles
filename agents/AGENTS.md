@@ -24,6 +24,32 @@
 - **Never**: Commit Elixir changes without running this agent first
 - **Tools**: mix format, credo, dialyzer, sobelow, deps.audit, test coverage, security scanning
 
+### Specialized Review Agents (Use in Parallel)
+
+#### **factual-reviewer** - Implementation vs Planning Verification
+- **Purpose**: Objective analysis comparing implementation against planning documents
+- **Focus**: Factual assessment, functional correctness, documentation alignment
+
+#### **qa-reviewer** - Testing & Quality Assurance
+- **Purpose**: Test coverage analysis, edge case identification, functional validation
+- **Focus**: Test gaps, error scenarios, quality assurance processes
+
+#### **senior-engineer-reviewer** - Architecture & Design Review
+- **Purpose**: Architectural assessment, design patterns, scalability considerations
+- **Focus**: Long-term maintainability, system impact, technical debt analysis
+
+#### **security-reviewer** - Security & Vulnerability Analysis
+- **Purpose**: Security vulnerability identification, attack vector assessment
+- **Focus**: OWASP Top 10, secure coding practices, threat modeling
+
+#### **consistency-reviewer** - Codebase Consistency
+- **Purpose**: Pattern consistency, naming conventions, style guidelines
+- **Focus**: Maintaining codebase coherence and established patterns
+
+#### **redundancy-reviewer** - Duplication & Consolidation
+- **Purpose**: Code duplication detection, refactoring opportunities
+- **Focus**: Eliminating redundancy, improving maintainability
+
 ### Agent Usage Principles
 
 1. **Agent-First Approach**: Always identify which specialized agent(s) to use before starting work
