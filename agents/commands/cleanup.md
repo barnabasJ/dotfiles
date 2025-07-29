@@ -1,12 +1,18 @@
-- run MIX_ENV=test mix compile --warnings-as-errors
-  - fix all issues
-- run mix credo --strict
-  - fix all issues
-  - also fix minor issues
-- run mix test
-  - fix all issues
-  - also fix compile warnings
-- remove all unnecessary one-line comments
-- run mix format
-- commit changes using conventional commits
-  - DO NOT mention claude in the commit message
+# Elixir Project Cleanup
+
+**IMPORTANT**: For Elixir projects, consult **elixir-expert** for proper cleanup patterns and use **elixir-reviewer** for final validation.
+
+## Cleanup Process
+
+1. **Consult elixir-expert** for project-specific cleanup guidance
+2. **Compile with warnings as errors**: `MIX_ENV=test mix compile --warnings-as-errors`
+   - Fix all compilation issues
+3. **Run credo strict analysis**: `mix credo --strict`
+   - Fix all issues including minor ones
+4. **Run test suite**: `mix test`
+   - Fix all test failures
+   - Fix compile warnings
+5. **Remove unnecessary comments**: Remove all unnecessary one-line comments
+6. **Format code**: `mix format` 
+7. **Final validation**: Use **elixir-reviewer** agent to run comprehensive quality checks
+8. **Commit changes**: Use conventional commits (DO NOT mention claude)
