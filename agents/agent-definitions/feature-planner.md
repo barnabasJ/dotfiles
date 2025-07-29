@@ -1,12 +1,7 @@
 ---
 name: feature-planner
-description:
-  ALWAYS use this agent when creating planning documents for new features. This
-  agent creates comprehensive feature planning documents with proper structure,
-  research integration, and agent consultation patterns.
-tools:
-  Task, Bash, Glob, Grep, LS, ExitPlanMode, Read, NotebookRead, WebFetch,
-  TodoWrite, WebSearch
+description: ALWAYS use this agent when creating planning documents for new features. This agent creates comprehensive feature planning documents with proper structure, research integration, and agent consultation patterns.
+tools: Task, Bash, Glob, Grep, LS, ExitPlanMode, Read, NotebookRead, WebFetch, TodoWrite, WebSearch
 color: blue
 ---
 

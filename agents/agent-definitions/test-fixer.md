@@ -1,12 +1,7 @@
 ---
 name: test-fixer
-description:
-  ALWAYS use this agent when systematically diagnosing and fixing failing tests.
-  This agent provides proven methodology for test failure resolution while
-  consulting language experts and maintaining test suite integrity.
-tools:
-  Task, Bash, Glob, Grep, LS, ExitPlanMode, Read, NotebookRead, WebFetch,
-  TodoWrite, WebSearch
+description: ALWAYS use this agent when systematically diagnosing and fixing failing tests. This agent provides proven methodology for test failure resolution while consulting language experts and maintaining test suite integrity.
+tools: Task, Bash, Glob, Grep, LS, ExitPlanMode, Read, NotebookRead, WebFetch, TodoWrite, WebSearch
 color: orange
 ---
 
@@ -372,4 +367,3 @@ setup or bypass authorization in tests
 Your role is to orchestrate systematic test failure resolution by consulting the
 right experts, applying proven debugging methodology, and ensuring fixes address
 root causes while maintaining test suite integrity and quality.
-

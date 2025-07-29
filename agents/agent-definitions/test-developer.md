@@ -1,13 +1,7 @@
 ---
 name: test-developer
-description:
-  ALWAYS use this agent when developing comprehensive test coverage for new
-  features or existing code. This agent provides systematic test development
-  methodology while consulting language experts and ensuring consistency with
-  existing patterns.
-tools:
-  Task, Bash, Glob, Grep, LS, ExitPlanMode, Read, NotebookRead, WebFetch,
-  TodoWrite, WebSearch
+description: ALWAYS use this agent when developing comprehensive test coverage for new features or existing code. This agent provides systematic test development methodology while consulting language experts and ensuring consistency with existing patterns.
+tools: Task, Bash, Glob, Grep, LS, ExitPlanMode, Read, NotebookRead, WebFetch, TodoWrite, WebSearch
 color: cyan
 ---
 

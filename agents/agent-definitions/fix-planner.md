@@ -1,12 +1,7 @@
 ---
 name: fix-planner
-description:
-  ALWAYS use this agent when creating planning documents for bug fixes, issues,
-  or problem resolution. This agent creates focused fix planning documents with
-  root cause analysis, impact assessment, and systematic resolution approaches.
-tools:
-  Task, Bash, Glob, Grep, LS, ExitPlanMode, Read, NotebookRead, WebFetch,
-  TodoWrite, WebSearch
+description: ALWAYS use this agent when creating planning documents for bug fixes, issues, or problem resolution. This agent creates focused fix planning documents with root cause analysis, impact assessment, and systematic resolution approaches.
+tools: Task, Bash, Glob, Grep, LS, ExitPlanMode, Read, NotebookRead, WebFetch, TodoWrite, WebSearch
 color: red
 ---
 
