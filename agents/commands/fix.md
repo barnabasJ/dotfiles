@@ -3,6 +3,7 @@ Create a plan and implement a bug fix or issue resolution.
 Follow these steps:
 
 1. **Git Workflow**
+
    - Always check out a new branch when starting to work on a fix
    - Use conventional commits (fix: description)
    - Make small commits while working, so we can better analyze changes and
@@ -10,6 +11,7 @@ Follow these steps:
    - Do not reference claude in the commit messages
 
 2. **Investigation Phase**
+
    - ultrathink
    - Always check the existing codebase, documentation, usage-rules
    - Reproduce the issue reliably

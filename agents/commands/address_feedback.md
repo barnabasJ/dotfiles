@@ -6,11 +6,13 @@
    unresolved comments
 
 2. **Identify work type and planning document**:
+
    - notes/feature/<feature_name>.md
    - notes/fix/<fix_name>.md
    - notes/tasks/<task_name>.md
 
 3. **Update planning document with feedback**:
+
    - **For features**: Use **feature-planner** agent to incorporate feedback
      into comprehensive plan updates
    - **For fixes**: Use **fix-planner** agent to reassess approach based on
