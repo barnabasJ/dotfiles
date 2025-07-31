@@ -13,9 +13,11 @@ patterns and use **elixir-reviewer** for final validation.
    - Fix all issues including minor ones
 4. **Run test suite**: `mix test`
    - Fix all test failures
-   - Fix compile warnings
+   - Fix all warnings in test output
+   - Address deprecated function warnings
+   - Clean up any IO.inspect or debugging output
 5. **Remove unnecessary comments**: Remove all unnecessary one-line comments
 6. **Format code**: `mix format`
 7. **Final validation**: Use **elixir-reviewer** agent to run comprehensive
    quality checks
-8. **Commit changes**: Use conventional commits (DO NOT mention claude)
+8. **Commit changes**: Use conventional commits
