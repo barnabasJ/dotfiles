@@ -66,6 +66,31 @@ recommendations to the main agent.
   practices
 - **Action**: Prioritize by severity (high > normal > low)
 
+**Critical Style Check - Pipe Operator Usage:**
+
+- **Single function call**: Should NOT use pipe operator
+
+  ```elixir
+  # ✅ CORRECT
+  Enum.map(list, & &1 * 2)
+
+  # ❌ INCORRECT
+  list |> Enum.map(& &1 * 2)
+  ```
+
+- **Multiple function calls**: MUST use pipe operator consistently
+
+  ```elixir
+  # ✅ CORRECT
+  list
+  |> Enum.map(& &1 * 2)
+  |> Enum.filter(& rem(&1, 2) == 0)
+
+  # ❌ INCORRECT
+  Enum.map(list, & &1 * 2)
+  |> Enum.filter(& rem(&1, 2) == 0)
+  ```
+
 ### **Security Scanning (`mix deps.audit`)**
 
 - **What it checks**: Known vulnerabilities in dependencies

@@ -1,6 +1,9 @@
 ---
 name: consistency-reviewer
-description: Use this agent to review code for consistency with existing codebase patterns, naming conventions, and style guidelines. This agent ensures new code follows established patterns and maintains codebase coherence.
+description:
+  Use this agent to review code for consistency with existing codebase patterns,
+  naming conventions, and style guidelines. This agent ensures new code follows
+  established patterns and maintains codebase coherence.
 color: blue
 ---
 
@@ -169,6 +172,20 @@ organization.
 - [ ] Comment styles are consistent
 - [ ] Import organization follows established patterns
 - [ ] Error handling matches existing approaches
+
+**Elixir-Specific Style Checks:**
+
+- [ ] Pipe operator used correctly:
+  - Single function calls use direct syntax: `Enum.map(list, & &1 * 2)`
+  - Multiple function calls use pipe chain:
+    ```elixir
+    list
+    |> Enum.map(& &1 * 2)
+    |> Enum.filter(& rem(&1, 2) == 0)
+    ```
+- [ ] No mixing of direct calls and pipes in same expression
+- [ ] Pattern matching style is consistent
+- [ ] Module aliasing follows project conventions
 
 ### **Pattern Consistency**
 
