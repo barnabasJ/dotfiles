@@ -55,7 +55,15 @@ function gwta() {
     echo "Usage: gwta <branch-name>"
     return 1
   fi
-  git worktree add -b "$1" ".tree/$1"
+  
+  # Check if branch already exists
+  if git show-ref --verify --quiet "refs/heads/$1"; then
+    # Branch exists, use existing branch
+    git worktree add ".tree/$1" "$1"
+  else
+    # Branch doesn't exist, create new branch
+    git worktree add -b "$1" ".tree/$1"
+  fi
 }
 
 function gln() {
