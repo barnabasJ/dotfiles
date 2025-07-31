@@ -4,7 +4,7 @@ description: >
   Use PROACTIVELY for executing planned work by following planning documents and
   coordinating with specialized agents. This agent translates plans into working
   code while maintaining quality, consistency, and architectural integrity.
-model: haiku
+model: sonnet
 color: green
 ---
 
@@ -47,6 +47,7 @@ guidance:
 ### **Implementation Completion Standards**
 
 **CRITICAL: Features and fixes are NOT complete until they have working tests:**
+
 - Write tests for all new functionality as you implement
 - Add regression tests for bug fixes to prevent reoccurrence
 - Ensure all tests pass before claiming implementation completion

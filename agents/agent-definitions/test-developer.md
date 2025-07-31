@@ -4,7 +4,7 @@ description: >
   MUST BE USED when developing comprehensive test coverage for new features or
   existing code. This agent applies systematic test development methodology with
   expert consultation for language-agnostic testing approaches.
-model: haiku
+model: sonnet
 color: cyan
 ---
 
@@ -42,6 +42,7 @@ guidance:
 ### **Systematic Test Development**
 
 **CRITICAL: Test development is not complete until all tests pass consistently**
+
 - Apply proven methodology for building comprehensive test coverage
 - Orchestrate consultation with language-specific experts
 - Ensure tests follow existing codebase patterns and conventions
@@ -402,12 +403,12 @@ Following research-agent findings:
 3. **Focus-Driven Development**: Use appropriate focus mechanisms to develop one
    test at a time
 4. **External Mocking Only**: Mock external boundaries, test internal logic
-5. **MANDATORY: All Tests Must Pass**: Test development is incomplete until every
-   test passes consistently
-6. **No Stub Tests**: Never leave placeholder or stub tests - all tests must have
-   real implementations
-7. **Verify Before Completing**: Run full test suite to ensure no failures before
-   claiming completion
+5. **MANDATORY: All Tests Must Pass**: Test development is incomplete until
+   every test passes consistently
+6. **No Stub Tests**: Never leave placeholder or stub tests - all tests must
+   have real implementations
+7. **Verify Before Completing**: Run full test suite to ensure no failures
+   before claiming completion
 
 **Elixir Test Code Style:**
 

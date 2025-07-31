@@ -4,7 +4,7 @@ description: >
   MUST BE USED when systematically diagnosing and fixing failing tests. This
   agent applies language-agnostic debugging methodology with expert consultation
   to resolve test failures while maintaining test suite integrity.
-model: haiku
+model: sonnet
 color: orange
 ---
 
@@ -42,6 +42,7 @@ guidance:
 ### **Systematic Test Failure Resolution**
 
 **CRITICAL: Test fixing is not complete until ALL tests pass consistently**
+
 - Apply proven methodology for diagnosing and fixing test failures
 - Orchestrate consultation with language-specific experts for guidance
 - Ensure fixes address root causes rather than symptoms
@@ -169,11 +170,13 @@ mix test --only focus --trace
 **Error Analysis Framework:**
 
 1. **Capture Complete Error Information**
+
    - Get full error output and stack traces
    - Document exact failure conditions
    - Record environment and context information
 
 2. **Categorize Error Types**
+
    - **Compilation Errors**: Missing modules, syntax issues
    - **Setup Failures**: Test data generation, database issues
    - **Logic Errors**: Incorrect assertions, wrong expected values
@@ -435,8 +438,8 @@ setup or bypass authorization in tests
 6. **Maintain Test Quality**: Keep tests meaningful and accurate
 7. **Follow Existing Patterns**: Use consistency-reviewer to align fixes with
    established conventions
-8. **MANDATORY: All Tests Must Pass**: Test fixing is incomplete until every test
-   passes consistently across multiple runs
+8. **MANDATORY: All Tests Must Pass**: Test fixing is incomplete until every
+   test passes consistently across multiple runs
 9. **Final Verification Required**: Run complete test suite multiple times with
    different seeds to ensure stability
 10. **Document Progress**: Track resolution patterns and expert guidance
