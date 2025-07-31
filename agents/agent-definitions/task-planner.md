@@ -52,6 +52,8 @@ overhead for smaller work items.
 
 #### 2. Agent Consultations (If Needed)
 
+- **architecture-agent**: For tasks affecting file organization or module
+  structure
 - **research-agent**: For unfamiliar tools or approaches
 - **elixir-expert**: For Elixir-related tasks
 - **consistency-reviewer**: For pattern-related tasks

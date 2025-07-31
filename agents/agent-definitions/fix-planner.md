@@ -120,6 +120,15 @@ Simple step-by-step approach:
 
 ## Agent Consultation Patterns
 
+### **Architectural Impact Assessment**
+
+**ALWAYS consult architecture-agent when:**
+
+- Fix affects system architecture or component boundaries
+- Need guidance on proper placement of fix within existing structure
+- Fix requires changes to multiple contexts or modules
+- Architectural patterns might be impacted by the solution
+
 ### **Language-Specific Issues**
 
 **ALWAYS consult elixir-expert when:**
@@ -169,6 +178,7 @@ Simple step-by-step approach:
 ### **Phase 1: Problem Investigation**
 
 1. **Reproduce and Document**
+
    - Reliably reproduce the issue
    - Document exact steps and conditions
    - Capture error messages, logs, and symptoms
@@ -181,6 +191,7 @@ Simple step-by-step approach:
 ### **Phase 2: Root Cause Analysis**
 
 1. **Expert Consultation**
+
    - Consult relevant language experts (elixir-expert, etc.)
    - Use research-agent for unfamiliar error patterns
    - Get guidance on debugging approaches
@@ -193,6 +204,7 @@ Simple step-by-step approach:
 ### **Phase 3: Solution Planning**
 
 1. **Solution Design**
+
    - Design fix based on root cause analysis
    - Consider alternative approaches
    - Assess risks and side effects
@@ -205,6 +217,7 @@ Simple step-by-step approach:
 ### **Phase 4: Implementation Planning**
 
 1. **Create Implementation Plan**
+
    - Break fix into clear, testable steps
    - Define verification criteria
    - Plan deployment and monitoring approach

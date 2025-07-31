@@ -100,6 +100,15 @@ while ensuring proper research and agent consultation.
 
 ## Agent Consultation Patterns
 
+### **Architecture Analysis Phase**
+
+**ALWAYS consult architecture-agent when:**
+
+- Implementing new features that affect system structure
+- Need guidance on where to place new modules or components
+- Determining integration patterns with existing systems
+- Making architectural decisions about feature organization
+
 ### **Technology Research Phase**
 
 **ALWAYS consult research-agent when:**
@@ -156,6 +165,7 @@ while ensuring proper research and agent consultation.
 ### **Phase 1: Initial Analysis**
 
 1. **Understand Requirements**
+
    - Analyze the feature request thoroughly
    - Identify unknowns and research needs
    - Determine complexity level (simple vs complex)
@@ -168,6 +178,7 @@ while ensuring proper research and agent consultation.
 ### **Phase 2: Research and Consultation**
 
 1. **Technology Research**
+
    - Use research-agent for unfamiliar tech
    - Gather documentation and best practices
    - Understand integration requirements
@@ -180,11 +191,13 @@ while ensuring proper research and agent consultation.
 ### **Phase 3: Planning Document Creation**
 
 1. **Structure Planning Document**
+
    - Create all required sections
    - Document agent consultations performed
    - Include research findings and recommendations
 
 2. **Implementation Planning**
+
    - Break feature into logical steps
    - Define clear success criteria
    - Identify testing and verification approaches

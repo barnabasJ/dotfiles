@@ -51,11 +51,13 @@ specialized agents first.
   validation
 - **Focus**: Test gaps, error scenarios, quality assurance processes
 
-#### **senior-engineer-reviewer** - Architecture & Design Review
+#### **senior-engineer-reviewer** - Strategic Technical Review
 
-- **Purpose**: Architectural assessment, design patterns, scalability
-  considerations
-- **Focus**: Long-term maintainability, system impact, technical debt analysis
+- **Purpose**: Long-term architectural sustainability and strategic decisions
+- **Focus**: Scalability (10x/100x), technical debt, future flexibility,
+  operational complexity
+- **Complements**: architecture-agent by providing strategic vs structural
+  perspective
 
 #### **security-reviewer** - Security & Vulnerability Analysis
 
@@ -100,6 +102,26 @@ specialized agents first.
 - **Smart Escalation**: Recommends feature-planner or fix-planner for complex
   work
 - **Output**: Task planning documents in notes/tasks/
+
+### Architecture & Implementation Specialists
+
+#### **architecture-agent** - Project Structure & Integration
+
+- **When to use**: For code placement, module organization, and integration
+  decisions
+- **Purpose**: Analyzes existing structure and guides proper code organization
+- **Consults**: elixir-expert, research-agent for framework-specific patterns
+- **Focus**: File placement, module boundaries, integration patterns, structural
+  consistency
+- **Complements**: senior-engineer-reviewer by providing structural vs strategic
+  perspective
+
+#### **implementation-agent** - Plan Execution Specialist
+
+- **When to use**: To execute planning documents (features, fixes, tasks)
+- **Purpose**: Systematically implements plans while coordinating all agents
+- **Consults**: architecture-agent, elixir-expert, test-developer, all reviewers
+- **Focus**: Quality implementation following plans with continuous validation
 
 ### Methodology Specialists
 
@@ -161,7 +183,8 @@ procedures:
 
 ## Git Workflow
 
-- Always check out a new branch when starting to work on a new feature
+- Check if already on an appropriate branch (feature/_, fix/_, task/\*)
+- If not on an appropriate branch, create a new one
 - Use conventional commits
 - Make small commits while working, so we can better analyze changes and revert
   if necessary
