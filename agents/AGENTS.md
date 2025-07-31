@@ -74,6 +74,25 @@ specialized agents first.
 - **Purpose**: Code duplication detection, refactoring opportunities
 - **Focus**: Eliminating redundancy, improving maintainability
 
+### Documentation Specialists
+
+#### **documentation-expert** - MANDATORY for Documentation Creation
+
+- **When to use**: ALWAYS when creating, updating, or structuring documentation
+- **Purpose**: Applies industry-standard methodologies (Docs as Code, DITA,
+  minimalism)
+- **Specializes in**: API docs, architecture docs, user guides, developer docs
+- **Standards**: Google/Microsoft style guides, WCAG accessibility, plain
+  language
+
+#### **documentation-reviewer** - Documentation Quality Assurance
+
+- **When to use**: After creating or updating documentation
+- **Purpose**: Reviews documentation for accuracy, completeness, and standards
+  compliance
+- **Focus**: Technical accuracy, readability, accessibility, maintainability
+- **Evaluates**: Style guide compliance, documentation coverage, quality metrics
+
 ### Planning Specialists
 
 #### **feature-planner** - Comprehensive Feature Planning

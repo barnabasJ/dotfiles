@@ -29,13 +29,13 @@ color: agent-color
 
 **Sonnet (Balanced capability and cost)**:
 
-- All reviewer agents, all planning agents
-- Analysis, planning, comprehensive review tasks
+- All reviewer agents, all planning agents, all implementation agents
+- Analysis, planning, comprehensive review tasks, and complex implementation
 
 **Haiku (Fast, cost-effective)**:
 
-- implementation-agent, test-developer, test-fixer
-- Implementation tasks with expert guidance
+- Currently unused - all agents require reasoning capabilities
+- Reserved for future simple automation tasks
 
 ## Tool Permission Categories
 
@@ -73,12 +73,13 @@ color: agent-color
 - Can consult other agents
 - Cannot modify existing code files
 
-### Implementation Agents (haiku model)
+### Implementation Agents (sonnet model)
 
 **Tools**: All tools including `Bash, Edit, MultiEdit, NotebookEdit, Write`
 
 - Full access to implement changes
-- Work under expert guidance
+- Balanced reasoning capability for complex implementation decisions
+- Coordinate effectively with expert agents
 
 ## Expert Guidance Workflow
 
@@ -132,10 +133,11 @@ Please provide detailed implementation guidance.
 
 ## Cost Optimization Benefits
 
-- **60-80% cost reduction** for implementation tasks
-- **Expert models** only used for complex analysis
-- **Implementation models** execute with expert guidance
-- **Clear separation** between analysis and execution roles
+- **Balanced cost and capability** across all agents
+- **Expert models** (opus) for specialized domain knowledge
+- **Balanced models** (sonnet) for analysis, planning, and implementation
+- **Clear role separation** between analysis and execution
+- **Quality maintained** through appropriate model selection for task complexity
 
 ## Tool Limitations by Agent Type
 
@@ -174,10 +176,12 @@ Before making significant changes, consult appropriate expert agents for guidanc
 **elixir-expert**: Elixir/Phoenix/Ecto questions, OTP patterns, testing
 strategies **architecture-agent**: Project structure, module design, component
 boundaries **research-agent**: Unknown libraries, API integration, technology
-evaluation **security-reviewer**: Authentication, data validation, vulnerability
-assessment **implementation-agent**: Execute planning documents, implement
-expert guidance **test-developer**: Systematic test development with expert
-consultation **test-fixer**: Test failure diagnosis and resolution
+evaluation **documentation-expert**: Creating documentation with industry
+methodologies **documentation-reviewer**: Documentation quality assurance and
+standards compliance **security-reviewer**: Authentication, data validation,
+vulnerability assessment **implementation-agent**: Execute planning documents,
+implement expert guidance **test-developer**: Systematic test development with
+expert consultation **test-fixer**: Test failure diagnosis and resolution
 
 This system optimizes costs while maintaining quality through appropriate model
 selection and clear role separation between analysis and implementation.

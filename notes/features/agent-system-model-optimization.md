@@ -69,10 +69,11 @@ tool_permissions:
 - fix-planner
 - task-planner
 
-**Tier 3 - Implementation & Execution (Haiku 3.5)**:
+**Tier 3 - Implementation & Execution (Sonnet 4)**:
 - implementation-agent
-- test-developer
+- test-developer  
 - test-fixer
+- documentation-expert
 
 **Tier 4 - Review & Validation (Sonnet 4)**:
 - factual-reviewer
@@ -114,11 +115,14 @@ model_assignments:
     - consistency-reviewer
     - redundancy-reviewer
     - elixir-reviewer
-  
-  claude-haiku-3-5:
     - implementation-agent
     - test-developer
     - test-fixer
+    - documentation-expert
+    - documentation-reviewer
+  
+  claude-haiku-3-5:
+    - # Currently unused - reserved for simple automation tasks
 
 tool_permissions:
   read_only:
@@ -136,10 +140,11 @@ tool_permissions:
   full_access:
     - feature-planner
     - fix-planner
-    - task-planner
+    - task-planner  
     - implementation-agent
     - test-developer
     - test-fixer
+    - documentation-expert
 ```
 
 ## Success Criteria
