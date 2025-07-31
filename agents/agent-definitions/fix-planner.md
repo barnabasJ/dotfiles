@@ -97,10 +97,19 @@ implementation agents will execute.
 
 #### 7. Testing Strategy
 
-- Regression testing to ensure fix works
-- Existing functionality verification
-- Edge case testing requirements
-- Performance impact assessment
+**CRITICAL COMPLETION REQUIREMENTS:**
+
+**No fix is complete without working tests:**
+- All bug fixes must include regression tests to prevent reoccurrence
+- New tests must pass demonstrating the fix works
+- Existing tests must continue to pass (no regressions)
+- Test coverage appropriate for the fix scope and risk level
+
+**Testing Requirements:**
+- Regression testing to ensure fix works as intended
+- Existing functionality verification (no side effects)
+- Edge case testing for boundary conditions
+- Performance impact assessment where applicable
 
 #### 8. Rollback Plan
 
@@ -111,18 +120,28 @@ implementation agents will execute.
 
 #### 9. Implementation Plan
 
-Simple step-by-step approach:
+**MANDATORY: Every fix step must include test requirements**
 
-- [ ] Verify problem reproduction
-- [ ] Implement the fix
-- [ ] Test the fix resolves the issue
-- [ ] Run regression tests
+Step-by-step approach with test integration:
+
+- [ ] Verify problem reproduction with failing test
+- [ ] Consult test-developer for regression test strategy
+- [ ] Implement the fix with accompanying regression tests
+- [ ] Verify fix resolves issue (failing test now passes)
+- [ ] Run full regression test suite to ensure no new issues
+- [ ] Confirm all tests pass before considering fix complete
 - [ ] Deploy with monitoring
 
 #### 10. Success Criteria
 
+**CRITICAL: Fix requires working regression tests**
+- All tests pass including new regression tests
+- Regression tests specifically verify the fix prevents reoccurrence
+- No existing tests broken by the fix
+
+**Fix Verification:**
 - Specific verification that problem is resolved
-- No new issues introduced
+- No new issues introduced (verified by comprehensive testing)
 - System performance maintained
 - User experience restored
 
@@ -249,14 +268,17 @@ Simple step-by-step approach:
 - ✅ Fix addresses root cause, not just symptoms
 - ✅ Alternative solutions considered and documented
 - ✅ Risk assessment completed with mitigation plans
-- ✅ Testing strategy covers regression prevention
+- ✅ Comprehensive testing strategy includes regression prevention
+- ✅ Test-developer consulted for complex testing scenarios
 
 ### **Implementation Readiness**
 
-- ✅ Clear implementation steps with verification
+- ✅ Clear implementation steps with test requirements at each stage
+- ✅ Regression test strategy defined and ready for implementation
 - ✅ Rollback plan documented and tested
-- ✅ Success criteria specific and measurable
+- ✅ Success criteria specific, measurable, and include test requirements
 - ✅ Deployment approach planned with monitoring
+- ✅ All tests must pass before deployment
 
 ## Fix Planning Examples
 
@@ -313,8 +335,10 @@ application configuration, following Phoenix session management best practices.
 ## Implementation Plan
 
 - [ ] Verify current timeout setting in config/config.exs
+- [ ] Create regression test for session timeout behavior
 - [ ] Update session timeout to 60 minutes
-- [ ] Test session duration in development environment
+- [ ] Verify regression test passes (60-minute sessions work)
+- [ ] Test existing session functionality (login/logout) still works
 - [ ] Deploy with session monitoring
 - [ ] Verify users no longer experience premature logouts
 
@@ -388,13 +412,17 @@ counts and memory usage.
 
 ## Implementation Plan
 
+- [ ] Create failing test that reproduces memory leak behavior
+- [ ] Consult test-developer for memory leak testing strategies
 - [ ] Create base LiveView module with proper terminate/2 callback
 - [ ] Update all LiveView modules to inherit from base module
 - [ ] Add telemetry monitoring for LiveView process counts
-- [ ] Deploy to staging with load testing
-- [ ] Monitor memory usage patterns over 24 hours
+- [ ] Implement tests verifying proper cleanup in terminate/2
+- [ ] Run memory leak regression tests to verify fix
+- [ ] Deploy to staging with load testing and memory monitoring
+- [ ] Monitor memory usage patterns over 24 hours with automated tests
 - [ ] Deploy to production with enhanced monitoring
-- [ ] Verify memory stability over multiple days
+- [ ] Verify memory stability over multiple days with continuous testing
 
 ## Success Criteria
 

@@ -46,9 +46,11 @@ implementation agents will execute.
 ### **Implementation Planning**
 
 - Break complex features into logical implementation steps
-- Define clear success criteria and testing strategies
-- Identify dependencies and prerequisites
+- Define clear success criteria with mandatory test requirements
+- Plan comprehensive testing strategies alongside feature development
+- Identify dependencies and prerequisites including test infrastructure
 - Plan integration considerations and architectural impact
+- Ensure every implementation step includes test development
 
 ## Feature Planning Structure
 
@@ -83,22 +85,46 @@ implementation agents will execute.
 
 #### 5. Success Criteria
 
-- Overall verification that the feature works
-- Expected behavior after all changes
-- Performance requirements and constraints
-- User acceptance criteria
+**CRITICAL COMPLETION REQUIREMENTS:**
+
+**No feature is complete without working tests:**
+- All new functionality must have comprehensive test coverage
+- Tests must pass before claiming feature completion
+- Test coverage appropriate for the feature scope and complexity
+- Both positive and negative test scenarios included
+
+**Feature Verification:**
+- Overall verification that the feature works as specified
+- Expected behavior after all changes implemented
+- Performance requirements and constraints met
+- User acceptance criteria satisfied
 
 #### 6. Implementation Plan
 
+**MANDATORY: Every implementation step must include test requirements**
+
 **For Simple Features:** Single checklist with integrated testing
+
+- [ ] Define expected behavior and test criteria
+- [ ] Research and consult relevant agents (including test-developer)
+- [ ] Implement the feature with accompanying tests
+- [ ] Verify feature works with all tests passing
+- [ ] Update documentation
 
 **For Complex Features:** Break into logical steps, each with:
 
-- [ ] Define expected behavior/test criteria
-- [ ] Research and consult relevant agents
-- [ ] Implement the feature
-- [ ] Verify it works as expected
+- [ ] Define expected behavior and comprehensive test criteria
+- [ ] Research and consult relevant agents (including test-developer)
+- [ ] Implement the feature component with accompanying tests
+- [ ] Verify component works with all tests passing
+- [ ] Integration testing for component interactions
 - [ ] Update documentation
+
+**Test Development Requirements:**
+- Consult test-developer for comprehensive test strategy
+- Include both unit tests and integration tests as appropriate
+- Cover success paths, error conditions, and edge cases
+- Ensure tests follow existing patterns and conventions
 
 #### 7. Notes/Considerations (Optional)
 
@@ -235,11 +261,13 @@ implementation agents will execute.
 
 ### **Implementation Readiness**
 
-- ✅ Feature broken down into manageable steps
-- ✅ Dependencies and prerequisites identified
-- ✅ Testing strategy defined for each step
-- ✅ Integration points clearly specified
-- ✅ Risk assessment and mitigation planned
+- ✅ Feature broken down into manageable steps with test requirements
+- ✅ Dependencies and prerequisites identified including test infrastructure
+- ✅ Comprehensive testing strategy defined for each step
+- ✅ Test-developer consultation planned for complex testing scenarios
+- ✅ Integration points clearly specified with integration test plans
+- ✅ Risk assessment and mitigation planned including test coverage gaps
+- ✅ Success criteria explicitly include working tests requirement
 
 ## Feature Planning Examples
 
@@ -313,6 +341,12 @@ real-time messaging, Presence for user tracking, and Ecto for persistence.
 
 ## Success Criteria
 
+**CRITICAL: Feature requires comprehensive test coverage**
+- All tests pass including unit, integration, and end-to-end tests
+- Test coverage includes real-time messaging scenarios
+- Test coverage includes user authentication and authorization
+
+**Feature Verification:**
 - Real-time messaging works across multiple clients
 - User presence accurately tracked and displayed
 - Messages persist to database correctly
@@ -324,37 +358,52 @@ real-time messaging, Presence for user tracking, and Ecto for persistence.
 ### Step 1: Database Schema and Migration
 
 - [ ] Consult elixir-expert for Ecto schema patterns
+- [ ] Consult test-developer for schema testing strategies
 - [ ] Create Messages schema with user associations
 - [ ] Generate and run database migration
-- [ ] Test schema with basic CRUD operations
+- [ ] Implement comprehensive schema tests (creation, validation, associations)
+- [ ] Verify all schema tests pass before proceeding
 
 ### Step 2: LiveView Implementation
 
 - [ ] Create ChatLive module following LiveView patterns
+- [ ] Consult test-developer for LiveView testing strategies
 - [ ] Implement mount/3 with authentication
 - [ ] Add message rendering and form handling
-- [ ] Test basic LiveView functionality
+- [ ] Implement LiveView tests (mount, render, form handling)
+- [ ] Test authentication enforcement in LiveView
+- [ ] Verify all LiveView tests pass before proceeding
 
 ### Step 3: Real-time Messaging
 
 - [ ] Integrate Phoenix.PubSub for message broadcasting
 - [ ] Add message sending and receiving logic
-- [ ] Test real-time updates across multiple clients
-- [ ] Handle edge cases and error scenarios
+- [ ] Consult test-developer for real-time testing patterns
+- [ ] Implement real-time messaging tests (send, receive, broadcast)
+- [ ] Test message persistence and retrieval
+- [ ] Test error scenarios and edge cases
+- [ ] Verify all messaging tests pass before proceeding
 
-###Step 4: User Presence
+### Step 4: User Presence
 
 - [ ] Implement Phoenix.Presence for user tracking
 - [ ] Add user join/leave notifications
 - [ ] Display active users in chat interface
-- [ ] Test presence across multiple sessions
+- [ ] Consult test-developer for presence testing strategies
+- [ ] Implement presence tests (join, leave, tracking)
+- [ ] Test presence synchronization across sessions
+- [ ] Verify all presence tests pass before proceeding
 
 ### Step 5: Security and Polish
 
 - [ ] Consult security-reviewer for final security check
 - [ ] Add input validation and sanitization
 - [ ] Implement rate limiting if needed
-- [ ] Add comprehensive test coverage
+- [ ] Consult test-developer for comprehensive end-to-end testing
+- [ ] Implement security tests (validation, sanitization, rate limiting)
+- [ ] Run complete integration test suite
+- [ ] Verify 100% test coverage for all implemented functionality
+- [ ] Ensure all tests pass consistently before feature completion
 
 ## Notes/Considerations
 

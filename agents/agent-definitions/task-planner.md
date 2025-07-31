@@ -78,13 +78,20 @@ implementation agents will execute.
 
 - Specific, actionable steps to complete the task
 - Each item should be completable and verifiable
-- Include testing/verification steps where appropriate
+- Include testing/verification steps for code-related tasks
+- For code changes: include test creation and verification steps
 
 #### 5. Success Criteria
 
+**For Code-Related Tasks:**
+- All new code includes appropriate tests (when applicable)
+- Existing tests continue to pass
+- Code changes maintain existing quality standards
+
+**General Task Completion:**
 - Clear indication that task is complete
 - Measurable outcomes where possible
-- Quality standards to maintain
+- Quality standards maintained
 
 #### 6. Notes (Optional)
 
@@ -98,12 +105,12 @@ implementation agents will execute.
 
 **Appropriate for task-planner:**
 
-- Configuration changes
-- Simple refactoring
+- Configuration changes (consider test impact)
+- Simple refactoring (include test updates)
 - Documentation updates
 - Tool setup or installation
-- Small improvements or enhancements
-- Quick fixes that don't require deep analysis
+- Small improvements or enhancements (include tests if code changes)
+- Quick fixes that don't require deep analysis (include regression tests)
 
 **Should escalate to feature-planner:**
 
@@ -126,11 +133,13 @@ implementation agents will execute.
 - Task is well-understood and straightforward
 - Using familiar tools and patterns
 - Following established procedures
+- Non-code changes (documentation, configuration)
 
 **Include agent consultations when:**
 
 - Working with unfamiliar technologies
 - Task involves Elixir/Phoenix/Ash code (consult elixir-expert)
+- Code changes that require tests (consult test-developer if complex)
 - Need to maintain consistency with existing patterns
 - Security or quality implications exist
 
@@ -205,14 +214,17 @@ there. Update all controllers to use the shared functions.
 - [ ] Create lib/myapp/utils.ex module
 - [ ] Move common functions to Utils module
 - [ ] Update all controllers to import and use Utils functions
-- [ ] Run tests to ensure no functionality broken
+- [ ] Create or update tests for the new Utils module
+- [ ] Run full test suite to ensure no functionality broken
+- [ ] Verify test coverage maintained or improved
 - [ ] Update any documentation that references old function locations
 
 ## Success Criteria
 
 - All duplicated utility functions consolidated in Utils module
 - All controllers use shared functions instead of duplicates
-- All tests pass without modifications
+- All tests pass including new/updated Utils module tests
+- Test coverage maintained or improved after refactoring
 - Code follows established module organization patterns
 
 ## Notes
@@ -323,8 +335,9 @@ dialyzer to run on relevant file changes.
 
 - ✅ Todo items are actionable and completable
 - ✅ Dependencies and prerequisites identified
-- ✅ Testing/verification steps included where needed
-- ✅ Clear completion criteria defined
+- ✅ Testing/verification steps included for code-related tasks
+- ✅ Test requirements identified for code changes
+- ✅ Clear completion criteria defined including test requirements
 
 ## Critical Task Planning Instructions
 
