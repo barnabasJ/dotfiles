@@ -42,6 +42,7 @@ with continuous plan updates.
 - Document discovered limitations immediately when found, plan next steps
 
 **CRITICAL**: Features are NOT complete without working tests:
+
 - Every feature must have comprehensive test coverage
 - Tests must pass before considering any step complete
 - Use test-developer for systematic test creation

@@ -20,6 +20,7 @@ implementation guidance.
 ### Step 1: Identify Current Planning Document
 
 1. **Locate active planning document**:
+
    - Check `notes/features/` for feature plans
    - Check `notes/fixes/` for fix plans
    - Check `notes/tasks/` for task plans
@@ -32,6 +33,7 @@ implementation guidance.
 ### Step 2: Analyze Current State vs New Requirements
 
 1. **Review existing plan**:
+
    - Read current planning document thoroughly
    - Understand what has been implemented so far
    - Identify what remains to be done
@@ -44,6 +46,7 @@ implementation guidance.
 ### Step 3: Update Planning Document
 
 1. **Use appropriate planning agent**:
+
    - **feature-planner**: For feature plan updates
    - **fix-planner**: For fix plan updates
    - **task-planner**: For task plan updates
@@ -172,6 +175,7 @@ This command leverages the appropriate planning agent based on document type:
   timeline/scope
 
 **CRITICAL**: All plans must include test requirements:
+
 - Test strategy updated for new/changed requirements
 - Test completion criteria clearly defined
 - Implementation agents understand testing is mandatory for completion
@@ -188,4 +192,3 @@ After plan update:
 This command ensures planning documents stay current with evolving requirements
 while providing clear guidance for implementation teams to execute the updated
 plan effectively.
-

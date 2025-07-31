@@ -39,6 +39,7 @@ Follow these steps:
    - Document discovered complications immediately when found
 
 **CRITICAL**: Fixes are NOT complete without regression tests:
+
 - Every bug fix must include tests that verify the fix
 - Regression tests must fail before the fix and pass after
 - All existing tests must continue to pass

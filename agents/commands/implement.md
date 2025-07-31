@@ -29,6 +29,7 @@ implementation-agent.
    - Quality validation with review agents
 
 **CRITICAL**: Implementation is NOT complete without working tests:
+
 - Every feature/fix must have comprehensive test coverage
 - Tests must pass before claiming any step complete
 - Use test-developer for systematic test creation
