@@ -88,12 +88,14 @@ implementation agents will execute.
 **CRITICAL COMPLETION REQUIREMENTS:**
 
 **No feature is complete without working tests:**
+
 - All new functionality must have comprehensive test coverage
 - Tests must pass before claiming feature completion
 - Test coverage appropriate for the feature scope and complexity
 - Both positive and negative test scenarios included
 
 **Feature Verification:**
+
 - Overall verification that the feature works as specified
 - Expected behavior after all changes implemented
 - Performance requirements and constraints met
@@ -121,6 +123,7 @@ implementation agents will execute.
 - [ ] Update documentation
 
 **Test Development Requirements:**
+
 - Consult test-developer for comprehensive test strategy
 - Include both unit tests and integration tests as appropriate
 - Cover success paths, error conditions, and edge cases
@@ -143,6 +146,16 @@ implementation agents will execute.
 - Need guidance on where to place new modules or components
 - Determining integration patterns with existing systems
 - Making architectural decisions about feature organization
+
+### **Documentation Planning Phase**
+
+**ALWAYS consult documentation-expert when:**
+
+- Feature requires user-facing documentation
+- API endpoints need reference documentation
+- Architecture decisions need recording (ADRs)
+- Complex features need comprehensive guides
+- New concepts or workflows are introduced
 
 ### **Technology Research Phase**
 
@@ -342,11 +355,13 @@ real-time messaging, Presence for user tracking, and Ecto for persistence.
 ## Success Criteria
 
 **CRITICAL: Feature requires comprehensive test coverage**
+
 - All tests pass including unit, integration, and end-to-end tests
 - Test coverage includes real-time messaging scenarios
 - Test coverage includes user authentication and authorization
 
 **Feature Verification:**
+
 - Real-time messaging works across multiple clients
 - User presence accurately tracked and displayed
 - Messages persist to database correctly

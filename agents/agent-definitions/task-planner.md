@@ -84,11 +84,13 @@ implementation agents will execute.
 #### 5. Success Criteria
 
 **For Code-Related Tasks:**
+
 - All new code includes appropriate tests (when applicable)
 - Existing tests continue to pass
 - Code changes maintain existing quality standards
 
 **General Task Completion:**
+
 - Clear indication that task is complete
 - Measurable outcomes where possible
 - Quality standards maintained
