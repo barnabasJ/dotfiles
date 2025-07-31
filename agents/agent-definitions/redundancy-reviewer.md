@@ -1,6 +1,9 @@
 ---
 name: redundancy-reviewer
-description: Use this agent to identify code duplication, redundant implementations, and opportunities for consolidation. This agent specializes in detecting unnecessary repetition and suggesting refactoring opportunities.
+description:
+  Use this agent to identify code duplication, redundant implementations, and
+  opportunities for consolidation. This agent specializes in detecting
+  unnecessary repetition and suggesting refactoring opportunities.
 color: orange
 ---
 

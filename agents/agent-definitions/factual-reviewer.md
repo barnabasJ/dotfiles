@@ -1,6 +1,10 @@
 ---
 name: factual-reviewer
-description: Use this agent to perform factual analysis of code changes, comparing implementation against planning documents and verifying that the code does what it claims to do. This agent focuses on objective, factual assessment without subjective opinions.
+description:
+  Use this agent to perform factual analysis of code changes, comparing
+  implementation against planning documents and verifying that the code does
+  what it claims to do. This agent focuses on objective, factual assessment
+  without subjective opinions.
 color: gray
 ---
 

@@ -1,6 +1,9 @@
 ---
 name: security-reviewer
-description: Use this agent for comprehensive security analysis of code changes. This agent specializes in identifying security vulnerabilities, attack vectors, and ensuring secure coding practices are followed.
+description:
+  Use this agent for comprehensive security analysis of code changes. This agent
+  specializes in identifying security vulnerabilities, attack vectors, and
+  ensuring secure coding practices are followed.
 color: red
 ---
 

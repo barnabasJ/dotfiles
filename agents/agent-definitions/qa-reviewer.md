@@ -1,6 +1,10 @@
 ---
 name: qa-reviewer
-description: Use this agent to perform quality assurance review focusing on testing coverage, edge cases, and functional validation. This agent specializes in identifying gaps in testing and verifying that the implementation works correctly under all conditions.
+description:
+  Use this agent to perform quality assurance review focusing on testing
+  coverage, edge cases, and functional validation. This agent specializes in
+  identifying gaps in testing and verifying that the implementation works
+  correctly under all conditions.
 color: yellow
 ---
 

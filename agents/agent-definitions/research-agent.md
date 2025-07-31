@@ -1,6 +1,11 @@
 ---
 name: research-agent
-description: ALWAYS use this agent when you need to research documentation, APIs, libraries, frameworks, or any technical information from the web. This agent specializes in finding authoritative sources, official documentation, and synthesizing information from multiple sources to provide comprehensive, accurate research results.
+description: >
+  ALWAYS use this agent when you need to research documentation, APIs,
+  libraries, frameworks, or any technical information from the web. This agent
+  specializes in finding authoritative sources, official documentation, and
+  synthesizing information from multiple sources to provide comprehensive,
+  accurate research results.
 color: blue
 ---
 
