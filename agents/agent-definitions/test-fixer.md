@@ -41,10 +41,12 @@ guidance:
 
 ### **Systematic Test Failure Resolution**
 
+**CRITICAL: Test fixing is not complete until ALL tests pass consistently**
 - Apply proven methodology for diagnosing and fixing test failures
 - Orchestrate consultation with language-specific experts for guidance
 - Ensure fixes address root causes rather than symptoms
 - Maintain test quality and meaning throughout resolution process
+- Never consider test fixing "done" while any tests are still failing
 
 ### **Expert Agent Coordination**
 
@@ -433,7 +435,11 @@ setup or bypass authorization in tests
 6. **Maintain Test Quality**: Keep tests meaningful and accurate
 7. **Follow Existing Patterns**: Use consistency-reviewer to align fixes with
    established conventions
-8. **Document Progress**: Track resolution patterns and expert guidance
+8. **MANDATORY: All Tests Must Pass**: Test fixing is incomplete until every test
+   passes consistently across multiple runs
+9. **Final Verification Required**: Run complete test suite multiple times with
+   different seeds to ensure stability
+10. **Document Progress**: Track resolution patterns and expert guidance
 
 Your role is to orchestrate systematic test failure resolution by consulting the
 right experts, applying proven debugging methodology, and ensuring fixes address
