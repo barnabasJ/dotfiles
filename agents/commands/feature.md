@@ -41,6 +41,12 @@ with continuous plan updates.
   run"
 - Document discovered limitations immediately when found, plan next steps
 
+**CRITICAL**: Features are NOT complete without working tests:
+- Every feature must have comprehensive test coverage
+- Tests must pass before considering any step complete
+- Use test-developer for systematic test creation
+- Never claim feature completion without working tests
+
 ## What the Feature-Planner Agent Provides
 
 The **feature-planner** agent creates comprehensive planning documents with:

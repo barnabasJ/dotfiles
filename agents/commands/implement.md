@@ -28,6 +28,12 @@ implementation-agent.
    - Test development alongside features
    - Quality validation with review agents
 
+**CRITICAL**: Implementation is NOT complete without working tests:
+- Every feature/fix must have comprehensive test coverage
+- Tests must pass before claiming any step complete
+- Use test-developer for systematic test creation
+- Never report implementation as "done" without working tests
+
 ## Usage Examples
 
 ```bash
