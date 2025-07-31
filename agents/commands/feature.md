@@ -23,7 +23,8 @@ with continuous plan updates.
 
 ### 2. **Git Workflow**
 
-- Always check out a new branch when starting to work on a new feature
+- Check if already on an appropriate feature branch (e.g., feature/\*)
+- If not on a feature branch, create a new one
 - Use conventional commits
 - Make small commits while working, so we can better analyze changes and revert
   if necessary

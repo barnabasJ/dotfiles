@@ -27,7 +27,15 @@ For simple tasks, use the **task-planner** agent which will:
 - Consult **elixir-expert** for Elixir-related tasks
 - Use **consistency-reviewer** for pattern-related work
 
-### 3. **Agent Integration**
+### 3. **Git Workflow**
+
+- Check if already on an appropriate task branch (e.g., task/\*)
+- If not on a task branch, create a new one
+- Use conventional commits
+- Make small commits while working
+- Do not reference claude in the commit messages
+
+### 4. **Agent Integration**
 
 The **task-planner** agent knows when to consult other agents:
 

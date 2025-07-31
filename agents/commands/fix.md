@@ -4,7 +4,8 @@ Follow these steps:
 
 1. **Git Workflow**
 
-   - Always check out a new branch when starting to work on a fix
+   - Check if already on an appropriate fix branch (e.g., fix/\*)
+   - If not on a fix branch, create a new one
    - Use conventional commits (fix: description)
    - Make small commits while working, so we can better analyze changes and
      revert if necessary
