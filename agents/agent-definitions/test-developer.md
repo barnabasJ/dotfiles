@@ -5,9 +5,6 @@ description: >
   existing code. This agent applies systematic test development methodology with
   expert consultation for language-agnostic testing approaches.
 model: haiku
-tools:
-  Task, Bash, Glob, Grep, LS, Read, Edit, Write, MultiEdit, NotebookRead,
-  NotebookEdit, WebFetch, TodoWrite, WebSearch
 color: cyan
 ---
 

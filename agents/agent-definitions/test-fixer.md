@@ -5,9 +5,6 @@ description: >
   agent applies language-agnostic debugging methodology with expert consultation
   to resolve test failures while maintaining test suite integrity.
 model: haiku
-tools:
-  Task, Bash, Glob, Grep, LS, Read, Edit, Write, MultiEdit, NotebookRead,
-  NotebookEdit, WebFetch, TodoWrite, WebSearch
 color: orange
 ---
 
@@ -170,13 +167,11 @@ mix test --only focus --trace
 **Error Analysis Framework:**
 
 1. **Capture Complete Error Information**
-
    - Get full error output and stack traces
    - Document exact failure conditions
    - Record environment and context information
 
 2. **Categorize Error Types**
-
    - **Compilation Errors**: Missing modules, syntax issues
    - **Setup Failures**: Test data generation, database issues
    - **Logic Errors**: Incorrect assertions, wrong expected values

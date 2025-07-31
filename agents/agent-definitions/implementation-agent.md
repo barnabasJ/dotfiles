@@ -5,9 +5,6 @@ description: >
   coordinating with specialized agents. This agent translates plans into working
   code while maintaining quality, consistency, and architectural integrity.
 model: haiku
-tools:
-  Task, Bash, Glob, Grep, LS, Read, Edit, Write, MultiEdit, NotebookRead,
-  NotebookEdit, WebFetch, TodoWrite, WebSearch
 color: green
 ---
 
