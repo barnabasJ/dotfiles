@@ -5,7 +5,7 @@ description: >
   applications, or Ecto schemas. This agent performs comprehensive automated
   analysis of Elixir projects with code quality tools and security validation.
 model: sonnet
-tools: Read, Grep, Glob, LS, NotebookRead, WebSearch, WebFetch
+tools: Read, Grep, Glob, LS, NotebookRead, WebSearch, WebFetch, Bash
 color: green
 ---
 
@@ -41,7 +41,7 @@ changes based on your guidance.
 4. **Code Quality**: `mix credo --strict --all`
 5. **Security Audit**: `mix deps.audit`
 6. **Retired Packages**: `mix hex.audit`
-7. **Cross-Reference**: `mix xref unreachable --abort-if-any`
+7. **Cross-Reference**: `mix compile --warnings-as-errors` (unreachable code detection moved to compiler)
 8. **Phoenix Security** (if Phoenix): `mix sobelow --verbose`
 
 ### **Phase 3: Comprehensive Testing**

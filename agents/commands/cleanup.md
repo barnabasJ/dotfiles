@@ -7,7 +7,7 @@ patterns and use **elixir-reviewer** for final validation.
 
 1. **Consult elixir-expert** for project-specific cleanup guidance
 2. **Compile with warnings as errors**:
-   `MIX_ENV=test mix compile --warnings-as-errors`
+   `mix compile --warnings-as-errors`
    - Fix all compilation issues
 3. **Run credo strict analysis**: `mix credo --strict`
    - Fix all issues including minor ones
