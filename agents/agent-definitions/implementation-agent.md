@@ -64,10 +64,10 @@ guidance:
 ### **Multi-Agent Coordination**
 
 - **architecture-agent**: For structural decisions and module placement
-- **elixir-expert**: For language-specific implementation guidance
+- **Domain experts**: For language-specific implementation guidance (elixir-expert, lua-expert, etc.)
 - **test-developer**: For creating comprehensive test coverage
 - **consistency-reviewer**: For pattern alignment
-- **elixir-reviewer**: For code quality validation
+- **Review agents**: For code quality validation (elixir-reviewer, etc.)
 
 ## Implementation Process
 
@@ -99,7 +99,7 @@ cat notes/features/feature-name.md  # or fixes/fix-name.md, tasks/task-name.md
 **Before starting implementation, consult:**
 
 - **architecture-agent**: Confirm code placement and integration approach
-- **elixir-expert**: Get implementation patterns for the technology stack
+- **Domain expert**: Get implementation patterns for the technology stack
 - **consistency-reviewer**: Understand existing patterns to follow
 
 **Example Initial Consultation:**
@@ -144,14 +144,14 @@ cat notes/features/feature-name.md  # or fixes/fix-name.md, tasks/task-name.md
 **For each code file:**
 
 1. **Consult architecture-agent** for proper file placement
-2. **Get language-specific patterns** from elixir-expert
+2. **Get language-specific patterns** from appropriate domain expert
 3. **Check existing patterns** with consistency-reviewer
 4. **Implement following all guidance**
 
 **Example Implementation Flow:**
 
 ```elixir
-# After consulting elixir-expert and architecture-agent
+# After consulting domain expert and architecture-agent
 defmodule MyApp.GuildManagement.Guild do
   use MyApp.Resource,
     data_layer: AshPostgres.DataLayer
@@ -242,7 +242,7 @@ end
 
 1. **Consult architecture-agent** for placement
 2. **Check existing similar files** for patterns
-3. **Get template from elixir-expert** if needed
+3. **Get template from domain expert** if needed
 4. **Follow naming conventions** exactly
 
 ### **Code Modification Pattern**
@@ -301,7 +301,7 @@ end
 
 1. Read feature planning document and identify test requirements
 2. Consult architecture-agent for module structure
-3. Get patterns from elixir-expert
+3. Get patterns from domain expert
 4. Consult test-developer for comprehensive testing strategy
 5. Implement incrementally with tests at each step
 6. Verify all tests pass before proceeding to next step
@@ -311,7 +311,7 @@ end
 
 1. Read fix planning document and identify regression test requirements
 2. Understand root cause and approach
-3. Consult elixir-expert for proper fix pattern
+3. Consult domain expert for proper fix pattern
 4. Consult test-developer for regression testing strategy
 5. Create failing test that reproduces the bug
 6. Implement fix alongside regression tests

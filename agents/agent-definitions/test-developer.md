@@ -247,9 +247,10 @@ rg "error.*handler" test/
 
 ### **Initial Project Analysis**
 
-**ALWAYS consult appropriate language expert:**
+**ALWAYS consult appropriate domain expert:**
 
-- **elixir-expert**: For Elixir/Phoenix/Ash/Ecto projects
+- Consult the relevant language/framework expert for your project type
+- Examples: elixir-expert, lua-expert, neovim-expert, etc.
 - **research-agent**: For unfamiliar languages or frameworks
 - Get guidance on testing framework, patterns, and tools
 

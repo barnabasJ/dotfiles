@@ -97,7 +97,7 @@ mix test 2>&1 | grep -E "(Error|Failed|Exception)" | sort | uniq -c
 
 **AFTER identifying failing tests, ALWAYS consult appropriate language expert:**
 
-- **elixir-expert**: For Elixir/Phoenix/Ash/Ecto test failures
+- **Domain experts**: For language/framework-specific test failures (elixir-expert, lua-expert, etc.)
 - **research-agent**: For unfamiliar error patterns or frameworks
 - Get expert guidance on debugging approaches and common patterns
 - Understand framework-specific failure analysis techniques
@@ -380,13 +380,13 @@ rg "@tag.*focus" test/
 ### **Pattern 1: Generator/Test Data Issues**
 
 **Problem:** Missing required fields in test data generators **Expert
-Consultation:** elixir-expert for proper generator patterns **Solution:** Update
+Consultation:** domain expert for proper generator patterns **Solution:** Update
 generators with all required fields per expert guidance
 
 ### **Pattern 5: Multiple Actions in Tests**
 
 **Problem:** Tests calling multiple actions instead of using generators for
-setup **Expert Consultation:** elixir-expert for proper test structure
+setup **Expert Consultation:** domain expert for proper test structure
 **Solution:**
 
 - Use generators for ALL setup data
@@ -416,13 +416,13 @@ mock signatures to match actual implementations
 ### **Pattern 3: State Machine Issues**
 
 **Problem:** Invalid state transitions in tests **Expert Consultation:**
-elixir-expert for Ash state machine patterns **Solution:** Follow proper
+domain expert for state machine patterns **Solution:** Follow proper
 transition sequences per expert guidance
 
 ### **Pattern 4: Authorization Issues**
 
 **Problem:** Authorization failures in test environment **Expert Consultation:**
-elixir-expert for test authorization patterns **Solution:** Use proper actor
+domain expert for test authorization patterns **Solution:** Use proper actor
 setup or bypass authorization in tests
 
 ## Critical Test Fixing Instructions

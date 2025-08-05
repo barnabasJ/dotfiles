@@ -95,7 +95,7 @@ ls -la config/
 
 **ALWAYS consult appropriate language expert for architectural guidance:**
 
-- **elixir-expert**: For Elixir/Phoenix/Ash/Ecto architectural patterns
+- **Domain experts**: For language/framework-specific architectural patterns (elixir-expert, lua-expert, etc.)
 - **research-agent**: For unfamiliar frameworks or architectural approaches
 - Get expert knowledge on framework-specific architectural best practices
 - Understand recommended patterns for the technology stack
