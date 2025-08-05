@@ -175,21 +175,23 @@ implementation agents will execute.
 - **research-agent**: Found Next.js 14 app router documentation and patterns
 ```
 
-### **Language-Specific Expertise**
+### **Domain-Specific Expertise**
 
-**ALWAYS consult elixir-expert when:**
+**ALWAYS consult appropriate domain expert:**
 
-- Feature involves Elixir, Phoenix, Ash, or Ecto
-- Need guidance on Elixir patterns and conventions
-- Working with usage_rules.md recommendations
+- Identify the relevant language/framework expert for your feature
+- Examples: elixir-expert, lua-expert, neovim-expert, chezmoi-expert, etc.
+- Consult for patterns, conventions, and best practices
+- Document all expert consultations in your plan
 
-**Example Consultation:**
+**Example Consultations:**
 
 ```markdown
 ## Agent Consultations Performed
 
 - **elixir-expert**: Consulted usage_rules.md for Phoenix LiveView patterns
-- **elixir-expert**: Researched Ash resource design and relationships
+- **lua-expert**: Researched metatables for plugin architecture
+- **neovim-expert**: Analyzed LSP integration patterns
 ```
 
 ### **Architectural Review**

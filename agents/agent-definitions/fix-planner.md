@@ -69,7 +69,7 @@ implementation agents will execute.
 #### 3. Agent Consultations Performed
 
 - **CRITICAL**: Document which agents were consulted
-- **elixir-expert**: For Elixir/Phoenix/Ash/Ecto issues and guidance
+- **Domain experts**: For language/framework-specific issues (elixir-expert, lua-expert, etc.)
 - **research-agent**: For unfamiliar error patterns or technologies
 - **security-reviewer**: For security-related issues
 - **consistency-reviewer**: For pattern-related problems
@@ -162,21 +162,22 @@ Step-by-step approach with test integration:
 
 ### **Language-Specific Issues**
 
-**ALWAYS consult elixir-expert when:**
+**ALWAYS consult appropriate domain expert:**
 
-- Issue involves Elixir, Phoenix, Ash, or Ecto code
-- Need guidance on proper Elixir patterns for fixes
-- Working with mix tools, OTP, or GenServer issues
-- Require usage_rules.md consultation
+- Identify the relevant language/framework expert for your issue
+- Examples: elixir-expert for Elixir, lua-expert for Lua, neovim-expert for Neovim
+- Get guidance on proper patterns and conventions for fixes
+- Consult documentation and best practices
 
-**Example Consultation:**
+**Example Consultations:**
 
 ```markdown
 ## Agent Consultations Performed
 
 - **elixir-expert**: Consulted usage_rules.md for proper Ecto changeset error
   handling
-- **elixir-expert**: Researched Phoenix LiveView lifecycle issues and solutions
+- **lua-expert**: Researched coroutine lifecycle issues and memory management
+- **neovim-expert**: Analyzed plugin loading order conflicts
 ```
 
 ### **Unknown Error Patterns**
