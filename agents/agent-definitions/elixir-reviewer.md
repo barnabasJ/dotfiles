@@ -73,7 +73,9 @@ changes based on your guidance.
   practices
 - **Action**: Prioritize by severity (high > normal > low)
 
-**Critical Style Check - Pipe Operator Usage:**
+**Critical Style Checks:**
+
+**Pipe Operator Usage:**
 
 - **Single function call**: Should NOT use pipe operator
 
@@ -96,6 +98,36 @@ changes based on your guidance.
   # ❌ INCORRECT
   Enum.map(list, & &1 * 2)
   |> Enum.filter(& rem(&1, 2) == 0)
+  ```
+
+**Function Ordering:**
+
+- **Private functions**: MUST be sorted in the order they are called
+
+  ```elixir
+  # ✅ CORRECT - private functions in call order
+  def public_function(data) do
+    data
+    |> validate_input()
+    |> transform_data()
+    |> save_result()
+  end
+
+  defp validate_input(data), do: # ...
+  defp transform_data(data), do: # ...
+  defp save_result(data), do: # ...
+
+  # ❌ INCORRECT - private functions out of order
+  def public_function(data) do
+    data
+    |> validate_input()
+    |> transform_data()
+    |> save_result()
+  end
+
+  defp save_result(data), do: # ...
+  defp validate_input(data), do: # ...
+  defp transform_data(data), do: # ...
   ```
 
 ### **Security Scanning (`mix deps.audit`)**
