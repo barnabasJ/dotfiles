@@ -126,17 +126,50 @@ Hooks are configured in JSON settings files:
 | `CLAUDE_PROJECT_DIR`    | Current project directory   | `/home/user/my-project` |
 | Standard shell env vars | All your normal environment | `$HOME`, `$PATH`, etc.  |
 
-### 2. Command Arguments
+### 2. Standard Input (stdin) - PRIMARY INPUT METHOD
 
-Hooks may receive arguments based on the event type:
+**Hooks receive a JSON object via stdin containing all event information.** This
+is the primary way Claude passes data to hooks.
 
-- Tool name for PreToolUse/PostToolUse events
-- File paths for file-related operations
-- Additional context from the event
+#### JSON Structure for PostToolUse Events:
 
-### 3. Standard Input (stdin)
+```json
+{
+  "session_id": "uuid",
+  "transcript_path": "/path/to/transcript.jsonl",
+  "cwd": "/current/working/directory",
+  "hook_event_name": "PostToolUse",
+  "tool_name": "Edit",
+  "tool_input": {
+    "file_path": "/path/to/edited/file.md",
+    "old_string": "original content",
+    "new_string": "new content"
+  },
+  "tool_response": {
+    "filePath": "/path/to/edited/file.md"
+    // Additional response data
+  }
+}
+```
 
-Some hooks may receive data via stdin (implementation-specific).
+#### Reading stdin in your hook:
+
+```bash
+#!/bin/bash
+# Read the complete JSON input
+INPUT=$(cat)
+
+# Parse specific fields (using jq if available)
+FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path')
+
+# Or use grep/sed for simple parsing
+FILE_PATH=$(echo "$INPUT" | grep -o '"file_path":"[^"]*"' | cut -d'"' -f4)
+```
+
+### 3. Command Arguments
+
+Hooks are called with **zero command-line arguments**. All data comes through
+stdin and environment variables.
 
 ## Output (How Hooks Communicate Back)
 
