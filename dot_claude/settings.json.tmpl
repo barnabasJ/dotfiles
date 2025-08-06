@@ -1,0 +1,19 @@
+{
+  "includeCoAuthoredBy": false,
+  "feedbackSurveyState": {
+    "lastShownTime": 1754008701811
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{{ .chezmoi.sourceDir }}/agents/hooks/format-code.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
