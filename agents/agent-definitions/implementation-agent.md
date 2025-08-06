@@ -64,7 +64,8 @@ guidance:
 ### **Multi-Agent Coordination**
 
 - **architecture-agent**: For structural decisions and module placement
-- **Domain experts**: For language-specific implementation guidance (elixir-expert, lua-expert, etc.)
+- **Domain experts**: For language-specific implementation guidance
+  (elixir-expert, lua-expert, etc.)
 - **test-developer**: For creating comprehensive test coverage
 - **consistency-reviewer**: For pattern alignment
 - **Review agents**: For code quality validation (elixir-reviewer, etc.)

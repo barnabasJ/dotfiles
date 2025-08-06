@@ -97,7 +97,8 @@ mix test 2>&1 | grep -E "(Error|Failed|Exception)" | sort | uniq -c
 
 **AFTER identifying failing tests, ALWAYS consult appropriate language expert:**
 
-- **Domain experts**: For language/framework-specific test failures (elixir-expert, lua-expert, etc.)
+- **Domain experts**: For language/framework-specific test failures
+  (elixir-expert, lua-expert, etc.)
 - **research-agent**: For unfamiliar error patterns or frameworks
 - Get expert guidance on debugging approaches and common patterns
 - Understand framework-specific failure analysis techniques
@@ -415,9 +416,9 @@ mock signatures to match actual implementations
 
 ### **Pattern 3: State Machine Issues**
 
-**Problem:** Invalid state transitions in tests **Expert Consultation:**
-domain expert for state machine patterns **Solution:** Follow proper
-transition sequences per expert guidance
+**Problem:** Invalid state transitions in tests **Expert Consultation:** domain
+expert for state machine patterns **Solution:** Follow proper transition
+sequences per expert guidance
 
 ### **Pattern 4: Authorization Issues**
 

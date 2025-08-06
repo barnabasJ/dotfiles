@@ -69,7 +69,8 @@ implementation agents will execute.
 #### 3. Agent Consultations Performed
 
 - **CRITICAL**: Document which agents were consulted
-- **Domain experts**: For language/framework-specific issues (elixir-expert, lua-expert, etc.)
+- **Domain experts**: For language/framework-specific issues (elixir-expert,
+  lua-expert, etc.)
 - **research-agent**: For unfamiliar error patterns or technologies
 - **security-reviewer**: For security-related issues
 - **consistency-reviewer**: For pattern-related problems
@@ -165,7 +166,8 @@ Step-by-step approach with test integration:
 **ALWAYS consult appropriate domain expert:**
 
 - Identify the relevant language/framework expert for your issue
-- Examples: elixir-expert for Elixir, lua-expert for Lua, neovim-expert for Neovim
+- Examples: elixir-expert for Elixir, lua-expert for Lua, neovim-expert for
+  Neovim
 - Get guidance on proper patterns and conventions for fixes
 - Consult documentation and best practices
 

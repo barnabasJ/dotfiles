@@ -64,7 +64,8 @@ implementation agents will execute.
 - **architecture-agent**: For tasks affecting file organization or module
   structure
 - **research-agent**: For unfamiliar tools or approaches
-- **Domain experts**: For language/framework-specific tasks (elixir-expert, lua-expert, etc.)
+- **Domain experts**: For language/framework-specific tasks (elixir-expert,
+  lua-expert, etc.)
 - **consistency-reviewer**: For pattern-related tasks
 - Only include consultations that add value
 
@@ -140,7 +141,8 @@ implementation agents will execute.
 **Include agent consultations when:**
 
 - Working with unfamiliar technologies
-- Task involves language/framework-specific code (consult appropriate domain expert)
+- Task involves language/framework-specific code (consult appropriate domain
+  expert)
 - Code changes that require tests (consult test-developer if complex)
 - Need to maintain consistency with existing patterns
 - Security or quality implications exist
