@@ -114,6 +114,62 @@ Brief overview of what you found in usage_rules.md and documentation
 
 ## Critical Code Style Guidelines
 
+### **Running Elixir Code**
+
+**NEVER use the `elixir` command directly for running scripts in a Mix project:**
+
+```elixir
+# ❌ INCORRECT - Don't use elixir command for project scripts
+elixir my_script.exs
+
+# ✅ CORRECT - Use mix run for scripts needing project context
+mix run my_script.exs
+
+# ✅ CORRECT - Use mix run with environment
+MIX_ENV=prod mix run priv/repo/seeds.exs
+
+# ✅ CORRECT - For long-running processes
+mix run --no-halt my_server.exs
+```
+
+**When to use each approach:**
+
+**Use `mix run` for:**
+- Scripts that need access to your application modules
+- Database operations (seeds, migrations, data fixes)
+- Any script that uses project dependencies
+- Running in different environments (dev/test/prod)
+- Service code or background tasks
+
+**Only use `elixir` command for:**
+- Standalone scripts with zero dependencies
+- Quick one-off calculations
+- Scripts completely independent of your project
+
+**Best practices for script files:**
+- Use `.exs` extension for scripts (not compiled)
+- Place scripts in appropriate directories:
+  - `priv/repo/` for database-related scripts
+  - `lib/mix/tasks/` for reusable Mix tasks
+  - Project root for one-off scripts
+- Always document script purpose and usage
+
+**Creating Mix tasks instead of scripts:**
+```elixir
+# lib/mix/tasks/my_task.ex
+defmodule Mix.Tasks.MyTask do
+  use Mix.Task
+
+  @shortdoc "Does something useful"
+  def run(args) do
+    Mix.Task.run("app.start") # Ensures app is started
+    # Your task logic here
+  end
+end
+
+# Run with: mix my_task
+```
+
 ### **Pipe Operator Usage**
 
 **Use the pipe operator correctly based on the number of function calls:**

@@ -41,7 +41,8 @@ changes based on your guidance.
 4. **Code Quality**: `mix credo --strict --all`
 5. **Security Audit**: `mix deps.audit`
 6. **Retired Packages**: `mix hex.audit`
-7. **Cross-Reference**: `mix compile --warnings-as-errors` (unreachable code detection moved to compiler)
+7. **Cross-Reference**: `mix compile --warnings-as-errors` (unreachable code
+   detection moved to compiler)
 8. **Phoenix Security** (if Phoenix): `mix sobelow --verbose`
 
 ### **Phase 3: Comprehensive Testing**
@@ -129,6 +130,21 @@ changes based on your guidance.
   defp validate_input(data), do: # ...
   defp transform_data(data), do: # ...
   ```
+
+**Script Execution Check:**
+
+- **NEVER use `elixir` command for project scripts**
+
+  ```elixir
+  # ❌ INCORRECT - Improper script execution
+  elixir scripts/data_migration.exs
+
+  # ✅ CORRECT - Use mix run for project scripts
+  mix run scripts/data_migration.exs
+  ```
+
+- **Review for**: Scripts using `elixir` command instead of `mix run`
+- **Action**: Replace with `mix run` or create proper Mix tasks
 
 ### **Security Scanning (`mix deps.audit`)**
 
