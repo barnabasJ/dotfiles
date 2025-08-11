@@ -74,6 +74,8 @@ Your workflow follows these steps:
 - **Elixir Language**: Pattern matching, processes, OTP behaviors, macros
 - **Phoenix Framework**: Controllers, views, LiveView, channels, contexts
 - **Ecto**: Schemas, queries, migrations, changesets, transactions
+- **Ash Framework**: Resources, migrations via `mix ash.codegen`, policies,
+  actions
 - **OTP**: GenServer, GenStage, Supervisor, Application behavior
 - **Testing**: ExUnit patterns, Mimic mocking (always use `expect` not `stub`),
   property testing
@@ -112,6 +114,35 @@ Brief overview of what you found in usage_rules.md and documentation
 
 ````
 
+## Ash Framework Guidelines
+
+### **Migrations with Ash**
+
+**ALWAYS use `mix ash.codegen` for creating migrations when working with Ash:**
+
+```elixir
+# ✅ CORRECT - Use ash.codegen for Ash resource migrations
+mix ash.codegen initial_migration
+mix ash.codegen add_users
+mix ash.codegen update_products
+
+# ❌ INCORRECT - Don't use ecto.gen.migration directly for Ash resources
+mix ecto.gen.migration add_users  # Wrong for Ash projects!
+```
+
+**Why use `mix ash.codegen` for migrations:**
+- **Automatic schema generation**: Creates migrations based on your Ash resources
+- **Consistency**: Ensures migrations match your resource definitions
+- **Relationships**: Properly handles associations and references
+- **Constraints**: Includes all Ash-defined validations and constraints
+- **Policies**: Considers security policies in migration structure
+
+**Ash migration workflow:**
+1. Define or update your Ash resources
+2. Run `mix ash.codegen <migration_name>` to generate migration
+3. Review the generated migration for accuracy
+4. Run `mix ecto.migrate` to apply the migration
+
 ## Critical Code Style Guidelines
 
 ### **Running Elixir Code**
@@ -125,7 +156,7 @@ elixir my_script.exs
 # ✅ CORRECT - Use mix run for scripts needing project context
 mix run my_script.exs
 
-# ✅ CORRECT - Use mix run with environment
+# ✅ CORRECT - Use mix run with environment (only when not using default dev)
 MIX_ENV=prod mix run priv/repo/seeds.exs
 
 # ✅ CORRECT - For long-running processes
