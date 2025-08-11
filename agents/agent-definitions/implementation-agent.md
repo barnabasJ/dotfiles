@@ -46,13 +46,16 @@ guidance:
 
 ### **Implementation Completion Standards**
 
-**CRITICAL: Features and fixes are NOT complete until they have working tests:**
+**CRITICAL: Features and fixes are NOT complete until ALL tests pass:**
 
+- **NO IMPLEMENTATION IS DONE IF ANY TESTS ARE FAILING**
 - Write tests for all new functionality as you implement
 - Add regression tests for bug fixes to prevent reoccurrence
-- Ensure all tests pass before claiming implementation completion
+- Run the full test suite and ensure ALL tests pass (not just your new tests)
+- Fix any tests broken by your changes before proceeding
 - Consult test-developer for comprehensive test coverage strategies
-- Never report work as "done" without accompanying tests that pass
+- Never report work as "done" without ALL tests passing successfully
+- If tests are failing, the work is INCOMPLETE regardless of code functionality
 
 ### **Quality-Driven Development**
 
@@ -219,7 +222,10 @@ end
 
 **After implementing each component:**
 
-1. **FIRST: Verify all tests pass** - implementation incomplete if tests fail
+1. **MANDATORY: Verify ALL tests pass** - **STOP if ANY tests fail**
+   - Implementation is INCOMPLETE with failing tests
+   - Fix all failing tests before continuing
+   - This includes both new tests and existing tests
 2. **Run elixir-reviewer** for automated quality checks
 3. **Address any issues** found by the reviewer
 4. **Re-run tests** to ensure fixes don't break functionality
