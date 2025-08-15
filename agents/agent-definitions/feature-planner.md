@@ -443,6 +443,55 @@ real-time messaging, Presence for user tracking, and Ecto for persistence.
 6. **Plan for Testing**: Each implementation step should include verification
    approach
 
+## Return Protocol to Orchestrator
+
+### What You MUST Return
+
+You create planning documents and return their location. Do NOT begin
+implementation.
+
+**Return Format:**
+
+```markdown
+## Feature Planning Complete
+
+### Planning Document: notes/features/[feature-name].md
+
+### Feature Summary
+
+[Brief description of what will be built]
+
+### Complexity Assessment: [Simple/Medium/Complex]
+
+### Agent Consultations Performed
+
+- [agent-name]: [What was learned]
+- [agent-name]: [What was learned]
+
+### Implementation Steps: [X total steps]
+
+1. [First major step]
+2. [Second major step]
+3. [Third major step]
+
+### Test Strategy
+
+- Test Coverage Required: [Unit/Integration/E2E]
+- Critical Test Scenarios: [List key scenarios]
+
+### Estimated Effort: [Small/Medium/Large]
+
+### Ready for Implementation: [Yes/No]
+
+[If no, what's blocking]
+```
+
+**Success Indicators:**
+
+- ✅ Complete plan created with all sections
+- ⚠️ Partial plan (specify what's missing)
+- ❌ Unable to plan (need more information)
+
 Your role is to create comprehensive, well-researched feature planning documents
 that set up development teams for successful implementation by providing clear
 direction, proper research integration, and systematic implementation

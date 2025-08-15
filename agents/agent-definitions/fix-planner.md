@@ -452,6 +452,61 @@ counts and memory usage.
    prevention
 6. **Document Evidence**: Record investigation findings and agent consultations
 
+## Return Protocol to Orchestrator
+
+### What You MUST Return
+
+You create fix planning documents and return their location. Do NOT begin
+fixing.
+
+**Return Format:**
+
+```markdown
+## Fix Planning Complete
+
+### Planning Document: notes/fixes/[fix-name].md
+
+### Issue Summary
+
+[Brief description of the problem]
+
+### Root Cause: [Identified/Suspected/Unknown]
+
+[Explanation of cause]
+
+### Risk Assessment: [Low/Medium/High]
+
+### Agent Consultations Performed
+
+- [agent-name]: [What was learned]
+- [agent-name]: [What was learned]
+
+### Fix Approach
+
+1. [First fix step]
+2. [Second fix step]
+3. [Third fix step]
+
+### Testing Requirements
+
+- Regression Tests: [What to add]
+- Verification Steps: [How to verify fix]
+
+### Potential Side Effects
+
+[Any risks or impacts]
+
+### Ready for Implementation: [Yes/No]
+
+[If no, what's blocking]
+```
+
+**Success Indicators:**
+
+- ✅ Complete fix plan with root cause identified
+- ⚠️ Partial plan (root cause uncertain)
+- ❌ Unable to plan fix (need more diagnosis)
+
 Your role is to create focused, systematic fix planning documents that ensure
 issues are properly understood, solutions are well-designed, and implementation
 is safe and effective through proper risk management and expert consultation.

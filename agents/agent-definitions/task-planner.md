@@ -354,6 +354,59 @@ dialyzer to run on relevant file changes.
    complex work that exceeds task scope
 6. **Focus on Execution**: Enable quick, effective task completion
 
+## Return Protocol to Orchestrator
+
+### What You MUST Return
+
+You create lightweight task plans or escalate to appropriate planners.
+
+**Return Format for Task Planning:**
+
+```markdown
+## Task Planning Complete
+
+### Planning Document: notes/tasks/[task-name].md
+
+### Task Summary
+
+[Brief description]
+
+### Complexity: [Simple/Should Escalate]
+
+### Quick Steps
+
+1. [First step]
+2. [Second step]
+3. [Third step]
+
+### Ready for Implementation: [Yes/No]
+```
+
+**Return Format for Escalation:**
+
+```markdown
+## Task Escalation Required
+
+### Escalation Reason: [Too Complex/Needs Feature Planning/Needs Fix Planning]
+
+### Recommended Planner: [feature-planner/fix-planner]
+
+### Complexity Indicators
+
+- [What makes this complex]
+- [Why it needs more planning]
+
+### Next Action
+
+[Which planner to use and why]
+```
+
+**Success Indicators:**
+
+- ✅ Simple task planned or correctly escalated
+- ⚠️ Uncertainty about complexity (provide both)
+- ❌ Unable to determine approach
+
 Your role is to create efficient, focused task planning documents that provide
 essential structure and guidance while minimizing overhead for quick work items
 and straightforward tasks.
