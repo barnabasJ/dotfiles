@@ -228,24 +228,39 @@ Would you like me to help create this agent definition?
 When agent outputs depend on each other:
 
 ```
+STANDARD WORKFLOW - Always include review phase:
 1. research-agent → Gather information about technology
 2. architecture-agent → Determine integration approach
 3. feature-planner → Create detailed plan
 4. implementation-agent → Execute the plan
-5. Review agents → Validate the implementation
+5. 🚀 ALL REVIEW AGENTS IN PARALLEL → Comprehensive validation
+
+⚠️ CRITICAL: Steps 1-4 build the feature, Step 5 validates it
+   Never skip the review phase!
 ```
 
-#### **Parallel Orchestration**
+#### **Parallel Orchestration - CRITICAL FOR REVIEWS**
 
-When agents can work independently:
+**ALWAYS run review agents in parallel for maximum efficiency:**
 
 ```
-Parallel execution:
+🚀 PARALLEL EXECUTION - All reviewers work simultaneously:
 ├── qa-reviewer → Test coverage analysis
 ├── security-reviewer → Security assessment
 ├── consistency-reviewer → Pattern compliance
+├── factual-reviewer → Implementation verification
+├── redundancy-reviewer → Duplication detection
 └── senior-engineer-reviewer → Strategic review
+
+⚡ All reviewers analyze the SAME code at the SAME time
 ```
+
+**Why parallel reviews are essential:**
+
+- **10x faster**: All reviews complete in the time of the slowest one
+- **Comprehensive coverage**: Each reviewer focuses on their specialty
+- **No dependencies**: Reviewers don't need each other's output
+- **Immediate insights**: Get all perspectives at once
 
 #### **Hierarchical Orchestration**
 
@@ -265,23 +280,28 @@ You (Orchestrator)
 
 ### Agent Selection Matrix
 
-| Task Type     | Primary Agent                          | Supporting Agents                                  |
-| ------------- | -------------------------------------- | -------------------------------------------------- |
-| New Feature   | feature-planner → implementation-agent | research-agent, architecture-agent, test-developer |
-| Bug Fix       | fix-planner → implementation-agent     | elixir-expert, test-fixer, qa-reviewer             |
-| Research      | research-agent                         | documentation-expert (for docs)                    |
-| Code Review   | All review agents in parallel          | factual-reviewer, qa-reviewer, security-reviewer   |
-| Documentation | documentation-expert                   | research-agent, documentation-reviewer             |
-| Testing       | test-developer or test-fixer           | qa-reviewer, elixir-expert                         |
+| Task Type     | Primary Agent Flow                                                        | Supporting Agents                                      |
+| ------------- | ------------------------------------------------------------------------- | ------------------------------------------------------ |
+| New Feature   | feature-planner → implementation-agent → **ALL REVIEWERS IN PARALLEL** 🚀 | research-agent, architecture-agent, test-developer     |
+| Bug Fix       | fix-planner → implementation-agent → **ALL REVIEWERS IN PARALLEL** 🚀     | elixir-expert, test-fixer, qa-reviewer                 |
+| Research      | research-agent                                                            | documentation-expert (for docs)                        |
+| Code Review   | **ALL REVIEWERS IN PARALLEL** 🚀                                          | **Run simultaneously for fast comprehensive analysis** |
+| Documentation | documentation-expert                                                      | research-agent, documentation-reviewer                 |
+| Testing       | test-developer or test-fixer                                              | qa-reviewer, elixir-expert                             |
 
 ### Orchestration Principles
 
 1. **Complete Delegation**: Never do technical work yourself - always use agents
-2. **Right-Sized Planning**: Match planner complexity to task complexity
-3. **Parallel When Possible**: Run independent agents simultaneously
-4. **Trust Agent Expertise**: Agents are specialists - follow their guidance
-5. **Comprehensive Coverage**: Use all relevant agents for thorough results
-6. **Clear Handoffs**: Ensure each agent knows what previous agents found
+2. **Mandatory Review Phase**: ALWAYS run all reviewers after implementation
+3. **Right-Sized Planning**: Match planner complexity to task complexity
+4. **Parallel When Possible**: Run independent agents simultaneously (especially
+   reviews!)
+5. **Trust Agent Expertise**: Agents are specialists - follow their guidance
+6. **Comprehensive Coverage**: Use all relevant agents for thorough results
+7. **Clear Handoffs**: Ensure each agent knows what previous agents found
+
+**🚨 CRITICAL RULE**: No feature or fix is complete without parallel review by
+ALL review agents!
 
 # Development Workflow
 
@@ -295,7 +315,8 @@ procedures:
 - **task.md** → Uses **task-planner** for lightweight planning
 - **add-tests.md** → Uses **test-developer** for systematic test development
 - **fix-tests.md** → Uses **test-fixer** for test failure resolution
-- **review.md** → Uses all review agents for comprehensive analysis
+- **review.md** → **RUNS ALL REVIEW AGENTS IN PARALLEL** for instant
+  comprehensive analysis
 
 ## Planning Document Creation
 
