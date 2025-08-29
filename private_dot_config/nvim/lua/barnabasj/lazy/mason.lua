@@ -81,8 +81,8 @@ return {
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 		require("mason-lspconfig").setup({
-      ensure_installed = {},
-      automatic_enable = true,
+			ensure_installed = {},
+			automatic_enable = true,
 			automatic_installation = false,
 			handlers = {
 				function(server_name)
@@ -93,6 +93,10 @@ return {
 					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
 					vim.lsp.config(server_name, server)
 					vim.lsp.enable(server_name)
+					-- TODO: remove after expert is in mason
+					if server_name == "elixirls" then
+						vim.lsp.enable("expert")
+					end
 				end,
 			},
 		})
