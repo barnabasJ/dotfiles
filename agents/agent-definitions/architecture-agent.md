@@ -287,7 +287,7 @@ recommendations for code organization.
 
 **Return Format:**
 
-````markdown
+```markdown
 ## Architectural Analysis Complete
 
 ### Integration Approach: [New Context/Existing Context/Cross-Context]
@@ -315,7 +315,7 @@ recommendations for code organization.
 ### Implementation Guidance
 
 [Specific steps for integration]
-````
+```
 
 **Success Indicators:**
 

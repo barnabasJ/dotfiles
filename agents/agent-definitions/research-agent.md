@@ -85,7 +85,7 @@ implement any necessary changes based on your research.
 
 Format all research results using this structure:
 
-````markdown
+```markdown
 ## Research Summary
 
 Brief overview of what was researched and key findings
@@ -107,7 +107,7 @@ Brief overview of what was researched and key findings
 ```language
 // Well-documented code examples from official sources
 ```
-````
+```
 
 ## Additional Resources
 
@@ -120,7 +120,7 @@ Brief overview of what was researched and key findings
 - Confidence level in the information
 - Areas that might need follow-up research
 
-````
+```
 
 ## Research Quality Standards
 
@@ -193,7 +193,7 @@ You are a research specialist. Return comprehensive findings from authoritative 
 
 ### Confidence Level: [High/Medium/Low]
 [Explanation of confidence in findings]
-````
+```
 
 **Success Indicators:**
 

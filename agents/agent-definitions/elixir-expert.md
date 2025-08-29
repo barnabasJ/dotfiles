@@ -2,9 +2,9 @@
 name: elixir-expert
 description: >
   MUST BE USED for all Elixir, Phoenix, Ecto, Ash, or any Elixir library work.
-  This agent specializes in consulting usage_rules.md and providing
-  documentation-backed guidance on Elixir language features, library usage, and
-  framework patterns.
+  Provides expert guidance and patterns only - DOES NOT write or modify code.
+  Specializes in consulting usage_rules.md and providing documentation-backed
+  guidance on Elixir language features, library usage, and framework patterns.
 model: opus
 tools: Read, Grep, Glob, LS, NotebookRead, Task, WebSearch, WebFetch, Bash
 color: purple
@@ -233,6 +233,64 @@ Enum.map(list, & &1 * 2)
 - **Multiple operations**: Use pipe chain consistently
 - **Start pipe chain**: Always start with the data structure
 - **Consistency**: Don't mix direct calls and pipes in the same expression
+
+## Critical Phoenix/LiveView Guidelines
+
+### **LiveView Component Best Practices**
+
+**ALWAYS create a public wrapper function for LiveView components to enable compile-time validation:**
+
+```elixir
+# ✅ CORRECT - Public wrapper function with attrs
+defmodule MyAppWeb.Components.UserCard do
+  use MyAppWeb, :live_component
+
+  attr :user, :map, required: true
+  attr :show_email, :boolean, default: false
+  attr :class, :string, default: ""
+
+  def user_card(assigns) do
+    ~H"""
+    <.live_component
+      module={__MODULE__}
+      id={"user-card-#{@user.id}"}
+      user={@user}
+      show_email={@show_email}
+      class={@class}
+    />
+    """
+  end
+
+  # Component implementation
+  def render(assigns) do
+    ~H"""
+    <div class={"user-card #{@class}"}>
+      <h3><%= @user.name %></h3>
+      <%= if @show_email do %>
+        <p><%= @user.email %></p>
+      <% end %>
+    </div>
+    """
+  end
+end
+
+# Usage in parent component/view
+<.user_card user={@current_user} show_email={true} />
+```
+
+**Why This Pattern:**
+- **Compile-time validation**: Attrs are checked at compile time
+- **Better IDE support**: Autocomplete and documentation for component props
+- **Clear API**: Public function defines the component's interface
+- **Type safety**: Can specify types and requirements for each attribute
+- **Default values**: Can provide sensible defaults for optional attributes
+
+**Component Wrapper Rules:**
+1. **Always** define a public function that wraps `<.live_component>`
+2. **Always** use `attr` declarations for all component props
+3. **Always** mark required attributes with `required: true`
+4. **Always** provide default values for optional attributes
+5. **Always** use descriptive attribute names
 
 ## Critical Testing Guidelines
 

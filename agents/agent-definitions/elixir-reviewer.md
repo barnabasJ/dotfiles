@@ -146,6 +146,49 @@ changes based on your guidance.
 - **Review for**: Scripts using `elixir` command instead of `mix run`
 - **Action**: Replace with `mix run` or create proper Mix tasks
 
+**LiveView Component Pattern Check:**
+
+- **ALWAYS require wrapper functions for LiveView components**
+
+  ```elixir
+  # ✅ CORRECT - Has public wrapper function with attrs
+  defmodule MyAppWeb.Components.UserCard do
+    use MyAppWeb, :live_component
+
+    attr :user, :map, required: true
+    attr :show_email, :boolean, default: false
+
+    def user_card(assigns) do
+      ~H"""
+      <.live_component
+        module={__MODULE__}
+        id={"user-card-#{@user.id}"}
+        user={@user}
+        show_email={@show_email}
+      />
+      """
+    end
+
+    def render(assigns) do
+      # Component implementation
+    end
+  end
+
+  # ❌ INCORRECT - Missing wrapper function
+  defmodule MyAppWeb.Components.UserCard do
+    use MyAppWeb, :live_component
+
+    def render(assigns) do
+      # Component implementation without wrapper
+    end
+  end
+  ```
+
+- **Review for**: LiveView components without public wrapper functions
+- **Check for**: Missing `attr` declarations for component props
+- **Action**: Add wrapper function with proper attr declarations for
+  compile-time validation
+
 ### **Security Scanning (`mix deps.audit`)**
 
 - **What it checks**: Known vulnerabilities in dependencies
