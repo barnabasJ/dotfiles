@@ -183,44 +183,48 @@ Would you like me to help create this agent definition?
   work
 - **Output**: Task planning documents in notes/tasks/
 
-### Four-Phase Workflow Specialists
+### Four-Phase Workflow Commands
 
-#### **research-orchestrator** - Comprehensive Research Coordination
+The four-phase workflow is now implemented through commands rather than agents.
+The main orchestrator performs the coordination work directly:
+
+#### **research command** - Comprehensive Research Coordination
 
 - **When to use**: For complex topics requiring multi-dimensional research
   across technical, architectural, and strategic dimensions
-- **Purpose**: Coordinates research-agent, domain experts, architecture-agent,
-  and senior-engineer-reviewer for comprehensive topic exploration
+- **Purpose**: You coordinate research-agent, domain experts,
+  architecture-agent, and senior-engineer-reviewer for comprehensive topic
+  exploration
 - **Orchestrates**: Multi-source research synthesis and strategic
   recommendations
 - **Output**: Comprehensive research documents in notes/[topic-name]/research.md
 
-#### **implementation-planner** - Strategic Implementation Planning
+#### **plan command** - Strategic Implementation Planning
 
 - **When to use**: To transform comprehensive research into detailed
   implementation strategies
-- **Purpose**: Creates strategic implementation plans with architecture
+- **Purpose**: You create strategic implementation plans with architecture
   coordination and risk management
 - **Coordinates**: architecture-agent, domain experts, senior-engineer-reviewer
   for plan validation
 - **Output**: Strategic implementation plans in notes/[topic-name]/plan.md
 
-#### **breakdown-agent** - Parallel Task Decomposition
+#### **breakdown command** - Parallel Task Decomposition
 
 - **When to use**: To break strategic plans into detailed, parallel, testable
   task structures
-- **Purpose**: Creates task breakdowns optimized for parallel execution with
+- **Purpose**: You create task breakdowns optimized for parallel execution with
   TDD/BDD integration
 - **Coordinates**: test-developer, architecture-agent, domain experts for task
   optimization
 - **Output**: Detailed task breakdowns in notes/[topic-name]/breakdown.md
 
-#### **execution-coordinator** - Parallel Implementation Management
+#### **execute command** - Parallel Implementation Management
 
 - **When to use**: To manage parallel implementation execution from detailed
   task breakdowns
-- **Purpose**: Coordinates implementation-agent, domain experts, and continuous
-  review agents for quality execution
+- **Purpose**: You coordinate implementation-agent, domain experts, and
+  continuous review agents for quality execution
 - **Manages**: Multi-stream parallel execution, progress tracking, and quality
   gate enforcement
 - **Output**: Implementation coordination with comprehensive quality validation
@@ -350,15 +354,15 @@ You (Orchestrator)
 
 ### Agent Selection Matrix
 
-| Task Type      | Primary Agent Flow                                                                                       | Supporting Agents                                                     |
-| -------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| **Four-Phase** | **research-orchestrator** → **implementation-planner** → **breakdown-agent** → **execution-coordinator** | research-agent, architecture-agent, domain experts, **ALL REVIEWERS** |
-| New Feature    | feature-planner → implementation-agent → **ALL REVIEWERS IN PARALLEL** 🚀                                | research-agent, architecture-agent, test-developer                    |
-| Bug Fix        | fix-planner → implementation-agent → **ALL REVIEWERS IN PARALLEL** 🚀                                    | elixir-expert, test-fixer, qa-reviewer                                |
-| Research       | research-agent                                                                                           | documentation-expert (for docs)                                       |
-| Code Review    | **ALL REVIEWERS IN PARALLEL** 🚀                                                                         | **Run simultaneously for fast comprehensive analysis**                |
-| Documentation  | documentation-expert                                                                                     | research-agent, documentation-reviewer                                |
-| Testing        | test-developer or test-fixer                                                                             | qa-reviewer, elixir-expert                                            |
+| Task Type      | Primary Flow                                                                                        | Supporting Agents                                                     |
+| -------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **Four-Phase** | **research** → **plan** → **breakdown** → **execute** (orchestrator performs coordination directly) | research-agent, architecture-agent, domain experts, **ALL REVIEWERS** |
+| New Feature    | feature-planner → implementation-agent → **ALL REVIEWERS IN PARALLEL** 🚀                           | research-agent, architecture-agent, test-developer                    |
+| Bug Fix        | fix-planner → implementation-agent → **ALL REVIEWERS IN PARALLEL** 🚀                               | elixir-expert, test-fixer, qa-reviewer                                |
+| Research       | research-agent                                                                                      | documentation-expert (for docs)                                       |
+| Code Review    | **ALL REVIEWERS IN PARALLEL** 🚀                                                                    | **Run simultaneously for fast comprehensive analysis**                |
+| Documentation  | documentation-expert                                                                                | research-agent, documentation-reviewer                                |
+| Testing        | test-developer or test-fixer                                                                        | qa-reviewer, elixir-expert                                            |
 
 ### Orchestration Principles
 
@@ -383,13 +387,11 @@ procedures:
 
 ### Four-Phase Workflow Commands
 
-- **research.md** → Uses **research-orchestrator** for comprehensive
-  multi-dimensional research
-- **plan.md** → Uses **implementation-planner** for strategic implementation
-  planning
-- **breakdown.md** → Uses **breakdown-agent** for detailed parallel task
-  decomposition
-- **execute.md** → Uses **execution-coordinator** for parallel implementation
+- **research.md** → Orchestrator performs comprehensive multi-dimensional
+  research coordination
+- **plan.md** → Orchestrator performs strategic implementation planning
+- **breakdown.md** → Orchestrator performs detailed parallel task decomposition
+- **execute.md** → Orchestrator performs parallel implementation coordination
   with quality gates
 
 ### Traditional Workflow Commands
