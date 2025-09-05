@@ -10,33 +10,35 @@ return {
 	opts = {
 		--Refer to: https://github.com/olimorris/codecompanion.nvim/blob/main/lua/codecompanion/config.lua
 		adapters = {
-			codellama = function()
-				return require("codecompanion.adapters").extend("ollama", {
-					schema = {
-						model = {
-							default = "codellama:latest",
+			http = {
+				codellama = function()
+					return require("codecompanion.adapters").extend("ollama", {
+						schema = {
+							model = {
+								default = "codellama:latest",
+							},
 						},
-					},
-				})
-			end,
-			deepseek = function()
-				return require("codecompanion.adapters").extend("ollama", {
-					schema = {
-						model = {
-							default = "deepseek-r1:14b",
+					})
+				end,
+				deepseek = function()
+					return require("codecompanion.adapters").extend("ollama", {
+						schema = {
+							model = {
+								default = "deepseek-r1:14b",
+							},
 						},
-					},
-				})
-			end,
-			qwen14b = function()
-				return require("codecompanion.adapters").extend("ollama", {
-					schema = {
-						model = {
-							default = "qwen2.5-coder:14b",
+					})
+				end,
+				qwen14b = function()
+					return require("codecompanion.adapters").extend("ollama", {
+						schema = {
+							model = {
+								default = "qwen2.5-coder:14b",
+							},
 						},
-					},
-				})
-			end,
+					})
+				end,
+			},
 		},
 		strategies = {
 			--NOTE: Change the adapter as required

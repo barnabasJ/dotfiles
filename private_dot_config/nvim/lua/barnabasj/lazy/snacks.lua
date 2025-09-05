@@ -43,9 +43,9 @@ return {
 		{
 			"<C-p>",
 			function()
-				Snacks.picker.smart()
+				Snacks.picker.git_files()
 			end,
-			desc = "Smart Find Files",
+			desc = "Find Git Files",
 		},
 		{
 			"<leader>,",

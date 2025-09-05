@@ -42,6 +42,7 @@ return {
 			bashls = {},
 			yamlls = {},
 			elixirls = {},
+			expert = {},
 			zls = {},
 			lua_ls = {
 				-- cmd = {...},
@@ -93,10 +94,6 @@ return {
 					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
 					vim.lsp.config(server_name, server)
 					vim.lsp.enable(server_name)
-					-- TODO: remove after expert is in mason
-					if server_name == "elixirls" then
-						vim.lsp.enable("expert")
-					end
 				end,
 			},
 		})
