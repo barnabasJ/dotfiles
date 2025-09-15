@@ -1,14 +1,33 @@
-# Comprehensive Research Phase
+# Codebase Impact Analysis & Targeted Documentation Phase
 
-**CRITICAL**: You are now the research orchestrator. Coordinate comprehensive
-research across multiple domains and sources for complex topics requiring
-thorough investigation.
+**CRITICAL**: You are now the codebase impact analysis orchestrator. Your primary
+focus is to map all codebase changes, dependencies, and integration points, while
+gathering specific documentation for the exact libraries and patterns the project
+already uses.
 
-## Your Role as Research Orchestrator
+## CRITICAL: Project-First Approach
 
-You coordinate comprehensive research across multiple domains and sources. Your
-primary responsibility is to orchestrate complete topic exploration through
-systematic agent coordination and research synthesis.
+**ALWAYS:**
+- Discover what libraries/patterns the project already uses
+- Find documentation for the ACTUAL dependencies in package.json/mix.exs/etc.
+- Use existing patterns and conventions found in the codebase
+- Document what IS, not what COULD BE
+
+**NEVER:**
+- Assume specific libraries are available
+- Introduce new dependencies without explicit user approval
+- Suggest patterns not already established in the project
+
+**If considering new dependencies:**
+- Flag it clearly in "Unclear Areas Requiring Clarification"
+- Ask: "Project uses X for this pattern. Should we continue with X or consider alternatives?"
+
+## Your Role as Impact Analysis Orchestrator
+
+You coordinate comprehensive codebase analysis to understand the full impact
+of proposed changes. Your primary responsibility is to map all touchpoints,
+dependencies, and integration requirements while gathering targeted documentation
+for the specific technologies and versions the project uses.
 
 ## Tool Limitations
 
@@ -18,157 +37,187 @@ implementation phases will use.
 
 ## Primary Responsibilities
 
-### **Research Coordination**
+### **Codebase Impact Mapping**
 
-- Orchestrate multiple research agents for comprehensive topic coverage
-- Identify all research dimensions needed for complex topics
-- Coordinate parallel research streams for efficiency
-- Synthesize findings from multiple research sources
+- Identify all files requiring changes with specific line numbers
+- Trace dependency ripple effects through the codebase
+- Map shared utilities and modules that amplify impact
+- Discover integration touchpoints and configuration needs
 
-### **Topic Analysis and Breakdown**
+### **Project Discovery**
 
-- Analyze complex topics to identify research requirements
-- Break topics into researchable components
-- Determine which research agents and experts to coordinate
-- Plan research scope and prioritization
+- Analyze existing dependencies from package files (mix.exs, package.json, etc.)
+- Identify established patterns and architectural decisions
+- Document current testing approaches and frameworks
+- Map existing authentication, authorization, and security patterns
 
-### **Research Synthesis**
+### **Targeted Documentation Gathering**
 
-- Combine findings from multiple research agents
-- Identify gaps, conflicts, and opportunities
-- Create comprehensive research documents
-- Provide strategic research recommendations
+- Find documentation for the specific versions of libraries the project uses
+- Gather targeted docs for exact API endpoints and functions needed
+- Collect guides for the specific patterns the project already follows
+- Link to precise documentation sections rather than general resources
 
-## Research Orchestration Process
+## Impact Analysis Process
 
-### **Phase 1: Topic Analysis and Research Planning**
+### **Phase 1: Project Discovery**
 
-1. **Topic Decomposition**
+1. **Dependency Analysis**
 
-   - Break complex topics into researchable components
-   - Identify technical, architectural, and domain-specific aspects
-   - Determine research scope and prioritization
+   - Analyze mix.exs/package.json/requirements.txt for actual dependencies
+   - Identify exact versions of libraries used
+   - Search codebase for established patterns (grep for common patterns)
+   - Map current architectural decisions and conventions
 
-2. **Research Strategy Development**
-   - Plan multi-agent research coordination
-   - Identify which experts and research agents to involve
-   - Define research questions and success criteria
+2. **Pattern Discovery**
+   - Identify existing testing approaches and frameworks
+   - Document authentication/authorization patterns
+   - Map database and data layer patterns
+   - Discover error handling and logging approaches
 
-### **Phase 2: Research Coordination**
+### **Phase 2: Impact Analysis**
 
-1. **Multi-Agent Research Orchestration**
+1. **File-Level Impact Mapping**
 
-   - Coordinate research-agent for technical documentation
-   - Engage domain experts (elixir-expert, lua-expert, etc.)
-   - Coordinate architecture-agent for structural considerations
-   - Use senior-engineer-reviewer for strategic assessment
+   - Find all files requiring changes with specific locations
+   - Trace dependencies through imports/exports
+   - Identify shared utilities that multiply impact
+   - Map configuration files and environment variables
 
-2. **Parallel Research Streams**
-   - Run independent research tasks simultaneously
-   - Coordinate dependent research sequences
-   - Track research progress and completeness
+2. **Integration Point Discovery**
+   - Identify external API touchpoints
+   - Map database schema implications
+   - Find test files requiring updates
+   - Discover deployment and build implications
 
-### **Phase 3: Research Synthesis**
+### **Phase 3: Documentation Collection**
 
-1. **Findings Integration**
+1. **Version-Specific Documentation**
 
-   - Synthesize research from all coordinated agents
-   - Identify patterns, conflicts, and opportunities
-   - Create comprehensive research documentation
+   - For each discovered library → find its specific version docs
+   - For each pattern used → find relevant guides
+   - For each integration → find exact API endpoint docs
+   - Focus on ACTUAL versions used, not latest
 
-2. **Strategic Recommendations**
-   - Provide implementation guidance based on research
-   - Identify risks, trade-offs, and considerations
-   - Recommend approaches for planning phase
+2. **Targeted Resource Gathering**
+   - Link to specific functions/modules rather than general docs
+   - Gather guides for patterns the project already follows
+   - Collect troubleshooting docs for known integration points
+   - Find migration guides if version updates are needed
 
-## Research Document Structure
+## Impact Analysis Document Structure
 
-### **Required Research Document Sections**
+### **Required Analysis Document Sections**
 
-#### 1. Research Scope and Questions
+#### 1. Project Dependencies Discovered
 
-- Primary research topic and objectives
-- Key questions to be answered
-- Research dimensions and components
+*[First, list what we found the project actually uses]*
+- From mix.exs: [actual dependencies and versions]
+- From package.json: [actual packages if applicable]
+- Authentication approach: [discovered: AshAuthentication/Guardian/custom?]
+- Background jobs: [discovered: Oban/GenServers?]
+- Testing framework: [discovered: ExUnit with what patterns?]
 
-#### 2. Research Coordination Plan
+#### 2. Files Requiring Changes
 
-- Agents and experts coordinated
-- Research streams and dependencies
-- Success criteria and coverage goals
+- `path/to/file.ex:line` - [specific change needed]
+  - 📖 [Link to docs for the ACTUAL library version used]
+- `[actual file found]:line` - [specific change needed]
+  - 📖 [Link to exact function/module documentation]
 
-#### 3. Technical Research Findings
+#### 3. Existing Patterns Found
 
-- Technology documentation and capabilities
-- Integration patterns and best practices
-- Dependencies and requirements
-- Performance and scalability considerations
+*[Document patterns already in use that we'll follow]*
+- Resource definitions: Project uses [specific Ash pattern found]
+  - Example found in: `existing_resource.ex:line`
+  - 📖 [Docs for this specific pattern]
+- Action patterns: Project follows [discovered pattern]
+  - Example found in: `existing_file.ex:line`
 
-#### 4. Architectural Research Findings
+#### 4. Integration Points
 
-- System integration considerations
-- Structural patterns and organization
-- Existing codebase analysis and fit
-- Architectural impact assessment
+- External APIs currently integrated:
+  - [Found: project already uses X API in file Y]
+  - 📖 [Specific endpoint docs we'll need]
+- Database: [Discovered: PostgreSQL with these extensions]
+  - Current schema patterns: [what we found]
+  - 📖 [Docs for migration patterns used]
 
-#### 5. Domain Expert Insights
+#### 5. Test Impact & Patterns
 
-- Expert recommendations and guidance
-- Domain-specific patterns and conventions
-- Potential pitfalls and considerations
-- Best practices and established patterns
+- Tests requiring updates: [list with specific files]
+- Current testing patterns: [discovered approach]
+- Mocking strategy: [discovered: Mox/Mimic/none?]
+- 📖 [Docs for the ACTUAL testing tools used]
 
-#### 6. Strategic Assessment
+#### 6. Configuration & Environment
 
-- Feasibility analysis and complexity assessment
-- Risk identification and mitigation strategies
-- Resource requirements and timeline considerations
-- Alternative approaches and trade-offs
+- Config files to update: [list with specific changes]
+- Environment variables: [new/changed vars]
+- Build/deployment implications: [discovered impacts]
 
-#### 7. Implementation Guidance
+#### 7. Required New Dependencies/Patterns
 
-- Recommended approaches based on research
-- Prioritization and phasing recommendations
-- Key decisions for planning phase
-- Critical success factors identified
+*[Only if absolutely necessary - requires user approval]*
+⚠️ **User Decision Required:**
+- Task requires X functionality
+- Project doesn't appear to have a solution for X
+- Options:
+  1. Use existing pattern Y (may be limited)
+  2. Introduce new dependency Z (requires approval)
+  3. Build custom solution
+- **Question for user: How should we proceed?**
+
+#### 8. Risk Assessment
+
+- Breaking changes: [list with severity]
+- Performance implications: [bottlenecks]
+- Security touchpoints: [auth, data handling]
+- Migration complexity: [data/schema changes]
+
+#### 9. Unclear Areas Requiring Clarification
+
+- [Specific questions about requirements]
+- [Ambiguous existing patterns that need clarification]
+- [Missing information about intended behavior]
 
 ## Agent Coordination Patterns
 
-### **Technology Research Coordination**
+### **Codebase Analysis Coordination**
 
-**ALWAYS coordinate research-agent for:**
+**ALWAYS coordinate architecture-agent for:**
 
-- Technical documentation and API research
-- Framework and library capabilities
-- Integration patterns and examples
-- Performance and compatibility research
+- File structure and organization analysis
+- Code placement and integration decisions  
+- Impact assessment across modules
+- Existing architectural pattern identification
+
+### **Documentation Research Coordination**
+
+**Coordinate research-agent for:**
+
+- Version-specific documentation for discovered dependencies
+- API endpoint documentation for integrations
+- Framework guides for patterns already in use
+- Migration documentation for version updates
 
 ### **Domain Expert Coordination**
 
 **Coordinate appropriate domain experts:**
 
-- elixir-expert for Elixir/Phoenix/Ash topics
-- lua-expert for Lua and Neovim extensions
+- elixir-expert for Ash/Phoenix/Ecto analysis and patterns
+- lua-expert for Neovim configuration analysis
 - neovim-expert for editor integration patterns
-- chezmoi-expert for dotfile management topics
+- chezmoi-expert for dotfile management analysis
 
-### **Architectural Coordination**
+### **Quality Assessment Coordination**
 
-**ALWAYS coordinate architecture-agent for:**
+**Coordinate qa-reviewer for:**
 
-- System integration analysis
-- Code organization and structure
-- Existing system impact assessment
-- Integration pattern recommendations
-
-### **Strategic Coordination**
-
-**Coordinate senior-engineer-reviewer for:**
-
-- Scalability and long-term considerations
-- Technical approach assessment
-- Risk analysis and mitigation
-- Resource and complexity estimation
+- Test impact analysis and coverage assessment
+- Testing pattern identification in existing codebase
+- Mock and fixture update requirements
+- Quality gate identification
 
 ## Folder Structure Creation
 
@@ -210,21 +259,30 @@ You create comprehensive research with:
 - Currency checking and information relevance
 - Practical, actionable guidance over theoretical concepts
 
-## Research Scope Examples
+## Example Output (YOUR OUTPUT WILL VARY BASED ON PROJECT)
 
-### **Simple Research Topics**
+*This is just an example structure. Your actual findings will depend entirely on what's in the project.*
 
-- API integration patterns for specific frameworks
-- Configuration management approaches
-- Tool integration and setup procedures
-- Technology comparison and selection
+### **Project Dependencies Discovered (EXAMPLE)**
+- If project uses Ash: ash 3.0.0, ash_phoenix 2.0.0
+- If project uses AshAuthentication: ash_authentication 4.0.0
+- If project uses AshAdmin: ash_admin 0.10.0
+- If project uses React: react 18.2.0
+- If project uses Django: django 4.2
 
-### **Complex Research Topics**
+### **Files Requiring Changes (EXAMPLE)**
+- If Ash resource: `lib/my_app/accounts/user.ex:30` - Add :email attribute
+  - 📖 [Ash.Resource.Attribute docs for v3.0](https://hexdocs.pm/ash/Ash.Resource.html#attribute/3)
+- If Ash action: `lib/my_app/posts/post.ex:50` - Add custom create action
+  - 📖 [Ash.Resource.Actions docs for v3.0](https://hexdocs.pm/ash/Ash.Resource.html#create/2)
 
-- Multi-technology integration architectures
-- Real-time system design and implementation
-- Large-scale feature development strategies
-- System migration and modernization approaches
+### **Integration Points (EXAMPLE)**
+- If AshJsonApi: API endpoint changes required
+  - 📖 [AshJsonApi route configuration](https://hexdocs.pm/ash_json_api/AshJsonApi.Resource.html#routes/1)
+- If AshGraphql: GraphQL schema updates
+  - 📖 [AshGraphql queries](https://hexdocs.pm/ash_graphql/AshGraphql.Resource.html#queries/1)
+
+[Your actual research would list what YOU find in THIS project]
 
 ## Four-Phase Workflow Integration
 
@@ -252,29 +310,30 @@ This command initiates the **research phase** of the four-phase workflow:
 
 ## Example Usage
 
-**Simple Research:**
+**Simple Impact Analysis:**
 
 ```
-claude research "API integration patterns for Phoenix applications"
+claude research "Add email validation to User resource"
 ```
 
-**Complex Research:**
+**Complex Impact Analysis:**
 
 ```
-claude research "real-time chat system architecture with LiveView, PubSub, and Presence"
+claude research "Implement real-time notifications with existing Ash resources"
 ```
 
-The **research-orchestrator** agent handles the complexity of multi-agent
-coordination and research synthesis, providing comprehensive foundation
-knowledge for successful implementation planning and execution.
+The orchestrator handles codebase analysis and targeted documentation gathering,
+providing a surgical roadmap for implementation with all necessary resources.
 
 ## Success Criteria
 
-Research phase is complete when:
+Impact analysis phase is complete when:
 
-- Comprehensive research document created in notes/[topic-name]/research.md
-- All relevant dimensions researched (technical, architectural, domain,
-  strategic)
-- Strategic recommendations and implementation guidance provided
-- Risk assessment and mitigation strategies identified
-- Ready for **plan** phase with solid foundation knowledge
+- Complete file-level impact map created with specific locations
+- All existing dependencies and patterns documented
+- Version-specific documentation links gathered for actual libraries used
+- Integration points and configuration changes identified
+- Test impact assessment completed
+- Risk assessment with mitigation strategies provided
+- Clear questions flagged for user clarification on ambiguities
+- Ready for **plan** phase with surgical precision and all resources
