@@ -157,22 +157,30 @@ implementation agents will execute.
 - Complex features need comprehensive guides
 - New concepts or workflows are introduced
 
-### **Technology Research Phase**
+### **Codebase Impact Analysis Phase**
 
-**ALWAYS consult research-agent when:**
+**ALWAYS use research command for:**
 
-- Working with unfamiliar frameworks or libraries
-- Need to understand API documentation
-- Researching best practices for new technologies
-- Investigating integration patterns
+- Complex features requiring codebase impact analysis
+- Features needing existing pattern discovery
+- Third-party service integrations requiring detection and documentation
+- Understanding current project dependencies and conventions
 
-**Example Consultation:**
+**The research command now provides:**
+- File-level impact mapping with specific line references
+- Existing pattern discovery from the actual codebase
+- Third-party integration detection with targeted documentation
+- Project-first approach using discovered dependencies
+
+**Example Impact Analysis Results:**
 
 ```markdown
-## Agent Consultations Performed
+## Research Command Output Used
 
-- **research-agent**: Researched React 19 features and server components
-- **research-agent**: Found Next.js 14 app router documentation and patterns
+- **Existing Patterns**: Found authentication pattern in `lib/app/accounts/user.ex:45-67`
+- **Dependencies**: Project uses Ash 3.0.1 with specific resource patterns
+- **Third-Party Detection**: Detected need for Stripe integration with payment processing
+- **Impact Analysis**: 12 files need changes, 3 new modules required
 ```
 
 ### **Domain-Specific Expertise**
@@ -225,13 +233,13 @@ implementation agents will execute.
    - Identify which expert agents to consult
    - Plan research phase if needed
 
-### **Phase 2: Research and Consultation**
+### **Phase 2: Impact Analysis and Consultation**
 
-1. **Technology Research**
+1. **Codebase Impact Analysis**
 
-   - Use research-agent for unfamiliar tech
-   - Gather documentation and best practices
-   - Understand integration requirements
+   - Use research command for codebase impact mapping
+   - Discover existing patterns and dependencies
+   - Identify third-party integration requirements with targeted documentation
 
 2. **Expert Consultation**
    - Consult language experts (elixir-expert, etc.)

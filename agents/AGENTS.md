@@ -188,36 +188,35 @@ Would you like me to help create this agent definition?
 The four-phase workflow is now implemented through commands rather than agents.
 The main orchestrator performs the coordination work directly:
 
-#### **research command** - Comprehensive Research Coordination
+#### **research command** - Codebase Impact Analysis & Third-Party Integration Detection
 
-- **When to use**: For complex topics requiring multi-dimensional research
-  across technical, architectural, and strategic dimensions
-- **Purpose**: You coordinate research-agent, domain experts,
-  architecture-agent, and senior-engineer-reviewer for comprehensive topic
-  exploration
-- **Orchestrates**: Multi-source research synthesis and strategic
-  recommendations
-- **Output**: Comprehensive research documents in notes/[topic-name]/research.md
+- **When to use**: For complex features requiring codebase impact analysis and
+  third-party service integration
+- **Purpose**: You coordinate codebase impact mapping, existing pattern discovery,
+  third-party integration detection, and targeted documentation gathering
+- **Orchestrates**: Project-first analysis, file-level impact mapping, service
+  detection, and targeted documentation links
+- **Output**: Codebase impact analysis documents in notes/[topic-name]/research.md
 
 #### **plan command** - Strategic Implementation Planning
 
-- **When to use**: To transform comprehensive research into detailed
-  implementation strategies
-- **Purpose**: You create strategic implementation plans with architecture
-  coordination and risk management
+- **When to use**: To transform codebase impact analysis into detailed
+  feature specifications and implementation strategies
+- **Purpose**: You create detailed feature specifications using discovered patterns,
+  third-party integration plans, and architectural guidance
 - **Coordinates**: architecture-agent, domain experts, senior-engineer-reviewer
-  for plan validation
-- **Output**: Strategic implementation plans in notes/[topic-name]/plan.md
+  for plan validation using existing project patterns
+- **Output**: Detailed implementation plans in notes/[topic-name]/plan.md
 
 #### **breakdown command** - Parallel Task Decomposition
 
-- **When to use**: To break strategic plans into detailed, parallel, testable
-  task structures
-- **Purpose**: You create task breakdowns optimized for parallel execution with
-  TDD/BDD integration
+- **When to use**: To break strategic plans into numbered checklist task structures
+  with granular implementation steps
+- **Purpose**: You create numbered checklists with detailed substeps (e.g., Ash resource
+  creation), file references, documentation links, and commit instructions
 - **Coordinates**: test-developer, architecture-agent, domain experts for task
-  optimization
-- **Output**: Detailed task breakdowns in notes/[topic-name]/breakdown.md
+  optimization and detailed implementation guidance
+- **Output**: Numbered checklist breakdowns in notes/[topic-name]/breakdown.md
 
 #### **execute command** - Parallel Implementation Management
 
@@ -276,10 +275,10 @@ implementation:
 
 ```
 FOUR-PHASE WORKFLOW - Complete topic development:
-1. research-orchestrator → Comprehensive multi-dimensional research
-2. implementation-planner → Strategic implementation planning
-3. breakdown-agent → Detailed parallel task decomposition
-4. execution-coordinator → Parallel implementation with quality gates
+1. research command → Codebase impact analysis with third-party detection
+2. plan command → Feature specifications using discovered patterns
+3. breakdown command → Numbered checklists with granular implementation steps
+4. execute command → Parallel implementation with quality gates
 
 📁 Output: notes/[topic-name]/ folder with complete documentation
    ├── research.md     (Phase 1)

@@ -43,14 +43,15 @@ into detailed, executable tasks.
 
 ## Your Implementation Planning Process
 
-### **Phase 1: Research Analysis and Planning Foundation**
+### **Phase 1: Impact Analysis Review and Planning Foundation**
 
-1. **Research Review and Analysis**
+1. **Codebase Impact Analysis Review**
 
-   - Read and analyze research findings from notes/[topic-name]/research.md
-   - Extract key technical insights and architectural requirements
-   - Identify implementation constraints and opportunities
-   - Validate research completeness for planning needs
+   - Read and analyze impact analysis from notes/[topic-name]/research.md
+   - Extract existing patterns, dependencies, and architectural conventions
+   - Identify file-level changes and integration points discovered
+   - Review third-party integration detection and documentation links
+   - Validate impact analysis completeness for detailed planning
 
 2. **Initial Architecture Consultation**
    - Coordinate architecture-agent for structural guidance
@@ -58,20 +59,29 @@ into detailed, executable tasks.
    - Define integration patterns and organizational structure
    - Establish architectural principles for implementation
 
-### **Phase 2: Strategic Implementation Design**
+### **Phase 2: Feature Specification and Implementation Design**
 
-1. **Implementation Strategy Development**
+1. **Detailed Feature Specification**
 
-   - Design comprehensive implementation approach
-   - Define implementation phases and milestone structure
-   - Plan integration sequences and dependencies
-   - Create quality assurance and validation strategy
+   - Design feature behavior using discovered existing patterns
+   - Specify API contracts and data flow based on project conventions
+   - Detail third-party integrations with specific SDK usage patterns
+   - Define state management and error handling approaches
+   - Create user stories with acceptance criteria
 
-2. **Expert Consultation and Validation**
-   - Coordinate domain experts for implementation patterns
+2. **Technical Design Using Existing Patterns**
+
+   - Use discovered patterns as templates for new implementation
+   - Extend existing modules following project conventions
+   - Plan data model changes using current schema patterns
+   - Design integration points following established approaches
+   - Specify configuration and environment changes needed
+
+3. **Expert Consultation and Pattern Validation**
+   - Coordinate domain experts to validate pattern usage
    - Coordinate senior-engineer-reviewer for strategic validation
-   - Integrate expert guidance into implementation strategy
-   - Validate approach against best practices and constraints
+   - Ensure new design follows discovered project conventions
+   - Validate third-party integration approach against best practices
 
 ### **Phase 3: Implementation Plan Creation**
 
@@ -218,13 +228,36 @@ The **implementation-planner** agent creates plans with:
 
 ### **Core Sections**
 
-- **Research Foundation**: Analysis and strategic decisions
-- **Implementation Strategy**: Primary approach and alternatives
-- **Technical Architecture**: System design and integration patterns
+- **Impact Analysis Summary**: Codebase changes and existing patterns discovered
+- **Feature Specification**: Detailed behavior, user stories, and acceptance criteria
+- **Technical Design**: Data models, API contracts, and integration details using existing patterns
+- **Third-Party Integrations**: Specific SDK usage, authentication, and webhook handling
+- **Implementation Strategy**: Primary approach following discovered project conventions
 - **Agent Consultations**: Architecture and expert guidance received
 - **Implementation Phases**: Clear phases with objectives and success criteria
-- **Quality and Testing Strategy**: Comprehensive validation approaches
+- **Quality and Testing Strategy**: Test approach using discovered testing patterns
 - **Success Criteria**: Measurable outcomes and acceptance criteria
+
+### **Example Plan Output Structure**
+
+```markdown
+## Feature Specification
+- User Stories with acceptance criteria
+- API contracts and data flow
+- State management requirements
+- Integration points with existing systems
+
+## Technical Design
+- Using existing pattern from `lib/app/accounts/user.ex:45-67`
+- Extending current authentication module with new capabilities
+- Third-party integration via Stripe Payment Intents API
+- Data model following current Ash resource patterns from `lib/app/accounts/resources/user.ex`
+
+## Implementation Strategy
+- Phase 1: Core resource creation following `existing_resource.ex` pattern
+- Phase 2: Integration setup using discovered authentication approach
+- Phase 3: Testing using current project test patterns from `test/app/accounts/`
+```
 
 ### **Phase Organization**
 

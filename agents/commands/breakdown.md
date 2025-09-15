@@ -227,12 +227,12 @@ The **breakdown-agent** creates breakdowns with:
 ### **Core Sections**
 
 - **Implementation Plan Summary**: Strategic plan overview and objectives
-- **Task Hierarchy and Dependencies**: Complete breakdown with relationships
+- **Implementation Instructions**: Commit requirements and progress tracking
+- **Implementation Checklist**: Numbered tasks with detailed substeps
 - **TDD/BDD Integration Plan**: Test-first requirements and methodology
-- **Parallel Execution Strategy**: Stream optimization and coordination
-- **Task Specifications**: Detailed requirements for each task
+- **Task Specifications**: File references, documentation links, and implementation details
 - **Quality Assurance Plan**: Testing and validation approaches
-- **Execution Coordination Plan**: Progress tracking and agent coordination
+- **Progress Tracking**: Checklist management and execution coordination
 
 ### **Parallel Execution Streams**
 
@@ -243,24 +243,58 @@ The **breakdown-agent** creates breakdowns with:
 
 ### **Task Structure**
 
-Each task includes:
+Each numbered task includes:
 
-- **Objective**: Clear, measurable goal
-- **Test Requirements**: TDD/BDD specifications
-- **Dependencies**: Prerequisites and blockers
-- **Success Criteria**: Verification and acceptance
-- **Effort Estimate**: Complexity and resource requirements
+- **Numbered Checklist Format**: `1. [ ] Task Name` with substeps `1.1. [ ] Substep`
+- **File References**: Specific paths from impact analysis (e.g., `lib/app/resources/user.ex:45`)
+- **Documentation Links**: Direct links to relevant docs (📖 [Link Name](URL))
+- **Implementation Details**: Specific code patterns and configuration
+- **Test Requirements**: TDD/BDD specifications for each substep
+- **Commit Message**: Suggested message after completing all substeps
+- **Effort Estimate**: Time estimate for the complete task
+
+### **Example Task Checklist Format**
+
+```markdown
+## Implementation Instructions
+
+**IMPORTANT**: After completing each numbered step, commit your changes with the suggested commit message. This ensures clean history and easy rollback if needed.
+
+### Implementation Checklist
+
+1. [ ] **Add Payment Processing Resource** [2 hours]
+   1.1. [ ] Create lib/app/payments/resources/payment.ex
+        - Follow pattern from `lib/app/accounts/resources/user.ex:12-45`
+        - Add ash_postgres data layer config
+        - 📖 [Ash Resource DSL](https://hexdocs.pm/ash/Ash.Resource.Dsl.html)
+   1.2. [ ] Add payment attributes (amount, currency, stripe_id)
+        - 📖 [Ash Attributes](https://hexdocs.pm/ash/attributes.html)
+   1.3. [ ] Create payment actions (get_by_intent_id, process_payment)
+        - Pattern: `lib/app/accounts/resources/user.ex:89`
+
+   📝 **Commit**: `feat(payments): add payment resource with Stripe integration support`
+
+2. [ ] **Configure Stripe Integration** [1 hour]
+   2.1. [ ] Add stripity_stripe dependency to mix.exs
+   2.2. [ ] Configure API keys in runtime.exs
+        - Follow pattern from `config/runtime.exs:34-45`
+   2.3. [ ] Create webhook endpoint in router
+        - Add to `lib/app_web/router.ex:67`
+
+   📝 **Commit**: `feat(stripe): add SDK configuration and webhook endpoint`
+```
 
 ## Success Criteria
 
 Breakdown phase is complete when:
 
-- Detailed task breakdown created in notes/[topic-name]/breakdown.md
-- All tasks designed for parallel execution with clear dependencies
+- Numbered checklist breakdown created in notes/[topic-name]/breakdown.md
+- Each task includes specific file references and documentation links
+- Commit messages provided for each numbered step
+- All tasks designed with detailed substeps for independent execution
 - TDD/BDD methodology integrated throughout task structure
-- Quality gates and verification approaches defined
-- Agent coordination and resource optimization planned
-- Ready for **execute** phase with comprehensive execution roadmap
+- Implementation instructions clearly specify commit workflow
+- Ready for **execute** phase with trackable progress structure
 
 The **breakdown-agent** transforms strategic implementation plans into detailed,
 executable task structures that enable efficient parallel implementation while
