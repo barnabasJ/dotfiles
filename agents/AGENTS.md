@@ -208,7 +208,7 @@ The main orchestrator performs the coordination work directly:
   for plan validation using existing project patterns
 - **Output**: Detailed implementation plans in notes/[topic-name]/plan.md
 
-#### **breakdown command** - Parallel Task Decomposition
+#### **breakdown command** - Task Decomposition
 
 - **When to use**: To break strategic plans into numbered checklist task structures
   with granular implementation steps
@@ -218,15 +218,13 @@ The main orchestrator performs the coordination work directly:
   optimization and detailed implementation guidance
 - **Output**: Numbered checklist breakdowns in notes/[topic-name]/breakdown.md
 
-#### **execute command** - Parallel Implementation Management
+#### **execute command** - Implementation Execution
 
-- **When to use**: To manage parallel implementation execution from detailed
-  task breakdowns
-- **Purpose**: You coordinate implementation-agent, domain experts, and
-  continuous review agents for quality execution
-- **Manages**: Multi-stream parallel execution, progress tracking, and quality
-  gate enforcement
-- **Output**: Implementation coordination with comprehensive quality validation
+- **When to use**: To implement the detailed task breakdown systematically
+- **Purpose**: You work through the breakdown checklist while consulting agents
+  for guidance and expertise
+- **Approach**: Sequential task execution with agent consultation for guidance
+- **Output**: Working implementation following the breakdown specifications
 
 ### Architecture & Implementation Specialists
 
@@ -278,7 +276,7 @@ FOUR-PHASE WORKFLOW - Complete topic development:
 1. research command → Codebase impact analysis with third-party detection
 2. plan command → Feature specifications using discovered patterns
 3. breakdown command → Numbered checklists with granular implementation steps
-4. execute command → Parallel implementation with quality gates
+4. execute command → Sequential implementation following breakdown checklist
 
 📁 Output: notes/[topic-name]/ folder with complete documentation
    ├── research.md     (Phase 1)
@@ -392,8 +390,8 @@ directly:
   architecture-agent and domain experts
 - **breakdown.md** → You create detailed task breakdowns while consulting
   architecture-agent and test-developer
-- **execute.md** → You coordinate parallel implementation while consulting all
-  relevant agents
+- **execute.md** → You implement tasks sequentially while consulting relevant
+  agents for guidance
 
 ### Traditional Workflow Commands
 
