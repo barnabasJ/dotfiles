@@ -167,6 +167,7 @@ implementation agents will execute.
 - Understanding current project dependencies and conventions
 
 **The research command now provides:**
+
 - File-level impact mapping with specific line references
 - Existing pattern discovery from the actual codebase
 - Third-party integration detection with targeted documentation
@@ -177,9 +178,11 @@ implementation agents will execute.
 ```markdown
 ## Research Command Output Used
 
-- **Existing Patterns**: Found authentication pattern in `lib/app/accounts/user.ex:45-67`
+- **Existing Patterns**: Found authentication pattern in
+  `lib/app/accounts/user.ex:45-67`
 - **Dependencies**: Project uses Ash 3.0.1 with specific resource patterns
-- **Third-Party Detection**: Detected need for Stripe integration with payment processing
+- **Third-Party Detection**: Detected need for Stripe integration with payment
+  processing
 - **Impact Analysis**: 12 files need changes, 3 new modules required
 ```
 
@@ -487,7 +490,7 @@ implementation.
 - Test Coverage Required: [Unit/Integration/E2E]
 - Critical Test Scenarios: [List key scenarios]
 
-### Estimated Effort: [Small/Medium/Large]
+### Implementation Complexity: [Simple/Moderate/Complex]
 
 ### Ready for Implementation: [Yes/No]
 

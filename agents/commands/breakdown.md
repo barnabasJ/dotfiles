@@ -254,7 +254,7 @@ Each numbered task includes:
 - **Implementation Details**: Specific code patterns and configuration
 - **Test Requirements**: TDD/BDD specifications for each substep
 - **Commit Message**: Suggested message after completing all substeps
-- **Effort Estimate**: Time estimate for the complete task
+- **Implementation Notes**: Additional context and considerations for the task
 
 ### **Example Task Checklist Format**
 
@@ -267,7 +267,7 @@ needed.
 
 ### Implementation Checklist
 
-1. [ ] **Add Payment Processing Resource** [2 hours] 1.1. [ ] Create
+1. [ ] **Add Payment Processing Resource** 1.1. [ ] Create
        lib/app/payments/resources/payment.ex - Follow pattern from
        `lib/app/accounts/resources/user.ex:12-45` - Add ash_postgres data layer
        config - 📖
@@ -280,10 +280,10 @@ needed.
    📝 **Commit**:
    `feat(payments): add payment resource with Stripe integration support`
 
-2. [ ] **Configure Stripe Integration** [1 hour] 2.1. [ ] Add stripity_stripe
-       dependency to mix.exs 2.2. [ ] Configure API keys in runtime.exs - Follow
-       pattern from `config/runtime.exs:34-45` 2.3. [ ] Create webhook endpoint
-       in router - Add to `lib/app_web/router.ex:67`
+2. [ ] **Configure Stripe Integration** 2.1. [ ] Add stripity_stripe dependency
+       to mix.exs 2.2. [ ] Configure API keys in runtime.exs - Follow pattern
+       from `config/runtime.exs:34-45` 2.3. [ ] Create webhook endpoint in
+       router - Add to `lib/app_web/router.ex:67`
 
    📝 **Commit**: `feat(stripe): add SDK configuration and webhook endpoint`
 ```
