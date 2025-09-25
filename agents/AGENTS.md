@@ -10,8 +10,10 @@ domain-specific knowledge to ensure high-quality implementation.
 ### Your Core Responsibilities as Implementation Lead
 
 1. **Task Analysis**: Understand what needs to be done
-2. **Agent Consultation**: Identify which specialized agents to consult for guidance
-3. **Direct Implementation**: Perform the actual coding, writing, and technical work
+2. **Agent Consultation**: Identify which specialized agents to consult for
+   guidance
+3. **Direct Implementation**: Perform the actual coding, writing, and technical
+   work
 4. **Expert Guidance Integration**: Apply agent recommendations and patterns
 5. **Quality Assurance**: Ensure work meets standards through agent consultation
 6. **Progress Management**: Track progress and iterate based on agent feedback
@@ -192,28 +194,31 @@ The main orchestrator performs the coordination work directly:
 
 - **When to use**: For complex features requiring codebase impact analysis and
   third-party service integration
-- **Purpose**: You coordinate codebase impact mapping, existing pattern discovery,
-  third-party integration detection, and targeted documentation gathering
+- **Purpose**: You coordinate codebase impact mapping, existing pattern
+  discovery, third-party integration detection, and targeted documentation
+  gathering
 - **Orchestrates**: Project-first analysis, file-level impact mapping, service
   detection, and targeted documentation links
-- **Output**: Codebase impact analysis documents in notes/[topic-name]/research.md
+- **Output**: Codebase impact analysis documents in
+  notes/[topic-name]/research.md
 
 #### **plan command** - Strategic Implementation Planning
 
-- **When to use**: To transform codebase impact analysis into detailed
-  feature specifications and implementation strategies
-- **Purpose**: You create detailed feature specifications using discovered patterns,
-  third-party integration plans, and architectural guidance
+- **When to use**: To transform codebase impact analysis into detailed feature
+  specifications and implementation strategies
+- **Purpose**: You create detailed feature specifications using discovered
+  patterns, third-party integration plans, and architectural guidance
 - **Coordinates**: architecture-agent, domain experts, senior-engineer-reviewer
   for plan validation using existing project patterns
 - **Output**: Detailed implementation plans in notes/[topic-name]/plan.md
 
 #### **breakdown command** - Task Decomposition
 
-- **When to use**: To break strategic plans into numbered checklist task structures
-  with granular implementation steps
-- **Purpose**: You create numbered checklists with detailed substeps (e.g., Ash resource
-  creation), file references, documentation links, and commit instructions
+- **When to use**: To break strategic plans into numbered checklist task
+  structures with granular implementation steps
+- **Purpose**: You create numbered checklists with detailed substeps (e.g., Ash
+  resource creation), file references, documentation links, and commit
+  instructions
 - **Coordinates**: test-developer, architecture-agent, domain experts for task
   optimization and detailed implementation guidance
 - **Output**: Numbered checklist breakdowns in notes/[topic-name]/breakdown.md
@@ -363,17 +368,68 @@ You (Orchestrator)
 
 ### Implementation Principles
 
-1. **Expert Consultation**: Always consult relevant agents for guidance before implementation
+1. **Expert Consultation**: Always consult relevant agents for guidance before
+   implementation
 2. **Mandatory Review Phase**: ALWAYS run all reviewers after implementation
 3. **Right-Sized Planning**: Match planner complexity to task complexity
 4. **Parallel When Possible**: Run independent agents simultaneously (especially
    reviews!)
 5. **Trust Agent Expertise**: Agents are specialists - follow their guidance
 6. **Comprehensive Coverage**: Consult all relevant agents for thorough results
-7. **Integration Focus**: Apply agent recommendations directly in your implementation
+7. **Integration Focus**: Apply agent recommendations directly in your
+   implementation
 
 **🚨 CRITICAL RULE**: No feature or fix is complete without parallel review by
 ALL review agents!
+
+## Test Requirements - MANDATORY FOR PRODUCTION READINESS
+
+**🚨 ABSOLUTE REQUIREMENT**: A task can NEVER be considered production-ready or
+complete if tests are failing.
+
+### Core Test Principles
+
+1. **Zero Tolerance for Test Failures**
+
+   - There are NO acceptable test failures
+   - There are NO expected test failures
+   - ALL tests must pass before marking any task as complete
+
+2. **Test Failure Response Protocol**
+
+   - **NEVER delete tests** without explicit user consultation and approval
+   - **NEVER ignore failing tests** or mark tasks as complete with failing tests
+   - **ALWAYS fix the root cause** of test failures rather than working around
+     them
+   - **ALWAYS run the full test suite** after any code changes
+
+3. **Task Completion Criteria**
+
+   - Tests passing is a **mandatory prerequisite** for task completion
+   - No task is "done" until all tests pass
+   - No code is ready for production until all tests pass
+   - No pull request should be created with failing tests
+
+4. **Agent Responsibilities**
+   - **test-fixer**: Must resolve ALL test failures systematically
+   - **qa-reviewer**: Must verify comprehensive test coverage and passing status
+   - **elixir-reviewer**: Must run full test suite and validate all tests pass
+   - **ALL agents**: Must check test status before marking work complete
+
+### Test Failure Escalation
+
+When encountering failing tests:
+
+1. **Immediate Action**: Stop all other work and focus on test failures
+2. **Root Cause Analysis**: Use test-fixer agent to systematically diagnose
+   issues
+3. **Fix Implementation**: Address the underlying cause, not the symptoms
+4. **Validation**: Ensure fixes don't break other tests
+5. **User Consultation**: If tests need deletion or significant modification,
+   consult user first
+
+**🚨 REMEMBER**: Production readiness is impossible with failing tests. Quality
+is non-negotiable.
 
 # Development Workflow
 
