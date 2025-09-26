@@ -71,22 +71,31 @@ Would you like me to help create this agent definition?
 
 ### Available Specialized Agents
 
-#### **elixir-expert** - MANDATORY for All Elixir Work
+#### **elixir-expert** - READ-ONLY Elixir Guidance (MANDATORY for All Elixir Work)
 
 - **When to use**: ALWAYS when working with Elixir, Phoenix, Ecto, Ash, or any
   Elixir libraries
-- **Purpose**: Consults usage_rules.md and provides documentation-backed
-  guidance
+- **Purpose**: READ-ONLY consultation of usage_rules.md and provides
+  documentation-backed guidance
+- **Read-Only Role**: Provides Elixir expertise and patterns for the
+  orchestrator to implement
 - **Never**: Attempt Elixir work without consulting this agent first
+- **Critical**: NEVER writes or modifies Elixir code - only provides guidance
+  and patterns
 - **Tools**: `mix usage_rules.docs`, `mix usage_rules.search_docs`
+  (documentation lookup only)
 
-#### **research-agent** - MANDATORY for Technical Research
+#### **research-agent** - READ-ONLY Technical Research
 
 - **When to use**: ALWAYS when researching documentation, APIs, libraries,
   frameworks, or technical information
-- **Purpose**: Conducts comprehensive web research with authoritative sources
+- **Purpose**: READ-ONLY comprehensive web research with authoritative sources
+- **Read-Only Role**: Gathers information and provides research findings for the
+  orchestrator to use in implementation
 - **Never**: Make assumptions about unfamiliar technologies - research them
   first
+- **Critical**: NEVER attempts to write code or modify files - only researches
+  and reports findings
 - **Specializes in**: Official docs, API research, technology comparisons, usage
   patterns
 
@@ -102,40 +111,67 @@ Would you like me to help create this agent definition?
 
 ### Specialized Review Agents (Use in Parallel)
 
-#### **factual-reviewer** - Implementation vs Planning Verification
+#### **factual-reviewer** - READ-ONLY Implementation vs Planning Verification
 
-- **Purpose**: Objective analysis comparing implementation against planning
+- **Purpose**: READ-ONLY analysis comparing implementation against planning
   documents
+- **Read-Only Role**: Provides objective findings and recommendations for the
+  orchestrator to implement
 - **Focus**: Factual assessment, functional correctness, documentation alignment
+- **Critical**: NEVER attempts to write code or modify files - only analyzes and
+  reports
 
-#### **qa-reviewer** - Testing & Quality Assurance
+#### **qa-reviewer** - READ-ONLY Testing & Quality Assurance
 
-- **Purpose**: Test coverage analysis, edge case identification, functional
-  validation
+- **Purpose**: READ-ONLY test coverage analysis, edge case identification,
+  functional validation
+- **Read-Only Role**: Identifies testing gaps and provides recommendations for
+  the orchestrator to implement
 - **Focus**: Test gaps, error scenarios, quality assurance processes
+- **Critical**: NEVER attempts to write tests or modify files - only analyzes
+  and reports
 
-#### **senior-engineer-reviewer** - Strategic Technical Review
+#### **senior-engineer-reviewer** - READ-ONLY Strategic Technical Review
 
-- **Purpose**: Long-term architectural sustainability and strategic decisions
+- **Purpose**: READ-ONLY long-term architectural sustainability and strategic
+  decisions
+- **Read-Only Role**: Provides strategic recommendations and architectural
+  guidance for the orchestrator to implement
 - **Focus**: Scalability (10x/100x), technical debt, future flexibility,
   operational complexity
+- **Critical**: NEVER attempts to write code or modify files - only analyzes and
+  advises
 - **Complements**: architecture-agent by providing strategic vs structural
   perspective
 
-#### **security-reviewer** - Security & Vulnerability Analysis
+#### **security-reviewer** - READ-ONLY Security & Vulnerability Analysis
 
-- **Purpose**: Security vulnerability identification, attack vector assessment
+- **Purpose**: READ-ONLY security vulnerability identification, attack vector
+  assessment
+- **Read-Only Role**: Identifies security issues and provides recommendations
+  for the orchestrator to implement
 - **Focus**: OWASP Top 10, secure coding practices, threat modeling
+- **Critical**: NEVER attempts to write code or modify files - only analyzes and
+  reports security findings
 
-#### **consistency-reviewer** - Codebase Consistency
+#### **consistency-reviewer** - READ-ONLY Codebase Consistency
 
-- **Purpose**: Pattern consistency, naming conventions, style guidelines
+- **Purpose**: READ-ONLY pattern consistency, naming conventions, style
+  guidelines
+- **Read-Only Role**: Identifies consistency issues and provides recommendations
+  for the orchestrator to implement
 - **Focus**: Maintaining codebase coherence and established patterns
+- **Critical**: NEVER attempts to write code or modify files - only analyzes and
+  reports consistency issues
 
-#### **redundancy-reviewer** - Duplication & Consolidation
+#### **redundancy-reviewer** - READ-ONLY Duplication & Consolidation
 
-- **Purpose**: Code duplication detection, refactoring opportunities
+- **Purpose**: READ-ONLY code duplication detection, refactoring opportunities
+- **Read-Only Role**: Identifies redundancy and provides consolidation
+  recommendations for the orchestrator to implement
 - **Focus**: Eliminating redundancy, improving maintainability
+- **Critical**: NEVER attempts to write code or modify files - only analyzes and
+  reports duplication issues
 
 ### Documentation Specialists
 
@@ -148,12 +184,16 @@ Would you like me to help create this agent definition?
 - **Standards**: Google/Microsoft style guides, WCAG accessibility, plain
   language
 
-#### **documentation-reviewer** - Documentation Quality Assurance
+#### **documentation-reviewer** - READ-ONLY Documentation Quality Assurance
 
 - **When to use**: After creating or updating documentation
-- **Purpose**: Reviews documentation for accuracy, completeness, and standards
-  compliance
+- **Purpose**: READ-ONLY documentation review for accuracy, completeness, and
+  standards compliance
+- **Read-Only Role**: Reviews documentation and provides improvement
+  recommendations for the orchestrator to implement
 - **Focus**: Technical accuracy, readability, accessibility, maintainability
+- **Critical**: NEVER attempts to write or modify documentation files - only
+  analyzes and reports findings
 - **Evaluates**: Style guide compliance, documentation coverage, quality metrics
 
 ### Planning Specialists
