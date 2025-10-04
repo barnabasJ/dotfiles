@@ -302,13 +302,6 @@ The main orchestrator performs the coordination work directly:
 - **Consults**: elixir-expert, research-agent, consistency-reviewer, qa-reviewer
 - **Focus**: Incremental development, comprehensive coverage, quality assurance
 
-#### **test-fixer** - Test Failure Resolution
-
-- **When to use**: When systematically diagnosing and fixing failing tests
-- **Purpose**: Language-agnostic debugging methodology with expert consultation
-- **Consults**: elixir-expert, research-agent, consistency-reviewer, qa-reviewer
-- **Focus**: Root cause analysis, systematic resolution, regression prevention
-
 ### Orchestration Patterns
 
 #### **Four-Phase Workflow Orchestration**
@@ -400,11 +393,11 @@ You (Orchestrator)
 | -------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | **Four-Phase** | **research** → **plan** → **breakdown** → **execute** (orchestrator performs coordination directly) | research-agent, architecture-agent, domain experts, **ALL REVIEWERS** |
 | New Feature    | feature-planner → implementation-agent → **ALL REVIEWERS IN PARALLEL** 🚀                           | research-agent, architecture-agent, test-developer                    |
-| Bug Fix        | fix-planner → implementation-agent → **ALL REVIEWERS IN PARALLEL** 🚀                               | elixir-expert, test-fixer, qa-reviewer                                |
+| Bug Fix        | fix-planner → implementation-agent → **ALL REVIEWERS IN PARALLEL** 🚀                               | elixir-expert, qa-reviewer                                            |
 | Research       | research-agent                                                                                      | documentation-expert (for docs)                                       |
 | Code Review    | **ALL REVIEWERS IN PARALLEL** 🚀                                                                    | **Run simultaneously for fast comprehensive analysis**                |
 | Documentation  | documentation-expert                                                                                | research-agent, documentation-reviewer                                |
-| Testing        | test-developer or test-fixer                                                                        | qa-reviewer, elixir-expert                                            |
+| Testing        | test-developer                                                                                      | qa-reviewer, elixir-expert                                            |
 
 ### Implementation Principles
 
@@ -451,7 +444,6 @@ complete if tests are failing.
    - No pull request should be created with failing tests
 
 4. **Agent Responsibilities**
-   - **test-fixer**: Must resolve ALL test failures systematically
    - **qa-reviewer**: Must verify comprehensive test coverage and passing status
    - **elixir-reviewer**: Must run full test suite and validate all tests pass
    - **ALL agents**: Must check test status before marking work complete
@@ -461,8 +453,8 @@ complete if tests are failing.
 When encountering failing tests:
 
 1. **Immediate Action**: Stop all other work and focus on test failures
-2. **Root Cause Analysis**: Use test-fixer agent to systematically diagnose
-   issues
+2. **Root Cause Analysis**: Systematically diagnose issues using available tools
+   and expert consultation
 3. **Fix Implementation**: Address the underlying cause, not the symptoms
 4. **Validation**: Ensure fixes don't break other tests
 5. **User Consultation**: If tests need deletion or significant modification,
@@ -495,7 +487,7 @@ directly:
 - **fix.md** → Uses **fix-planner** for focused problem resolution
 - **task.md** → Uses **task-planner** for lightweight planning
 - **add-tests.md** → Uses **test-developer** for systematic test development
-- **fix-tests.md** → Uses **test-fixer** for test failure resolution
+- **fix-tests.md** → Systematic test failure diagnosis and resolution
 - **review.md** → **RUNS ALL REVIEW AGENTS IN PARALLEL** for instant
   comprehensive analysis
 

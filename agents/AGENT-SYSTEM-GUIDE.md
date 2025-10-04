@@ -181,7 +181,7 @@ methodologies **documentation-reviewer**: Documentation quality assurance and
 standards compliance **security-reviewer**: Authentication, data validation,
 vulnerability assessment **implementation-agent**: Execute planning documents,
 implement expert guidance **test-developer**: Systematic test development with
-expert consultation **test-fixer**: Test failure diagnosis and resolution
+expert consultation
 
 This system optimizes costs while maintaining quality through appropriate model
 selection and clear role separation between analysis and implementation.

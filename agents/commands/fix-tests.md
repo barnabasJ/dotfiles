@@ -1,7 +1,6 @@
 # /fix-tests
 
-Orchestrate test failure resolution by delegating specific fixing tasks to the
-test-fixer agent.
+Systematic test failure diagnosis and resolution.
 
 ## Orchestration Process
 
@@ -19,21 +18,23 @@ As the orchestrator, you will:
    - Identify fix approach
    - Assess dependencies between failures
 
-3. **Delegate to test-fixer**:
+3. **Consult experts for guidance**:
 
-   - Give specific test fixing tasks
-   - Specify which tests to fix
-   - Provide error context
-   - Define success criteria
+   - Use **elixir-expert** for Elixir/Phoenix test patterns and debugging
+     approaches
+   - Use **research-agent** for unfamiliar frameworks or error patterns
+   - Use **qa-reviewer** for test quality and coverage assessment
+   - Use **consistency-reviewer** to ensure fixes align with existing patterns
 
-4. **Coordinate fixing process**:
-   - The test-fixer will execute your instructions
-   - It will return summaries of fixes applied
-   - You decide if more fixes are needed
+4. **Implement fixes systematically**:
+   - Apply fixes based on expert guidance
+   - Verify each fix independently
+   - Run comprehensive regression tests
+   - Track progress through resolution
 
-## What the Agent Provides
+## Debugging Methodology
 
-### **Language-Agnostic Debugging Methodology**
+### **Language-Agnostic Systematic Approach**
 
 - Proven systematic approach for any programming language and testing framework
 - Focus-driven debugging (one test at a time)
@@ -41,12 +42,12 @@ As the orchestrator, you will:
 
 ### **Expert Consultation Integration**
 
-- **Language-Specific Experts**: The test-fixer will consult the appropriate
-  language expert (elixir-expert, lua-expert, neovim-expert, etc.) for
-  framework-specific debugging patterns
-- **Research Support**: Uses **research-agent** when encountering unfamiliar
+- **Language-Specific Experts**: Consult the appropriate language expert
+  (elixir-expert, lua-expert, neovim-expert, etc.) for framework-specific
+  debugging patterns
+- **Research Support**: Use **research-agent** when encountering unfamiliar
   frameworks or error patterns
-- **Pattern Consistency**: Uses **consistency-reviewer** to ensure fixes align
+- **Pattern Consistency**: Use **consistency-reviewer** to ensure fixes align
   with existing patterns
 
 ### **Quality Assurance**
@@ -56,9 +57,7 @@ As the orchestrator, you will:
 - Complete regression testing after each fix
 - Expert validation of fix quality and approach
 
-## Agent Workflow
-
-The **test-fixer** agent follows this systematic approach:
+## Resolution Workflow
 
 ### Phase 1: Failure Assessment & Expert Consultation
 
@@ -86,7 +85,7 @@ The **test-fixer** agent follows this systematic approach:
 
 ## Success Criteria
 
-The **test-fixer** agent ensures:
+Ensure that fixes meet these standards:
 
 - ✅ **Root Cause Resolution**: Fixes address underlying issues, not just
   symptoms
@@ -97,7 +96,7 @@ The **test-fixer** agent ensures:
 - ✅ **Expert-Validated Approach**: Guidance from the appropriate language
   expert (elixir-expert, lua-expert, neovim-expert, etc.)
 
-## Example Orchestration
+## Example Workflow
 
 ```markdown
 # As orchestrator, you would:
@@ -105,38 +104,43 @@ The **test-fixer** agent ensures:
 1. Run tests and find 5 authentication tests failing
 2. Analyze: All failing with "JWT token invalid" errors
 
-3. Delegate to test-fixer: "Fix the 5 failing authentication tests in
-   test/auth/. They're all failing with JWT token errors. Check test
-   configuration and mock setup."
+3. Consult elixir-expert: "5 authentication tests are failing with JWT token
+   errors. What are common causes and debugging approaches for JWT test failures
+   in Phoenix?"
 
-4. Test-fixer returns: "✅ Complete - Fixed 5 tests. Root cause: Missing
-   JWT_SECRET in test.exs config. Added config and updated mocks."
+4. Apply expert guidance: Expert recommends checking test.exs config and mock
+   setup. Investigation reveals missing JWT_SECRET in test.exs config.
 
-5. You verify and continue: "Good. Now run full suite to check for other
-   failures..."
+5. Implement fix: Add JWT_SECRET to test.exs and update mocks based on expert
+   patterns
+
+6. Verify: Run full test suite to ensure no regressions
+
+7. Complete: ✅ Fixed 5 tests. Root cause: Missing JWT_SECRET in test.exs
+   config.
 ```
 
 ## Usage Examples
 
 ```bash
 /fix-tests
-# Orchestrator identifies failures and delegates fixes to test-fixer
+# Orchestrator identifies failures, consults experts, and implements fixes
 
 # For specific test failures
 "Fix the failing user validation tests"
-# Orchestrator analyzes validation test failures and coordinates fixes
+# Orchestrator analyzes validation test failures and coordinates fixes with expert guidance
 
 # For systematic resolution
 "Fix all test failures one by one"
-# Orchestrator prioritizes and systematically delegates fixing tasks
+# Orchestrator prioritizes and systematically fixes issues with expert consultation
 ```
 
 ## Key Benefits
 
-- **Clear separation**: Orchestrator analyzes, test-fixer executes
-- **Expert debugging**: Test-fixer proactively uses language experts
-- **Quality control**: You verify each fix before proceeding
-- **Systematic approach**: You control the fixing priority and strategy
+- **Expert debugging**: Proactive consultation with language experts
+- **Systematic approach**: Controlled fixing priority and strategy
+- **Quality control**: Each fix verified before proceeding
+- **Pattern consistency**: Fixes align with existing codebase standards
 
-You maintain control of the resolution strategy while the test-fixer handles the
-technical debugging with expert support.
+You maintain control of the resolution strategy while leveraging expert guidance
+for high-quality, consistent fixes.
