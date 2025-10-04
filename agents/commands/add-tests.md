@@ -20,11 +20,13 @@ As the orchestrator, you will:
 
 3. **Consult experts for guidance**:
 
+   - Use **test-expert** for testing methodology, TDD/BDD approach, and coverage
+     strategy
    - Use **elixir-expert** for Elixir/Phoenix test patterns (ExUnit, Ash,
      Phoenix)
    - Use **research-agent** for unfamiliar testing frameworks or approaches
    - Use **consistency-reviewer** to check existing test patterns
-   - Use **qa-reviewer** for coverage strategy and test quality
+   - Use **qa-reviewer** for test quality validation
 
 4. **Implement tests systematically**:
    - Apply test patterns based on expert guidance
@@ -42,6 +44,8 @@ As the orchestrator, you will:
 
 ### **Expert Consultation Integration**
 
+- **Testing Methodology**: Consult **test-expert** for TDD/BDD approach,
+  coverage strategy, what to test
 - **For Elixir Projects**: Consult **elixir-expert** for ExUnit, Ash, and
   Phoenix patterns
 - **For Other Languages**: Use **research-agent** for framework-specific
@@ -103,23 +107,27 @@ Ensure that tests meet these standards:
 
 1. Analyze: Need tests for User authentication module (login, logout, session)
 
-2. Consult elixir-expert: "What are the best practices for testing Phoenix
+2. Consult test-expert: "What testing approach should I use for authentication?
+   What should I test and what coverage strategy is appropriate?"
+
+3. Consult elixir-expert: "What are the best practices for testing Phoenix
    authentication? How should I structure tests for login/logout/session
    management?"
 
-3. Apply expert guidance: Expert recommends ConnCase for controller tests, use
-   setup blocks for auth state, test both success and failure paths
+4. Apply expert guidance: test-expert recommends TDD with unit/integration/E2E
+   levels; elixir-expert recommends ConnCase for controller tests, use setup
+   blocks for auth state, test both success and failure paths
 
-4. Implement tests incrementally:
+5. Implement tests incrementally:
 
    - Start with login success path
    - Add login failure cases
    - Add logout tests
    - Add session validation tests
 
-5. Verify: Run full test suite, check coverage meets requirements
+6. Verify: Run full test suite, check coverage meets requirements
 
-6. Complete: ✅ Created 12 authentication tests with full coverage. All tests
+7. Complete: ✅ Created 12 authentication tests with full coverage. All tests
    pass.
 ```
 

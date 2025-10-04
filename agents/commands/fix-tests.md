@@ -20,6 +20,8 @@ As the orchestrator, you will:
 
 3. **Consult experts for guidance**:
 
+   - Use **test-expert** for debugging methodology and root cause analysis
+     approaches
    - Use **elixir-expert** for Elixir/Phoenix test patterns and debugging
      approaches
    - Use **research-agent** for unfamiliar frameworks or error patterns
@@ -42,6 +44,8 @@ As the orchestrator, you will:
 
 ### **Expert Consultation Integration**
 
+- **Testing Methodology**: Consult **test-expert** for systematic debugging
+  approaches and test failure analysis
 - **Language-Specific Experts**: Consult the appropriate language expert
   (elixir-expert, lua-expert, neovim-expert, etc.) for framework-specific
   debugging patterns

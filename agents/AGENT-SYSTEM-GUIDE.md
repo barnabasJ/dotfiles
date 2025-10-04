@@ -174,12 +174,13 @@ Before making significant changes, consult appropriate expert agents for guidanc
 ## Agent Selection Guide
 
 **elixir-expert**: Elixir/Phoenix/Ecto questions, OTP patterns, testing
-strategies **architecture-agent**: Project structure, module design, component
-boundaries **research-agent**: Unknown libraries, API integration, technology
-evaluation **documentation-expert**: Creating documentation with industry
-methodologies **documentation-reviewer**: Documentation quality assurance and
-standards compliance **security-reviewer**: Authentication, data validation,
-vulnerability assessment
+strategies **test-expert**: Testing methodologies, TDD/BDD, test strategy,
+coverage planning **architecture-agent**: Project structure, module design,
+component boundaries **research-agent**: Unknown libraries, API integration,
+technology evaluation **documentation-expert**: Creating documentation with
+industry methodologies **documentation-reviewer**: Documentation quality
+assurance and standards compliance **security-reviewer**: Authentication, data
+validation, vulnerability assessment
 
 This system optimizes costs while maintaining quality through appropriate model
 selection and clear role separation between analysis and implementation.

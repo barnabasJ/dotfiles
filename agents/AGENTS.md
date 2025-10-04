@@ -99,6 +99,21 @@ Would you like me to help create this agent definition?
 - **Specializes in**: Official docs, API research, technology comparisons, usage
   patterns
 
+#### **test-expert** - READ-ONLY Testing Methodology Guidance
+
+- **When to use**: When developing test strategies, determining what to test, or
+  learning testing methodologies
+- **Purpose**: READ-ONLY language-agnostic testing guidance and methodology
+  expertise
+- **Read-Only Role**: Provides testing strategy and best practices for the
+  orchestrator to implement
+- **Specializes in**: TDD/BDD, test organization, coverage strategy, testing
+  methodologies
+- **Coordinates with**: Language experts (elixir-expert, etc.) for
+  framework-specific patterns
+- **Critical**: NEVER attempts to write tests or modify files - only provides
+  testing guidance
+
 #### **elixir-reviewer** - MANDATORY After Elixir Changes
 
 - **When to use**: ALWAYS after making changes to Elixir code, Ash applications,
