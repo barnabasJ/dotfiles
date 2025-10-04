@@ -184,11 +184,12 @@ This command leverages the appropriate planning agent based on document type:
 
 After plan update:
 
-1. **implementation-agent**: Can execute updated plan systematically
-2. **Clear change markers**: Implementation agents know what's new/changed
+1. **Direct implementation**: Can execute updated plan systematically with
+   expert consultation
+2. **Clear change markers**: Implementation knows what's new/changed
 3. **Priority guidance**: What needs attention first
 4. **Updated success criteria**: Clear completion definition
 
 This command ensures planning documents stay current with evolving requirements
-while providing clear guidance for implementation teams to execute the updated
-plan effectively.
+while providing clear guidance for implementation to execute the updated plan
+effectively.

@@ -1,7 +1,6 @@
 # /add-tests
 
-Orchestrate test development by delegating specific test creation tasks to the
-test-developer agent.
+Systematic test development with expert consultation.
 
 ## Orchestration Process
 
@@ -19,22 +18,23 @@ As the orchestrator, you will:
    - Identify testing priorities
    - Determine coverage requirements
 
-3. **Delegate to test-developer**:
+3. **Consult experts for guidance**:
 
-   - Give specific test creation tasks
-   - Specify what functionality to test
-   - Define coverage expectations
-   - Provide pattern references
+   - Use **elixir-expert** for Elixir/Phoenix test patterns (ExUnit, Ash,
+     Phoenix)
+   - Use **research-agent** for unfamiliar testing frameworks or approaches
+   - Use **consistency-reviewer** to check existing test patterns
+   - Use **qa-reviewer** for coverage strategy and test quality
 
-4. **Coordinate test development**:
-   - The test-developer will execute your instructions
-   - It will proactively consult experts for patterns
-   - It will return summaries of tests created
-   - You decide if more tests are needed
+4. **Implement tests systematically**:
+   - Apply test patterns based on expert guidance
+   - Develop incrementally (one test at a time)
+   - Verify tests pass and provide proper coverage
+   - Track progress through implementation
 
-## What the Agent Provides
+## Testing Methodology
 
-### **Language-Agnostic Methodology**
+### **Language-Agnostic Systematic Approach**
 
 - Proven systematic approach for any programming language
 - Incremental development with focus-driven testing
@@ -42,11 +42,11 @@ As the orchestrator, you will:
 
 ### **Expert Consultation Integration**
 
-- **For Elixir Projects**: Consults **elixir-expert** for ExUnit, Ash, and
+- **For Elixir Projects**: Consult **elixir-expert** for ExUnit, Ash, and
   Phoenix patterns
-- **For Other Languages**: Uses **research-agent** for framework-specific
+- **For Other Languages**: Use **research-agent** for framework-specific
   guidance
-- **Pattern Consistency**: Always checks existing test patterns with
+- **Pattern Consistency**: Always check existing test patterns with
   **consistency-reviewer**
 
 ### **Quality Assurance**
@@ -56,9 +56,7 @@ As the orchestrator, you will:
 - Integration testing approaches
 - Coverage verification and quality metrics
 
-## Agent Workflow
-
-The **test-developer** agent follows this systematic approach:
+## Development Workflow
 
 ### Phase 1: Analysis & Expert Consultation
 
@@ -78,63 +76,74 @@ The **test-developer** agent follows this systematic approach:
 - Use focus-driven development (one test at a time)
 - Build comprehensive coverage systematically
 
-### Phase 4: Quality Verification
+### Phase 4: Verification & Quality Assurance
 
-- Verify no placeholder tests remain
-- Check coverage completeness with **qa-reviewer**
-- Ensure pattern consistency throughout
+- Verify all tests pass
+- Confirm coverage meets requirements
+- Review with qa-reviewer for quality standards
+- Document any testing patterns or decisions
 
 ## Success Criteria
 
-The **test-developer** agent ensures:
+Ensure that tests meet these standards:
 
-- ✅ **100% Test Pass Rate**: All tests consistently pass
-- ✅ **Language-Appropriate Patterns**: Uses correct frameworks and conventions
-- ✅ **Comprehensive Coverage**: Success paths, error conditions, and edge cases
-- ✅ **Maintainable Structure**: Clear organization following project
-  conventions
-- ✅ **Expert-Validated Approach**: Guidance from relevant language specialists
+- ✅ **Comprehensive Coverage**: Success paths, error cases, and edge cases
+  covered
+- ✅ **Language-Appropriate Patterns**: Uses correct testing patterns for the
+  language/framework
+- ✅ **Pattern Consistency**: Tests align with existing test structure and style
+- ✅ **Expert-Validated Approach**: Guidance from appropriate language expert
+  (elixir-expert, etc.)
+- ✅ **All Tests Pass**: Complete test suite runs successfully
 
-## Example Orchestration
+## Example Workflow
 
 ```markdown
 # As orchestrator, you would:
 
-1. Analyze code needing tests (e.g., new User model)
-2. Determine test requirements (CRUD, validations, edge cases)
+1. Analyze: Need tests for User authentication module (login, logout, session)
 
-3. Delegate to test-developer: "Create unit tests for the User model in
-   test/users/user_test.exs. Test all CRUD operations, field validations, and
-   error cases. Follow existing test patterns in the test/ directory."
+2. Consult elixir-expert: "What are the best practices for testing Phoenix
+   authentication? How should I structure tests for login/logout/session
+   management?"
 
-4. Test-developer returns: "✅ Complete - Created 15 tests covering CRUD,
-   validations, and error handling. All tests passing."
+3. Apply expert guidance: Expert recommends ConnCase for controller tests, use
+   setup blocks for auth state, test both success and failure paths
 
-5. You assess coverage and decide next steps: "Now add integration tests for
-   user registration flow..."
+4. Implement tests incrementally:
+
+   - Start with login success path
+   - Add login failure cases
+   - Add logout tests
+   - Add session validation tests
+
+5. Verify: Run full test suite, check coverage meets requirements
+
+6. Complete: ✅ Created 12 authentication tests with full coverage. All tests
+   pass.
 ```
 
 ## Usage Examples
 
 ```bash
 /add-tests
-# Orchestrator analyzes code and delegates test creation to test-developer
+# Orchestrator identifies coverage gaps, consults experts, and implements tests
 
 # For specific functionality
-"Add tests for the authentication module"
-# Orchestrator breaks down auth testing needs and coordinates execution
+"Add tests for the user registration feature"
+# Orchestrator analyzes registration code, gets expert patterns, implements tests
 
 # For comprehensive coverage
-"Add missing tests to achieve 80% coverage"
-# Orchestrator identifies gaps and systematically delegates test creation
+"Add complete test coverage for the Payment module"
+# Orchestrator plans coverage strategy, consults experts, implements all test cases
 ```
 
 ## Key Benefits
 
-- **Clear separation**: Orchestrator strategizes, test-developer executes
-- **Expert consultation**: Test-developer proactively uses language experts
-- **Quality control**: You verify coverage before moving on
-- **Flexible coordination**: You adapt based on test results
+- **Expert-driven patterns**: Tests follow language-specific best practices
+- **Systematic approach**: Controlled test development strategy
+- **Quality focus**: Tests verified before proceeding
+- **Pattern consistency**: Tests align with existing codebase standards
 
-You maintain control of the testing strategy while the test-developer handles
-the technical execution with expert support.
+You maintain control of the testing strategy while leveraging expert guidance
+for high-quality, consistent test coverage.

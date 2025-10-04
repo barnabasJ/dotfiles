@@ -271,7 +271,7 @@ The main orchestrator performs the coordination work directly:
 - **Approach**: Sequential task execution with agent consultation for guidance
 - **Output**: Working implementation following the breakdown specifications
 
-### Architecture & Implementation Specialists
+### Architecture Specialists
 
 #### **architecture-agent** - Project Structure & Integration
 
@@ -283,24 +283,6 @@ The main orchestrator performs the coordination work directly:
   consistency
 - **Complements**: senior-engineer-reviewer by providing structural vs strategic
   perspective
-
-#### **implementation-agent** - Plan Execution Specialist
-
-- **When to use**: To execute planning documents (features, fixes, tasks)
-- **Purpose**: Systematically implements plans while coordinating all agents
-- **Consults**: architecture-agent, elixir-expert, test-developer, all reviewers
-- **Focus**: Quality implementation following plans with continuous validation
-
-### Methodology Specialists
-
-#### **test-developer** - Systematic Test Development
-
-- **When to use**: When developing comprehensive test coverage for new features
-  or existing code
-- **Purpose**: Language-agnostic test development methodology with expert
-  consultation
-- **Consults**: elixir-expert, research-agent, consistency-reviewer, qa-reviewer
-- **Focus**: Incremental development, comprehensive coverage, quality assurance
 
 ### Orchestration Patterns
 
@@ -341,7 +323,7 @@ STANDARD WORKFLOW - Always include review phase:
 1. research-agent → Gather information about technology
 2. architecture-agent → Determine integration approach
 3. feature-planner → Create detailed plan
-4. implementation-agent → Execute the plan
+4. Execute the plan → Implement following the plan with expert consultation
 5. 🚀 ALL REVIEW AGENTS IN PARALLEL → Comprehensive validation
 
 ⚠️ CRITICAL: Steps 1-4 build the feature, Step 5 validates it
@@ -381,9 +363,9 @@ You (Orchestrator)
 │   ├── research-agent (for unknown tech)
 │   ├── architecture-agent (for structure)
 │   └── elixir-expert (for patterns)
-└── implementation-agent
-    ├── test-developer (for tests)
-    ├── architecture-agent (for placement)
+└── Direct Implementation
+    ├── architecture-agent (for placement guidance)
+    ├── elixir-expert (for patterns)
     └── elixir-reviewer (for validation)
 ```
 
@@ -392,12 +374,12 @@ You (Orchestrator)
 | Task Type      | Primary Flow                                                                                        | Supporting Agents                                                     |
 | -------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | **Four-Phase** | **research** → **plan** → **breakdown** → **execute** (orchestrator performs coordination directly) | research-agent, architecture-agent, domain experts, **ALL REVIEWERS** |
-| New Feature    | feature-planner → implementation-agent → **ALL REVIEWERS IN PARALLEL** 🚀                           | research-agent, architecture-agent, test-developer                    |
-| Bug Fix        | fix-planner → implementation-agent → **ALL REVIEWERS IN PARALLEL** 🚀                               | elixir-expert, qa-reviewer                                            |
+| New Feature    | feature-planner → direct implementation → **ALL REVIEWERS IN PARALLEL** 🚀                          | research-agent, architecture-agent, domain experts                    |
+| Bug Fix        | fix-planner → direct implementation → **ALL REVIEWERS IN PARALLEL** 🚀                              | elixir-expert, qa-reviewer                                            |
 | Research       | research-agent                                                                                      | documentation-expert (for docs)                                       |
 | Code Review    | **ALL REVIEWERS IN PARALLEL** 🚀                                                                    | **Run simultaneously for fast comprehensive analysis**                |
 | Documentation  | documentation-expert                                                                                | research-agent, documentation-reviewer                                |
-| Testing        | test-developer                                                                                      | qa-reviewer, elixir-expert                                            |
+| Testing        | Direct implementation with expert consultation                                                      | qa-reviewer, elixir-expert                                            |
 
 ### Implementation Principles
 
@@ -477,7 +459,7 @@ directly:
 - **plan.md** → You create strategic implementation plans while consulting
   architecture-agent and domain experts
 - **breakdown.md** → You create detailed task breakdowns while consulting
-  architecture-agent and test-developer
+  architecture-agent and domain experts
 - **execute.md** → You implement tasks sequentially while consulting relevant
   agents for guidance
 
@@ -486,7 +468,7 @@ directly:
 - **feature.md** → Uses **feature-planner** for comprehensive planning
 - **fix.md** → Uses **fix-planner** for focused problem resolution
 - **task.md** → Uses **task-planner** for lightweight planning
-- **add-tests.md** → Uses **test-developer** for systematic test development
+- **add-tests.md** → Systematic test development with expert consultation
 - **fix-tests.md** → Systematic test failure diagnosis and resolution
 - **review.md** → **RUNS ALL REVIEW AGENTS IN PARALLEL** for instant
   comprehensive analysis

@@ -41,8 +41,8 @@ consultation.
 - Consult appropriate agents for guidance on specific tasks:
   - **elixir-expert** for Elixir/Phoenix implementation patterns
   - **architecture-agent** for code placement and structure decisions
-  - **test-developer** for testing requirements and TDD/BDD guidance
-  - **Domain experts** as needed for specialized knowledge
+  - **domain experts** for testing requirements and TDD/BDD guidance
+  - **domain experts** as needed for specialized knowledge
 
 ### **Quality Assurance**
 
@@ -85,8 +85,8 @@ consultation.
 - **elixir-expert**: When implementing Elixir/Phoenix/Ash code
 - **architecture-agent**: When unsure about file placement or module
   organization
-- **test-developer**: When implementing tests or following TDD/BDD requirements
-- **Domain experts**: For specialized knowledge areas
+- **domain experts**: When implementing tests or following TDD/BDD requirements
+- **domain experts**: For specialized knowledge areas
 
 **How to consult:**
 

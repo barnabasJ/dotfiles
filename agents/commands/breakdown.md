@@ -30,7 +30,7 @@ structures that enable efficient execution and quality implementation.
 
 - Integrate comprehensive testing methodology throughout task structure
 - Design test-first development approach for each task
-- Coordinate with test-developer for testing strategy validation
+- Consult domain experts for testing strategy validation
 - Create comprehensive quality gates and validation checkpoints
 
 ### **Task Optimization and Coordination**
@@ -54,7 +54,7 @@ structures that enable efficient execution and quality implementation.
 
 2. **Architecture and Testing Coordination**
    - Coordinate architecture-agent for task organization validation
-   - Coordinate test-developer for TDD/BDD methodology integration
+   - Consult domain experts for TDD/BDD methodology integration
    - Validate architectural approach against task structure requirements
    - Establish testing strategy and quality gate requirements
 
@@ -93,7 +93,7 @@ structures that enable efficient execution and quality implementation.
 - **You create detailed task breakdowns directly**
 - You will:
   - Analyze strategic implementation plan phases and requirements
-  - Coordinate **test-developer** for TDD/BDD methodology integration
+  - Consult **domain experts** for TDD/BDD methodology integration
   - Coordinate **architecture-agent** for task organization validation
   - Consult appropriate **domain experts** for task-specific guidance
   - Create comprehensive task breakdowns with efficient execution design
@@ -132,7 +132,7 @@ The **breakdown-agent** creates detailed breakdowns with:
 
 ### **TDD/BDD Integration Planning**
 
-- **test-developer**: Testing methodology and coverage requirements
+- **domain experts**: Testing methodology and coverage requirements
 - Test-first approach integrated into every task
 - Behavior specifications and acceptance criteria defined
 - Quality gates and verification mechanisms planned

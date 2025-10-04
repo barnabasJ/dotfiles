@@ -43,7 +43,7 @@ Follow these steps:
 - Every bug fix must include tests that verify the fix
 - Regression tests must fail before the fix and pass after
 - All existing tests must continue to pass
-- Use test-developer for comprehensive test creation
+- Consult domain experts for comprehensive test creation patterns
 - Never claim fix completion without working tests
 
 ## Fix Planning Document Structure

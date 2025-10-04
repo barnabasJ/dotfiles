@@ -179,9 +179,7 @@ boundaries **research-agent**: Unknown libraries, API integration, technology
 evaluation **documentation-expert**: Creating documentation with industry
 methodologies **documentation-reviewer**: Documentation quality assurance and
 standards compliance **security-reviewer**: Authentication, data validation,
-vulnerability assessment **implementation-agent**: Execute planning documents,
-implement expert guidance **test-developer**: Systematic test development with
-expert consultation
+vulnerability assessment
 
 This system optimizes costs while maintaining quality through appropriate model
 selection and clear role separation between analysis and implementation.

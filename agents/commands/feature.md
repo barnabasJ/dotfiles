@@ -45,7 +45,7 @@ with continuous plan updates.
 
 - Every feature must have comprehensive test coverage
 - Tests must pass before considering any step complete
-- Use test-developer for systematic test creation
+- Consult domain experts for systematic test creation patterns
 - Never claim feature completion without working tests
 
 ## What the Feature-Planner Agent Provides
