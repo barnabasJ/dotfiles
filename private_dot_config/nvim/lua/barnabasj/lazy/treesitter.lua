@@ -25,8 +25,6 @@ return { -- Highlight, edit, and navigate code
 			"vim",
 			"vimdoc",
 			"go",
-			"gotmpl",
-			"yaml",
 			"zig",
 		},
 		-- Autoinstall languages that are not installed
