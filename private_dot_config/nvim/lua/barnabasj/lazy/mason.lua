@@ -35,6 +35,9 @@ return {
 			--
 			-- But for many setups, the LSP (`ts_ls`) will work just fine
 			-- ts_ls = {},
+			--     ◍ helm-ls helm_ls (keywords: helm)
+
+			efm = {},
 			gopls = {},
 			-- ruby_lsp = {},
 			rust_analyzer = {},

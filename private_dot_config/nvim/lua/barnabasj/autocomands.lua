@@ -29,3 +29,11 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 		vim.bo.filetype = "html"
 	end,
 })
+
+-- Set filetype for YAML files with Go templates (Chezmoi, Helm, etc.)
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+	pattern = { "*.yaml.tmpl", "*.yml.tmpl" },
+	callback = function()
+		vim.bo.filetype = "yaml.gotmpl"
+	end,
+})
