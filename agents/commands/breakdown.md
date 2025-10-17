@@ -202,6 +202,10 @@ This command continues the **breakdown phase** of the four-phase workflow:
 ### **Implementation Readiness**
 
 - Tasks are atomic, testable, and estimable
+- **Test validation explicit**: Every task includes test run and verification
+  substeps
+- **Zero-tolerance test policy**: Clear instructions that commits require green
+  tests
 - Success criteria and verification approaches clear
 - Agent coordination and specialization planned
 - Progress tracking and monitoring mechanisms defined
@@ -253,7 +257,13 @@ Each numbered task includes:
 - **Documentation Links**: Direct links to relevant docs (📖 [Link Name](URL))
 - **Implementation Details**: Specific code patterns and configuration
 - **Test Requirements**: TDD/BDD specifications for each substep
-- **Commit Message**: Suggested message after completing all substeps
+- **Test Validation Substeps**: Explicit steps to run tests and verify green
+  status
+  - Always includes: `X.n. [ ] **Run tests**: [test command]`
+  - Always includes:
+    `X.n+1. [ ] **Verify all tests pass** (must be green before commit)`
+- **Commit Message**: Suggested message after completing all substeps AND
+  verifying tests pass
 - **Implementation Notes**: Additional context and considerations for the task
 
 ### **Example Task Checklist Format**
@@ -261,9 +271,17 @@ Each numbered task includes:
 ```markdown
 ## Implementation Instructions
 
-**IMPORTANT**: After completing each numbered step, commit your changes with the
-suggested commit message. This ensures clean history and easy rollback if
-needed.
+**CRITICAL COMMIT WORKFLOW**: After completing each numbered step, you MUST
+follow this exact sequence:
+
+1. **Complete all substeps** for the numbered task
+2. **Run the full test suite** (e.g., `mix test` for Elixir, `npm test` for
+   Node.js)
+3. **Verify ALL tests pass** (zero tolerance for failures)
+4. **Only then commit** with the suggested commit message
+
+**🚨 ABSOLUTE RULE**: Never commit with failing tests. A task is not complete
+until tests are green.
 
 ### Implementation Checklist
 
@@ -275,7 +293,9 @@ needed.
        Add payment attributes (amount, currency, stripe_id) - 📖
        [Ash Attributes](https://hexdocs.pm/ash/attributes.html) 1.3. [ ] Create
        payment actions (get_by_intent_id, process_payment) - Pattern:
-       `lib/app/accounts/resources/user.ex:89`
+       `lib/app/accounts/resources/user.ex:89` 1.4. [ ] **Run tests**:
+       `mix test` 1.5. [ ] **Verify all tests pass** (must be green before
+       commit)
 
    📝 **Commit**:
    `feat(payments): add payment resource with Stripe integration support`
@@ -283,7 +303,9 @@ needed.
 2. [ ] **Configure Stripe Integration** 2.1. [ ] Add stripity_stripe dependency
        to mix.exs 2.2. [ ] Configure API keys in runtime.exs - Follow pattern
        from `config/runtime.exs:34-45` 2.3. [ ] Create webhook endpoint in
-       router - Add to `lib/app_web/router.ex:67`
+       router - Add to `lib/app_web/router.ex:67` 2.4. [ ] **Run tests**:
+       `mix test` 2.5. [ ] **Verify all tests pass** (must be green before
+       commit)
 
    📝 **Commit**: `feat(stripe): add SDK configuration and webhook endpoint`
 ```
@@ -294,10 +316,13 @@ Breakdown phase is complete when:
 
 - Numbered checklist breakdown created in notes/[topic-name]/breakdown.md
 - Each task includes specific file references and documentation links
-- Commit messages provided for each numbered step
+- **Test validation substeps** explicitly included in every numbered task
+- **Critical commit workflow** instructions clearly stated at the top
+- Commit messages provided for each numbered step (after test validation)
 - All tasks designed with detailed substeps for independent execution
 - TDD/BDD methodology integrated throughout task structure
-- Implementation instructions clearly specify commit workflow
+- Implementation instructions clearly specify: complete → test → verify green →
+  commit
 - Ready for **execute** phase with trackable progress structure
 
 The **breakdown-agent** transforms strategic implementation plans into detailed,
