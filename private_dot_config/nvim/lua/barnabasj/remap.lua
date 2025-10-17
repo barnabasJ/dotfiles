@@ -70,7 +70,6 @@ wk.add({
 	{ "<C-q>", "<C-\\><C-n>", desc = "Exit terminal mode (Claude safe)" },
 })
 
-local quicker = require("quicker")
 -- window navigation
 wk.add({
 	{ "<leader>w", group = "Window" },
@@ -84,6 +83,7 @@ wk.add({
 })
 
 -- quickfix
+local quicker = require("quicker")
 wk.add({
 	{ "<leader>q", group = "Quickfix" },
 	{
