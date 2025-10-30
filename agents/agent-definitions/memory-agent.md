@@ -71,6 +71,10 @@ go through the MCP integration, never direct filesystem writes.
 
 ## Core Responsibilities
 
+**📘 LogSeq Formatting Reference**: For detailed LogSeq syntax rules, read
+`/home/joba/.claude/skills/logseq/SKILL.md`. Key rule: NO BLANK LINE between
+properties and first content block.
+
 ### **1. Memory Storage**
 
 When asked to store or remember information:
@@ -142,7 +146,7 @@ type:: memory category:: [category] created:: YYYY-MM-DD updated:: YYYY-MM-DD
 last-verified:: YYYY-MM-DD confidence:: high stability:: Stable relevance::
 [when to use this memory] tags:: [[relevant]] [[tags]]
 
-# [Memory Title]
+- # [Memory Title]
 
 ## Context
 
@@ -277,6 +281,13 @@ When asked to store information:
 7. **EXECUTE NOW**: Call mcp**mcp-logseq**create_page or
    mcp**mcp-logseq**update_page RIGHT NOW - execute the tool before doing
    anything else. Do not describe, do not explain - CALL THE TOOL FIRST.
+
+   **CRITICAL LOGSEQ FORMAT RULES**:
+
+   - Properties at top (NO leading hyphens)
+   - Each property on separate line: `key:: value`
+   - **NO BLANK LINE** after properties - first content block comes immediately
+   - First content must be a bullet: `- # Title`
 
 8. **Report Success** (only after tool returns successfully): Confirm what was
    stored, where it's located, and how to retrieve it
