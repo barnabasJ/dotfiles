@@ -106,6 +106,8 @@ claude/memories/[category]/[specific-topic]
 - `claude/memories/context/people` - Information about people mentioned
 - `claude/memories/context/domain` - Domain-specific knowledge
 - `claude/memories/conversation/insights` - Key insights from conversations
+- `claude/memories/hard-won-knowledge/[problem-area]` - **Problems that took
+  effort to solve (capture immediately)**
 
 ### **Memory Page Properties**
 
@@ -332,6 +334,24 @@ Store information about:
 - Topics of high interest
 - Recurring themes
 
+### **Hard-Won Knowledge (claude/memories/hard-won-knowledge/)**
+
+**CRITICAL CATEGORY** - Store information immediately after struggles:
+
+- Problems that took multiple attempts to solve
+- Issues that required deep debugging
+- Solutions discovered after failed approaches
+- Unfamiliar technology/API learnings
+- Workflow improvements after struggles
+- Tooling and configuration fixes
+
+**Purpose**: Capture detailed troubleshooting knowledge while context is fresh
+to prevent repeating the same struggles in future sessions.
+
+**Template Structure**: Problem description, wrong approaches tried, working
+solution, fast recognition patterns, prevention strategies, time-saving
+shortcuts.
+
 ## Best Practices
 
 ### **When to Store Memories**
@@ -344,6 +364,7 @@ Store information about:
 - Domain knowledge for specific projects
 - Key insights from conversations
 - Information user explicitly asks to remember
+- **Hard-won knowledge captured immediately after solving difficult problems**
 
 ❌ **DON'T Store:**
 
@@ -352,6 +373,110 @@ Store information about:
 - Information available in docs/code
 - Obvious or common knowledge
 - Sensitive credentials or secrets
+
+### **Immediate Capture Pattern (CRITICAL)**
+
+**Store memories IMMEDIATELY after overcoming challenges** - don't wait for
+session end:
+
+**🚨 Trigger Moments for Immediate Storage:**
+
+1. **Multiple Attempts**: Problem took several tries to solve
+2. **Deep Debugging**: Issue required extensive investigation
+3. **Research Breakthrough**: Found working approach after failed attempts
+4. **Learning Curve**: Figured out unfamiliar technology/API
+5. **Workflow Discovery**: Found better process after struggling
+6. **Tooling Solutions**: Solved configuration or setup problems
+
+**What to Capture Immediately:**
+
+```markdown
+claude/memories/hard-won-knowledge/[problem-area]/[specific-issue]
+
+type:: memory category:: hard-won-knowledge created:: YYYY-MM-DD confidence::
+high effort-level:: [high/medium/low] time-saved-next-time:: [estimated] tags::
+[[troubleshooting]] [[problem-area]]
+
+# [Specific Problem That Was Difficult]
+
+## The Challenge
+
+- What made this difficult
+- How much time it took
+- Why obvious approaches didn't work
+
+## Wrong Approaches Tried
+
+- Approach 1: Why it failed
+- Approach 2: Why it failed
+- Approach 3: Why it failed
+
+## Working Solution
+
+- What finally worked
+- Why this approach succeeded
+- Key insight that made the difference
+
+## Fast Recognition Next Time
+
+- How to spot this problem quickly
+- Warning signs to look for
+- Immediate diagnostic steps
+
+## Prevention
+
+- How to avoid this problem
+- What to check upfront
+- Better patterns to use
+
+## Time-Saving Shortcuts
+
+- Quick commands/patterns discovered
+- Configuration templates
+- Debugging shortcuts
+
+## Related Issues
+
+- [[claude/memories/hard-won-knowledge/similar-problem]]
+```
+
+**Why Immediate Capture Matters:**
+
+- ✅ Details are fresh and accurate while struggle is recent
+- ✅ Captures full context: what didn't work AND what did
+- ✅ Prevents repeating same mistakes in future sessions
+- ✅ Each captured struggle makes future work dramatically faster
+- ✅ Builds institutional knowledge that compounds over time
+- ❌ Waiting until session end risks losing crucial details
+- ❌ Context fades quickly after moving to next task
+
+**Storage Response for Hard-Won Knowledge:**
+
+```markdown
+## Hard-Won Knowledge Captured
+
+### Problem: [Brief description]
+
+### Location: claude/memories/hard-won-knowledge/[area]/[issue]
+
+### Effort Level: [High/Medium/Low]
+
+### Time Invested: [Approximate time spent solving this]
+
+### Time Saved Next Time: [Estimated time saved on future encounters]
+
+### What Was Captured:
+
+- The challenge and why it was difficult
+- [x] wrong approaches that didn't work
+- The working solution and why it succeeded
+- Fast recognition patterns for next time
+- Prevention strategies
+
+### Retrieval Keywords: [problem-specific terms]
+
+### Value: This memory will save significant time when this problem recurs
+```
 
 ### **Memory Quality Standards**
 
@@ -410,12 +535,29 @@ If memory seems outdated:
 
 The orchestrator should call memory-agent when:
 
-- User asks to "remember" or "save" information
-- User asks "what did I say about..." or "do you remember..."
+**RETRIEVE Mode (Start of session/task):**
+
 - Starting work on familiar project (retrieve project memories)
+- User asks "what did I say about..." or "do you remember..."
+- Beginning work on known problem areas (check for hard-won knowledge)
+- User mentions topics that might have stored context
+
+**STORE Mode - Immediate (During work):**
+
+- **🚨 CRITICAL: After solving problem that took multiple attempts**
+- **After extensive debugging or troubleshooting**
+- **After discovering working solution following failed approaches**
+- **After figuring out confusing technology/API**
+- **After finding better workflow following struggles**
 - User mentions preferences that should be stored
-- Making decisions that should be recorded
-- Encountering recurring patterns worth remembering
+- Making architectural decisions that should be recorded
+
+**STORE Mode - Session End:**
+
+- User explicitly asks to "remember" or "save" information
+- After completing significant features or fixes
+- When discovering valuable patterns worth remembering
+- End of work session to capture session learnings
 
 ### **Coordinating with Other Agents**
 
