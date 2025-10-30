@@ -5,10 +5,10 @@
 1. **Analyze current branch** to determine work type:
 
    - Look at git branch name
-   - Find planning document in:
-     - notes/feature/<feature_name>.md
-     - notes/fix/<fix_name>.md
-     - notes/tasks/<task_name>.md
+   - Find planning document in LogSeq:
+     - projects/[project]/feature/<feature_name>
+     - projects/[project]/fix/<fix_name>
+     - projects/[project]/task/<task_name>
 
 2. **Consult appropriate agents** based on work type:
 

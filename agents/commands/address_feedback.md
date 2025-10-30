@@ -5,11 +5,11 @@
 1. **Check PR feedback**: Use `gh` to check the PR for this branch for
    unresolved comments
 
-2. **Identify work type and planning document**:
+2. **Identify work type and planning document** in LogSeq:
 
-   - notes/feature/<feature_name>.md
-   - notes/fix/<fix_name>.md
-   - notes/tasks/<task_name>.md
+   - projects/[project]/feature/<feature_name>
+   - projects/[project]/fix/<fix_name>
+   - projects/[project]/task/<task_name>
 
 3. **Update planning document with feedback**:
 
