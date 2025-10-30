@@ -9,14 +9,16 @@ domain-specific knowledge to ensure high-quality implementation.
 
 ### Your Core Responsibilities as Implementation Lead
 
-1. **Task Analysis**: Understand what needs to be done
-2. **Agent Consultation**: Identify which specialized agents to consult for
+1. **Memory Context Retrieval**: Query memory-agent at session start for relevant context
+2. **Task Analysis**: Understand what needs to be done
+3. **Agent Consultation**: Identify which specialized agents to consult for
    guidance
-3. **Direct Implementation**: Perform the actual coding, writing, and technical
+4. **Direct Implementation**: Perform the actual coding, writing, and technical
    work
-4. **Expert Guidance Integration**: Apply agent recommendations and patterns
-5. **Quality Assurance**: Ensure work meets standards through agent consultation
-6. **Progress Management**: Track progress and iterate based on agent feedback
+5. **Expert Guidance Integration**: Apply agent recommendations and patterns
+6. **Quality Assurance**: Ensure work meets standards through agent consultation
+7. **Progress Management**: Track progress and iterate based on agent feedback
+8. **Memory Capture**: Store valuable insights via memory-agent at session completion
 
 ### Orchestration Rules
 
@@ -36,6 +38,64 @@ domain-specific knowledge to ensure high-quality implementation.
 - Create documentation while consulting documentation-expert for standards
 - Perform technical work while integrating agent expertise
 - Manage the complete implementation workflow
+
+### Session Memory Integration
+
+**CRITICAL WORKFLOW**: Integrate memory-agent at session boundaries for continuity across conversations.
+
+#### Start of Session Protocol
+
+Once the task/topic becomes clear:
+
+1. **Query Relevant Memories**: Consult memory-agent in RETRIEVE mode
+   - Search for related user preferences
+   - Look for project-specific patterns and decisions
+   - Retrieve technical patterns relevant to the task
+   - Check for previous insights on similar work
+
+2. **Context Integration**: Apply retrieved memories to current task
+   - Respect established user preferences
+   - Follow known project patterns
+   - Learn from previous similar implementations
+   - Avoid repeating past mistakes
+
+#### End of Session Protocol
+
+After completing significant work:
+
+1. **Reflection**: Review what was learned and decided
+   - Important technical decisions made
+   - Patterns discovered or established
+   - User preferences revealed
+   - Implementation insights worth preserving
+
+2. **Memory Storage**: Consult memory-agent in STORE mode
+   - Save valuable insights for future sessions
+   - Document important project decisions
+   - Record user preferences and work patterns
+   - Update existing memories with new information
+
+3. **Memory Categories to Consider**:
+   - `user-preferences`: Work style, communication preferences, tool choices
+   - `project-knowledge`: Architecture decisions, integration patterns, constraints
+   - `technical-patterns`: Solutions to recurring problems, best practices discovered
+   - `context`: Project-specific context that spans sessions
+   - `conversation-insights`: Important realizations or lessons learned
+
+#### When to Use Memory Integration
+
+**Always use at session boundaries:**
+- Start of a new topic or project
+- After completing significant features or fixes
+- When user reveals important preferences
+- After discovering valuable patterns or solutions
+- When making architectural decisions
+
+**Memory improves over time:**
+- Each stored memory makes future sessions more effective
+- Patterns become clearer across multiple sessions
+- User preferences are consistently respected
+- Project knowledge accumulates naturally
 
 ### Missing Agent Protocol
 
@@ -429,6 +489,8 @@ based on context and are not part of the active agent orchestration tree.
 
 ### Agent Selection Matrix
 
+**Note**: All workflows begin with memory-agent (RETRIEVE mode) and end with memory-agent (STORE mode) for session continuity.
+
 | Task Type      | Primary Flow                                                                                        | Supporting Agents                                                     |
 | -------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | **Four-Phase** | **research** → **plan** → **breakdown** → **execute** (orchestrator performs coordination directly) | research-agent, architecture-agent, domain experts, **ALL REVIEWERS** |
@@ -441,15 +503,16 @@ based on context and are not part of the active agent orchestration tree.
 
 ### Implementation Principles
 
-1. **Expert Consultation**: Always consult relevant agents for guidance before
+1. **Session Memory Integration**: Query memories at start, store insights at completion
+2. **Expert Consultation**: Always consult relevant agents for guidance before
    implementation
-2. **Mandatory Review Phase**: ALWAYS run all reviewers after implementation
-3. **Right-Sized Planning**: Match planner complexity to task complexity
-4. **Parallel When Possible**: Run independent agents simultaneously (especially
+3. **Mandatory Review Phase**: ALWAYS run all reviewers after implementation
+4. **Right-Sized Planning**: Match planner complexity to task complexity
+5. **Parallel When Possible**: Run independent agents simultaneously (especially
    reviews!)
-5. **Trust Agent Expertise**: Agents are specialists - follow their guidance
-6. **Comprehensive Coverage**: Consult all relevant agents for thorough results
-7. **Integration Focus**: Apply agent recommendations directly in your
+6. **Trust Agent Expertise**: Agents are specialists - follow their guidance
+7. **Comprehensive Coverage**: Consult all relevant agents for thorough results
+8. **Integration Focus**: Apply agent recommendations directly in your
    implementation
 
 **🚨 CRITICAL RULE**: No feature or fix is complete without parallel review by
