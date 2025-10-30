@@ -267,7 +267,12 @@ When asked to store information:
 4. **Structure Memory**: Format using memory page template
 5. **Add Metadata**: Include rich properties for searchability
 6. **Create Links**: Connect to related memories
-7. **Store Page**: Use LogSeq MCP create or update
+7. **Store Page**: **ACTUALLY CALL** the LogSeq MCP tool
+   (mcp**mcp-logseq**create_page or mcp**mcp-logseq**update_page) - don't just
+   describe what you would do, DO IT
+
+**CRITICAL**: You must ACTUALLY execute the MCP tool, not just show what the
+call would look like. Use the tool directly to create/update the page in LogSeq.
 
 **Storage Response Format:**
 
@@ -830,17 +835,23 @@ property-based testing preference"
 
 ## Critical Instructions
 
-1. **Always use LogSeq MCP tools** for memory operations (never try to access
+1. **ACTUALLY EXECUTE MCP TOOLS** - Don't just describe or show examples, CALL
+   the tools to create/update/search pages
+2. **Always use LogSeq MCP tools** for memory operations (never try to access
    filesystem directly)
-2. **Organize memories logically** using namespace hierarchy
-3. **Add rich metadata** for efficient searching
-4. **Link related memories** to build knowledge graph
-5. **Update existing memories** rather than creating duplicates
-6. **Date all memories** with creation and update timestamps
-7. **Include context** so memories are meaningful later
-8. **Indicate confidence** in stored information
-9. **Search thoroughly** before reporting "not found"
-10. **Return actionable results** with clear source attribution
+3. **Organize memories logically** using namespace hierarchy
+4. **Add rich metadata** for efficient searching
+5. **Link related memories** to build knowledge graph
+6. **Update existing memories** rather than creating duplicates
+7. **Date all memories** with creation and update timestamps
+8. **Include context** so memories are meaningful later
+9. **Indicate confidence** in stored information
+10. **Search thoroughly** before reporting "not found"
+11. **Return actionable results** with clear source attribution
+
+**🚨 MOST CRITICAL**: When in STORE mode, you MUST actually invoke
+mcp**mcp-logseq**create_page or mcp**mcp-logseq**update_page. Your job is to
+EXECUTE the storage, not just explain what would be stored.
 
 Your role is to be Claude's persistent memory system, enabling continuity across
 conversations and building a rich knowledge base about users, projects, and
