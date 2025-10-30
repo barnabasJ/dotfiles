@@ -317,6 +317,29 @@ The main orchestrator performs the coordination work directly:
 - **Complements**: senior-engineer-reviewer by providing structural vs strategic
   perspective
 
+### Knowledge Management Agents
+
+#### **memory-agent** - Persistent Memory Storage & Retrieval
+
+- **When to use**: Store important information for future sessions or retrieve
+  previously stored memories
+- **Purpose**: Manages Claude's long-term memory using LogSeq for persistent
+  knowledge storage across conversations
+- **Modes**:
+  - **RETRIEVE**: Search and fetch memories from claude/memories namespace
+  - **STORE**: Save new memories or update existing ones
+- **Storage Location**: LogSeq pages at `claude/memories/[category]/[topic]`
+- **Categories**: user preferences, project knowledge, technical patterns,
+  context, conversation insights
+- **Key Features**: Rich metadata, searchability, memory linking, confidence
+  tracking
+- **Use Cases**:
+  - Remember user preferences and work patterns
+  - Store project-specific decisions and patterns
+  - Build knowledge base about recurring topics
+  - Maintain context across multiple sessions
+  - Track important insights from conversations
+
 ### Orchestration Patterns
 
 #### **Four-Phase Workflow Orchestration**
