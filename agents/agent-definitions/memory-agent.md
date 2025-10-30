@@ -114,17 +114,26 @@ claude/memories/[category]/[specific-topic]
 All memory pages should include these LogSeq properties:
 
 ```markdown
-type:: memory category:: [user/project/technical/context/conversation] created::
-YYYY-MM-DD updated:: YYYY-MM-DD confidence:: [high/medium/low] relevance::
+type:: memory category::
+[user/project/technical/context/conversation/hard-won-knowledge] created::
+YYYY-MM-DD updated:: YYYY-MM-DD last-verified:: YYYY-MM-DD confidence::
+[high/medium/low] stability:: [Stable/Evolving/Deprecated/Volatile] relevance::
 [description of when this is relevant] tags:: [[tag1]] [[tag2]]
+```
+
+**Optional Properties for Tracking Changes:**
+
+```markdown
+status:: [active/corrected/deprecated] version-sensitive:: [true/false]
+superseded-by:: [[link-to-new-memory]]
 ```
 
 ### **Memory Page Structure**
 
 ```markdown
 type:: memory category:: [category] created:: YYYY-MM-DD updated:: YYYY-MM-DD
-confidence:: high relevance:: [when to use this memory] tags:: [[relevant]]
-[[tags]]
+last-verified:: YYYY-MM-DD confidence:: high stability:: Stable relevance::
+[when to use this memory] tags:: [[relevant]] [[tags]]
 
 # [Memory Title]
 
@@ -140,6 +149,12 @@ confidence:: high relevance:: [when to use this memory] tags:: [[relevant]]
 - Key facts, preferences, or knowledge
 - Specific details that matter
 
+## Current Status
+
+- last-verified:: YYYY-MM-DD
+- currently-working:: Yes
+- stability:: Stable
+
 ## Related Memories
 
 - [[claude/memories/related/topic-1]]
@@ -151,9 +166,11 @@ confidence:: high relevance:: [when to use this memory] tags:: [[relevant]]
 - When to apply this knowledge
 - Example scenarios
 
-## Updates
+## Update History
 
-- YYYY-MM-DD: [Initial creation or update note]
+- YYYY-MM-DD: Initial creation
+- YYYY-MM-DD: [Update note if corrected]
+- YYYY-MM-DD: [Validation note if verified still working]
 ```
 
 ## LogSeq MCP Tool Usage
@@ -520,14 +537,116 @@ If multiple memories conflict:
 4. Ask user which is correct
 5. Update or consolidate memories based on user input
 
-### **Outdated Memories**
+### **Outdated or Incorrect Memories**
 
-If memory seems outdated:
+**🚨 CRITICAL**: When a retrieved memory proves incorrect or outdated during
+use:
 
-1. Flag it as potentially stale
-2. Ask user if information is still accurate
-3. Update memory with new information
-4. Note the update in memory history
+**Immediate Action Required:**
+
+1. **Don't ignore it** - Incorrect memories undermine system trust
+2. **Update immediately** - Capture what changed while context is fresh
+3. **Preserve history** - Keep record of what used to work
+4. **Document why** - Explain what changed (tech update, better approach, etc.)
+5. **Update properties** - Adjust confidence, add stability indicator
+
+**Memory Correction Process:**
+
+```markdown
+## Step 1: Document the Problem
+
+- What memory was retrieved
+- How it was applied
+- Why it didn't work
+- What was tried based on memory
+
+## Step 2: Update the Memory Page
+
+Use mcp**mcp-logseq**update_page to add:
+
+### Update History Section (add to existing memory)
+
+- YYYY-MM-DD: **OUTDATED** - [Retrieved memory] didn't work because [reason]
+- YYYY-MM-DD: **CORRECTED** - [New approach that works]
+- YYYY-MM-DD: **CONTEXT** - [What changed: API update, better practice, etc.]
+
+### Current Status Section (add or update)
+
+- last-verified:: YYYY-MM-DD
+- currently-working:: [Yes/No]
+- stability:: [Stable/Evolving/Deprecated]
+- superseded-by:: [[link-to-new-memory]] (if applicable)
+
+## Step 3: Update Properties
+
+properties: { "updated": "YYYY-MM-DD", "confidence": "medium", # Lower if
+information is unstable "status": "corrected", # or "deprecated" if obsolete
+"version-sensitive": "true" # If tied to specific tech version }
+```
+
+**Correction Response Format:**
+
+```markdown
+## Memory Corrected
+
+### Original Memory: claude/memories/[category]/[topic]
+
+### Problem Found:
+
+- Retrieved: [What the memory said]
+- Applied: [How it was used]
+- Result: [Why it failed]
+
+### Correction Made:
+
+- Updated: YYYY-MM-DD
+- New information: [Current working approach]
+- Reason for change: [Tech update / Better practice / Context shift]
+
+### History Preserved:
+
+- Old approach documented with timestamp
+- Marked as OUTDATED
+- Reason for change recorded
+
+### Confidence Adjusted:
+
+- Previous: [high/medium/low]
+- Current: [adjusted confidence]
+- Stability: [Stable/Evolving/Deprecated]
+
+### Future Retrieval:
+
+This memory now includes version history and will help identify patterns of
+technology change in this area.
+```
+
+**When to Deprecate vs Update:**
+
+**UPDATE (same memory page):**
+
+- Technology evolved but concept is same
+- Better approach to same problem
+- More complete information about same topic
+- Refinement of existing knowledge
+
+**DEPRECATE (create new memory):**
+
+- Completely different approach now recommended
+- Technology fundamentally changed
+- Original approach is harmful/anti-pattern now
+- Create new memory and link old one with superseded-by
+
+**Stability Indicators:**
+
+Add to memory properties to track volatility:
+
+```markdown
+stability:: Stable # Changes rarely, reliable long-term stability:: Evolving #
+Actively changing, verify before use stability:: Deprecated # No longer
+recommended, see superseded-by stability:: Volatile # Changes frequently, always
+verify
+```
 
 ## Integration with Other Agents
 
@@ -551,6 +670,15 @@ The orchestrator should call memory-agent when:
 - **After finding better workflow following struggles**
 - User mentions preferences that should be stored
 - Making architectural decisions that should be recorded
+
+**UPDATE Mode - Immediate (When memories fail):**
+
+- **🚨 CRITICAL: Retrieved memory doesn't work when applied**
+- **Technology/API has changed since memory was created**
+- **Better approach discovered than what's in memory**
+- **Incomplete information in memory (missing key details)**
+- **Context or constraints have changed**
+- **Conflicting information discovered**
 
 **STORE Mode - Session End:**
 

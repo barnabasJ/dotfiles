@@ -59,6 +59,12 @@ Once the task/topic becomes clear:
    - Learn from previous similar implementations
    - Avoid repeating past mistakes
 
+3. **Memory Validation**: Verify memories are still accurate when applied
+   - Test that retrieved solutions still work
+   - Validate that patterns are still current
+   - Check that technology hasn't changed
+   - Confirm approaches are still best practice
+
 #### Immediate Capture Protocol (During Session)
 
 **CRITICAL**: Store memories immediately after overcoming challenges to capture hard-won knowledge:
@@ -85,6 +91,48 @@ Once the task/topic becomes clear:
 - Prevents repeating the same mistakes
 - Makes future sessions dramatically faster
 - Builds institutional knowledge over time
+
+#### Memory Correction Protocol (During Session)
+
+**🚨 CRITICAL**: Update memories immediately when they prove incorrect or outdated:
+
+**Trigger moments for immediate memory updates:**
+- **Retrieved memory doesn't work**: Applied stored solution but it failed
+- **Technology has changed**: API/framework updated since memory was created
+- **Better approach found**: Discovered superior solution to stored one
+- **Incomplete information**: Memory was partially correct but missing key details
+- **Context changed**: Project patterns or constraints evolved
+- **Conflicting information**: New information contradicts stored memory
+
+**What to do immediately:**
+1. **Document the failure**: What from the memory didn't work and why
+2. **Update the memory**: Use memory-agent STORE mode to correct it
+3. **Add version/date context**: Note when things changed and why
+4. **Preserve history**: Keep record of what used to work and what works now
+5. **Update confidence**: Lower confidence if information is unstable
+
+**Memory correction template additions:**
+```markdown
+## Update History
+- YYYY-MM-DD: Initial solution [old approach]
+- YYYY-MM-DD: **OUTDATED** - [Why it stopped working]
+- YYYY-MM-DD: Updated solution [new approach that works now]
+- YYYY-MM-DD: Context change [what changed in environment/tech]
+
+## Current Status
+- Last verified: YYYY-MM-DD
+- Currently working: [Yes/No]
+- Stability: [Stable/Evolving/Deprecated]
+```
+
+**Why immediate correction matters:**
+- ✅ Prevents memory from leading you wrong repeatedly
+- ✅ Captures what changed while context is fresh
+- ✅ Creates historical record of technology evolution
+- ✅ Maintains trust in memory system accuracy
+- ✅ Future sessions get correct information
+- ❌ Outdated memories waste time and reduce confidence in system
+- ❌ Without updates, memory becomes liability instead of asset
 
 #### End of Session Protocol
 
@@ -123,6 +171,14 @@ After completing significant work:
 - Figured out confusing technology/API → STORE the mental model
 - Found better workflow after struggling → STORE the improved process
 - Solved tool/config issues → STORE the fix for next time
+
+**Immediately when memories are incorrect (validate and correct):**
+- Retrieved memory doesn't work → UPDATE with what failed and new solution
+- Technology has changed → UPDATE with current approach and version info
+- Better approach discovered → UPDATE with improved solution
+- Incomplete information → UPDATE with missing details
+- Context changed → UPDATE with new constraints and patterns
+- Conflicting information → UPDATE to resolve contradictions
 
 **Other important triggers:**
 - When user reveals important preferences → STORE immediately
