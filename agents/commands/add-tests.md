@@ -18,12 +18,12 @@ As the orchestrator, you will:
    - Identify testing priorities
    - Determine coverage requirements
 
-3. **Consult experts for guidance**:
+3. **Leverage skills and consult agents for guidance**:
 
-   - Use **test-expert** for testing methodology, TDD/BDD approach, and coverage
-     strategy
-   - Use **elixir-expert** for Elixir/Phoenix test patterns (ExUnit, Ash,
-     Phoenix)
+   - Reference testing methodologies (testing skill provides TDD/BDD approach
+     and coverage strategy)
+   - Ask about ExUnit patterns (elixir skill provides Elixir/Phoenix test
+     patterns for ExUnit, Ash, Phoenix)
    - Use **research-agent** for unfamiliar testing frameworks or approaches
    - Use **consistency-reviewer** to check existing test patterns
    - Use **qa-reviewer** for test quality validation
@@ -42,12 +42,12 @@ As the orchestrator, you will:
 - Incremental development with focus-driven testing
 - Comprehensive coverage planning (success paths, errors, edge cases)
 
-### **Expert Consultation Integration**
+### **Skills and Expert Consultation Integration**
 
-- **Testing Methodology**: Consult **test-expert** for TDD/BDD approach,
-  coverage strategy, what to test
-- **For Elixir Projects**: Consult **elixir-expert** for ExUnit, Ash, and
-  Phoenix patterns
+- **Testing Methodology**: Reference testing methodologies (testing skill
+  provides TDD/BDD approach, coverage strategy, what to test)
+- **For Elixir Projects**: Ask about ExUnit patterns (elixir skill provides
+  ExUnit, Ash, and Phoenix patterns)
 - **For Other Languages**: Use **research-agent** for framework-specific
   guidance
 - **Pattern Consistency**: Always check existing test patterns with
@@ -65,7 +65,7 @@ As the orchestrator, you will:
 ### Phase 1: Analysis & Expert Consultation
 
 - Analyze project context and testing framework
-- Consult appropriate language experts for guidance
+- Consult appropriate language skills for guidance
 - Check existing test patterns for consistency
 
 ### Phase 2: Test Architecture Planning
@@ -96,8 +96,8 @@ Ensure that tests meet these standards:
 - ✅ **Language-Appropriate Patterns**: Uses correct testing patterns for the
   language/framework
 - ✅ **Pattern Consistency**: Tests align with existing test structure and style
-- ✅ **Expert-Validated Approach**: Guidance from appropriate language expert
-  (elixir-expert, etc.)
+- ✅ **Expert-Validated Approach**: Guidance from appropriate skill knowledge
+  (elixir skill, testing skill, etc.)
 - ✅ **All Tests Pass**: Complete test suite runs successfully
 
 ## Example Workflow
@@ -107,16 +107,17 @@ Ensure that tests meet these standards:
 
 1. Analyze: Need tests for User authentication module (login, logout, session)
 
-2. Consult test-expert: "What testing approach should I use for authentication?
-   What should I test and what coverage strategy is appropriate?"
+2. Ask about testing approach: "What testing approach should I use for
+   authentication? What should I test and what coverage strategy is
+   appropriate?" (testing skill provides methodology guidance)
 
-3. Consult elixir-expert: "What are the best practices for testing Phoenix
+3. Ask about Phoenix patterns: "What are the best practices for testing Phoenix
    authentication? How should I structure tests for login/logout/session
-   management?"
+   management?" (elixir skill provides Elixir-specific guidance)
 
-4. Apply expert guidance: test-expert recommends TDD with unit/integration/E2E
-   levels; elixir-expert recommends ConnCase for controller tests, use setup
-   blocks for auth state, test both success and failure paths
+4. Apply skill knowledge: Testing skill provides TDD with unit/integration/E2E
+   levels; elixir skill provides ConnCase for controller tests, setup blocks for
+   auth state, test both success and failure paths
 
 5. Implement tests incrementally:
 

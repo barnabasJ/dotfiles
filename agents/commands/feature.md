@@ -16,7 +16,7 @@ with continuous plan updates.
 - **Use feature-planner agent** to create comprehensive planning document
 - The agent will:
   - Consult **research-agent** for unfamiliar technologies
-  - Consult **elixir-expert** for Elixir/Phoenix/Ash features
+  - Leverage elixir skill knowledge for Elixir/Phoenix/Ash features
   - Consult **senior-engineer-reviewer** for architectural decisions
   - Create structured implementation plans with clear steps
   - Save planning docs in the notes/features folder
@@ -55,7 +55,7 @@ The **feature-planner** agent creates comprehensive planning documents with:
 ### **Expert Research Integration**
 
 - **research-agent**: For unfamiliar technologies, APIs, frameworks
-- **elixir-expert**: For Elixir, Phoenix, Ash, Ecto work
+- Elixir skill knowledge: For Elixir, Phoenix, Ash, Ecto work
 - **senior-engineer-reviewer**: For architectural decisions
 - Documents all agent consultations performed
 

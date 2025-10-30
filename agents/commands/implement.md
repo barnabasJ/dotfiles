@@ -23,7 +23,8 @@ As the orchestrator, you will:
 3. **Consult experts for guidance**:
 
    - Use **architecture-agent** for code placement and module organization
-   - Use **elixir-expert** for Elixir/Phoenix/Ash patterns and best practices
+   - Ask about implementation patterns (elixir skill provides Elixir/Phoenix/Ash
+     patterns and best practices)
    - Use **research-agent** for unfamiliar libraries or frameworks
    - Use **consistency-reviewer** to ensure alignment with existing patterns
 
@@ -51,11 +52,13 @@ As the orchestrator, you will:
 3. Consult architecture-agent: "Where should I place the User model and auth
    endpoints? What's the proper module structure for authentication?"
 
-4. Consult elixir-expert: "What are the best practices for creating an Ash
+4. Ask about Ash patterns: "What are the best practices for creating an Ash
    resource for User with email, password_hash, and confirmed_at fields? How
-   should I handle authentication in Phoenix?"
+   should I handle authentication in Phoenix?" (elixir skill provides
+   Elixir-specific guidance)
 
-5. Implement based on guidance: Create User resource following expert patterns
+5. Implement based on skill knowledge: Create User resource following expert
+   patterns
 
 6. Verify: Run tests to ensure User resource works correctly
 

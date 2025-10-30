@@ -20,10 +20,10 @@ As the orchestrator, you will:
 
 3. **Consult experts for guidance**:
 
-   - Use **test-expert** for debugging methodology and root cause analysis
-     approaches
-   - Use **elixir-expert** for Elixir/Phoenix test patterns and debugging
-     approaches
+   - Reference debugging methodologies (testing skill provides systematic
+     debugging and root cause analysis approaches)
+   - Ask about test patterns (elixir skill provides Elixir/Phoenix test patterns
+     and debugging approaches)
    - Use **research-agent** for unfamiliar frameworks or error patterns
    - Use **qa-reviewer** for test quality and coverage assessment
    - Use **consistency-reviewer** to ensure fixes align with existing patterns
@@ -44,11 +44,10 @@ As the orchestrator, you will:
 
 ### **Expert Consultation Integration**
 
-- **Testing Methodology**: Consult **test-expert** for systematic debugging
-  approaches and test failure analysis
-- **Language-Specific Experts**: Consult the appropriate language expert
-  (elixir-expert, lua-expert, neovim-expert, etc.) for framework-specific
-  debugging patterns
+- **Testing Methodology**: Reference testing methodologies (testing skill
+  provides systematic debugging approaches and test failure analysis)
+- **Language-Specific Experts**: Ask about framework patterns (elixir skill, lua
+  skill, neovim skill, etc. provide framework-specific debugging patterns)
 - **Research Support**: Use **research-agent** when encountering unfamiliar
   frameworks or error patterns
 - **Pattern Consistency**: Use **consistency-reviewer** to ensure fixes align
@@ -66,7 +65,7 @@ As the orchestrator, you will:
 ### Phase 1: Failure Assessment & Expert Consultation
 
 - Run comprehensive test failure analysis
-- Consult appropriate language experts for debugging guidance
+- Consult appropriate language skills for debugging guidance
 - Prioritize failures using proven framework
 
 ### Phase 2: Focused Test Resolution
@@ -97,8 +96,8 @@ Ensure that fixes meet these standards:
   your specific language/framework
 - ✅ **No Regressions**: Comprehensive testing prevents new issues
 - ✅ **Pattern Consistency**: Fixes align with existing codebase patterns
-- ✅ **Expert-Validated Approach**: Guidance from the appropriate language
-  expert (elixir-expert, lua-expert, neovim-expert, etc.)
+- ✅ **Expert-Validated Approach**: Guidance from appropriate skill knowledge
+  (elixir skill, lua skill, neovim skill, etc.)
 
 ## Example Workflow
 
@@ -108,14 +107,14 @@ Ensure that fixes meet these standards:
 1. Run tests and find 5 authentication tests failing
 2. Analyze: All failing with "JWT token invalid" errors
 
-3. Consult elixir-expert: "5 authentication tests are failing with JWT token
+3. Ask about JWT patterns: "5 authentication tests are failing with JWT token
    errors. What are common causes and debugging approaches for JWT test failures
-   in Phoenix?"
+   in Phoenix?" (elixir skill provides Elixir-specific guidance)
 
-4. Apply expert guidance: Expert recommends checking test.exs config and mock
-   setup. Investigation reveals missing JWT_SECRET in test.exs config.
+4. Apply skill knowledge: Elixir skill recommends checking test.exs config and
+   mock setup. Investigation reveals missing JWT_SECRET in test.exs config.
 
-5. Implement fix: Add JWT_SECRET to test.exs and update mocks based on expert
+5. Implement fix: Add JWT_SECRET to test.exs and update mocks based on skill
    patterns
 
 6. Verify: Run full test suite to ensure no regressions
@@ -141,7 +140,7 @@ Ensure that fixes meet these standards:
 
 ## Key Benefits
 
-- **Expert debugging**: Proactive consultation with language experts
+- **Expert debugging**: Proactive consultation with language skills
 - **Systematic approach**: Controlled fixing priority and strategy
 - **Quality control**: Each fix verified before proceeding
 - **Pattern consistency**: Fixes align with existing codebase standards

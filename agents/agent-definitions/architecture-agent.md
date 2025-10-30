@@ -96,7 +96,7 @@ ls -la config/
 **ALWAYS consult appropriate language expert for architectural guidance:**
 
 - **Domain experts**: For language/framework-specific architectural patterns
-  (elixir-expert, lua-expert, etc.)
+  (elixir skill knowledge, lua skill knowledge, etc.)
 - **research-agent**: For unfamiliar frameworks or architectural approaches
 - Get expert knowledge on framework-specific architectural best practices
 - Understand recommended patterns for the technology stack
@@ -114,8 +114,10 @@ ls -la config/
 
 ### Expert Consultations:
 
-- **elixir-expert**: Consulted usage_rules.md for Phoenix context patterns
-- **elixir-expert**: Researched Ash resource organization best practices
+- **elixir skill knowledge**: Consulted usage_rules.md for Phoenix context
+  patterns
+- **elixir skill knowledge**: Researched Ash resource organization best
+  practices
 - **research-agent**: Investigated domain-driven design patterns for Elixir
 ```
 
@@ -210,9 +212,10 @@ lib/my_app/
 ```markdown
 ## Expert Consultations for Architecture
 
-- **elixir-expert**: Researched Phoenix context boundaries and domain modeling
-- **elixir-expert**: Consulted usage_rules.md for Ash resource organization
-  patterns
+- **elixir skill knowledge**: Researched Phoenix context boundaries and domain
+  modeling
+- **elixir skill knowledge**: Consulted usage_rules.md for Ash resource
+  organization patterns
 - **research-agent**: Investigated microservice patterns for Elixir applications
 ```
 
@@ -287,7 +290,7 @@ recommendations for code organization.
 
 **Return Format:**
 
-```markdown
+````markdown
 ## Architectural Analysis Complete
 
 ### Integration Approach: [New Context/Existing Context/Cross-Context]
@@ -315,7 +318,7 @@ recommendations for code organization.
 ### Implementation Guidance
 
 [Specific steps for integration]
-```
+````
 
 **Success Indicators:**
 

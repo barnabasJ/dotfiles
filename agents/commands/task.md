@@ -24,7 +24,7 @@ For simple tasks, use the **task-planner** agent which will:
 - Create lightweight planning document in ./notes/tasks/<task_name>.md
 - Include essential task description and todo list
 - Consult **research-agent** when working with unfamiliar tools
-- Consult **elixir-expert** for Elixir-related tasks
+- Leverage elixir skill knowledge for Elixir-related tasks
 - Use **consistency-reviewer** for pattern-related work
 
 ### 3. **Git Workflow**
@@ -40,7 +40,7 @@ For simple tasks, use the **task-planner** agent which will:
 The **task-planner** agent knows when to consult other agents:
 
 - **research-agent**: For unfamiliar technologies or approaches
-- **elixir-expert**: For any Elixir/Phoenix/Ash/Ecto work
+- Elixir skill knowledge: For any Elixir/Phoenix/Ash/Ecto work
 - **consistency-reviewer**: When maintaining existing patterns
 - Escalates to **feature-planner** or **fix-planner** if complexity exceeds
   scope
@@ -63,7 +63,7 @@ The **task-planner** agent knows when to consult other agents:
 
 - Includes necessary agent consultations without over-engineering
 - Consults **research-agent** for unfamiliar concepts
-- Uses language experts when appropriate
+- Uses language skills when appropriate
 
 ## Example Task Types
 

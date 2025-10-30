@@ -1,11 +1,13 @@
 # Elixir Project Cleanup
 
-**IMPORTANT**: For Elixir projects, consult **elixir-expert** for proper cleanup
-patterns and use **elixir-reviewer** for final validation.
+**IMPORTANT**: For Elixir projects, ask about cleanup patterns (elixir skill
+provides proper cleanup guidance) and use **elixir-reviewer** for final
+validation.
 
 ## Cleanup Process
 
-1. **Consult elixir-expert** for project-specific cleanup guidance
+1. **Ask about cleanup patterns** (elixir skill provides project-specific
+   cleanup guidance)
 2. **Compile with warnings as errors**: `mix compile --warnings-as-errors`
    - Fix all compilation issues
 3. **Run credo strict analysis**: `mix credo --strict`
