@@ -46,8 +46,8 @@ structures that enable efficient execution and quality implementation.
 
 1. **Implementation Plan Review**
 
-   - Read and analyze strategic implementation plan from
-     notes/[topic-name]/plan.md
+   - Read and analyze strategic implementation plan from LogSeq page
+     `projects/[project]/[topic]/plan`
    - Extract implementation phases, dependencies, and requirements
    - Identify task dependencies and constraints
    - Validate plan completeness for detailed task creation
@@ -97,19 +97,49 @@ structures that enable efficient execution and quality implementation.
   - Coordinate **architecture-agent** for task organization validation
   - Consult appropriate **domain experts** for task-specific guidance
   - Create comprehensive task breakdowns with efficient execution design
-  - Save breakdown docs in notes/[topic-name]/breakdown.md
+  - Save breakdown docs to LogSeq page `projects/[project]/[topic]/breakdown`
 
-### 2. **Folder Structure Integration**
+### 2. **LogSeq Page Integration**
 
-The breakdown-agent completes the topic-based folder structure:
+The breakdown completes the topic-based LogSeq structure:
 
 ```
-notes/
-├── [topic-name]/
-│   ├── research.md      # Comprehensive research findings (from research phase)
-│   ├── plan.md          # Strategic implementation plan (from plan phase)
-│   ├── breakdown.md     # Detailed task breakdown with efficient execution
-│   └── [ready for execution phase]
+projects/[project]/[topic]/
+├── research      # Comprehensive research findings (from research phase)
+├── plan          # Strategic implementation plan (from plan phase)
+├── breakdown     # Detailed task breakdown with efficient execution
+└── [ready for execution phase]
+```
+
+### **Determining Project Name**
+
+Use the git repository name as the project identifier:
+
+```bash
+basename $(git rev-parse --show-toplevel)
+```
+
+### **Page Properties**
+
+Add LogSeq properties at the top of the content using double-colon syntax:
+
+```
+type:: breakdown
+status:: completed
+created:: YYYY-MM-DD
+project:: [project-name]
+topic:: [topic-name]
+```
+
+### **Creating the Page**
+
+Use the LogSeq MCP tool to create the page:
+
+```
+mcp__mcp-logseq__create_page(
+  title: "projects/[project]/[topic]/breakdown",
+  content: "[properties]\n\n# [topic] Task Breakdown\n\n[content]"
+)
 ```
 
 ### 3. **Task Design**
@@ -179,8 +209,10 @@ This command continues the **breakdown phase** of the four-phase workflow:
 
 ### **Breakdown Dependencies**
 
-- notes/[topic-name]/research.md must exist with complete research
-- notes/[topic-name]/plan.md must exist with strategic planning
+- LogSeq page `projects/[project]/[topic]/research` must exist with complete
+  research
+- LogSeq page `projects/[project]/[topic]/plan` must exist with strategic
+  planning
 - Implementation plan must include clear phases and dependencies
 
 ## Task Breakdown Quality Standards
@@ -314,7 +346,8 @@ until tests are green.
 
 Breakdown phase is complete when:
 
-- Numbered checklist breakdown created in notes/[topic-name]/breakdown.md
+- Numbered checklist breakdown created in LogSeq page
+  `projects/[project]/[topic]/breakdown` with proper metadata properties
 - Each task includes specific file references and documentation links
 - **Test validation substeps** explicitly included in every numbered task
 - **Critical commit workflow** instructions clearly stated at the top

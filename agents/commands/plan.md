@@ -47,7 +47,8 @@ into detailed, executable tasks.
 
 1. **Codebase Impact Analysis Review**
 
-   - Read and analyze impact analysis from notes/[topic-name]/research.md
+   - Read and analyze impact analysis from LogSeq page
+     `projects/[project]/[topic]/research`
    - Extract existing patterns, dependencies, and architectural conventions
    - Identify file-level changes and integration points discovered
    - Review third-party integration detection and documentation links
@@ -107,18 +108,48 @@ into detailed, executable tasks.
   - Consult appropriate **domain experts** for pattern validation
   - Coordinate **senior-engineer-reviewer** for strategic validation
   - Create comprehensive implementation plans with clear phases
-  - Save planning docs in notes/[topic-name]/plan.md
+  - Save planning docs to LogSeq page `projects/[project]/[topic]/plan`
 
-### 2. **Folder Structure Integration**
+### 2. **LogSeq Page Integration**
 
-The implementation-planner builds on the existing research structure:
+The plan builds on the existing research structure in LogSeq:
 
 ```
-notes/
-├── [topic-name]/
-│   ├── research.md      # Comprehensive research findings (from research phase)
-│   ├── plan.md          # Strategic implementation plan
-│   └── [ready for breakdown phase]
+projects/[project]/[topic]/
+├── research      # Comprehensive research findings (from research phase)
+├── plan          # Strategic implementation plan
+└── [ready for breakdown phase]
+```
+
+### **Determining Project Name**
+
+Use the git repository name as the project identifier:
+
+```bash
+basename $(git rev-parse --show-toplevel)
+```
+
+### **Page Properties**
+
+Add LogSeq properties at the top of the content using double-colon syntax:
+
+```
+type:: plan
+status:: completed
+created:: YYYY-MM-DD
+project:: [project-name]
+topic:: [topic-name]
+```
+
+### **Creating the Page**
+
+Use the LogSeq MCP tool to create the page:
+
+```
+mcp__mcp-logseq__create_page(
+  title: "projects/[project]/[topic]/plan",
+  content: "[properties]\n\n# [topic] Implementation Plan\n\n[content]"
+)
 ```
 
 ### 3. **Strategic Implementation Planning**
@@ -182,14 +213,15 @@ This command continues the **planning phase** of the four-phase workflow:
 
 ### **Required Before Planning**
 
-- Research phase completed with notes/[topic-name]/research.md
+- Research phase completed with LogSeq page
+  `projects/[project]/[topic]/research`
 - Research findings include technical, architectural, and strategic dimensions
 - Expert recommendations and risk assessment available
 
 ### **Planning Dependencies**
 
-- Research document must exist and be comprehensive
-- Topic folder structure must be established
+- Research page must exist and be comprehensive in LogSeq
+- Project and topic structure must be established
 - Research findings must include implementation guidance
 
 ## Planning Quality Standards
@@ -229,31 +261,40 @@ The **implementation-planner** agent creates plans with:
 ### **Core Sections**
 
 - **Impact Analysis Summary**: Codebase changes and existing patterns discovered
-- **Feature Specification**: Detailed behavior, user stories, and acceptance criteria
-- **Technical Design**: Data models, API contracts, and integration details using existing patterns
-- **Third-Party Integrations**: Specific SDK usage, authentication, and webhook handling
-- **Implementation Strategy**: Primary approach following discovered project conventions
+- **Feature Specification**: Detailed behavior, user stories, and acceptance
+  criteria
+- **Technical Design**: Data models, API contracts, and integration details
+  using existing patterns
+- **Third-Party Integrations**: Specific SDK usage, authentication, and webhook
+  handling
+- **Implementation Strategy**: Primary approach following discovered project
+  conventions
 - **Agent Consultations**: Architecture and expert guidance received
 - **Implementation Phases**: Clear phases with objectives and success criteria
-- **Quality and Testing Strategy**: Test approach using discovered testing patterns
+- **Quality and Testing Strategy**: Test approach using discovered testing
+  patterns
 - **Success Criteria**: Measurable outcomes and acceptance criteria
 
 ### **Example Plan Output Structure**
 
 ```markdown
 ## Feature Specification
+
 - User Stories with acceptance criteria
 - API contracts and data flow
 - State management requirements
 - Integration points with existing systems
 
 ## Technical Design
+
 - Using existing pattern from `lib/app/accounts/user.ex:45-67`
 - Extending current authentication module with new capabilities
 - Third-party integration via Stripe Payment Intents API
-- Data model following current Ash resource patterns from `lib/app/accounts/resources/user.ex`
+- Data model following current Ash resource patterns from
+  `lib/app/accounts/resources/user.ex`
 
 ## Implementation Strategy
+
 - Phase 1: Core resource creation following `existing_resource.ex` pattern
 - Phase 2: Integration setup using discovered authentication approach
 - Phase 3: Testing using current project test patterns from `test/app/accounts/`
@@ -270,7 +311,8 @@ The **implementation-planner** agent creates plans with:
 
 Planning phase is complete when:
 
-- Strategic implementation plan created in notes/[topic-name]/plan.md
+- Strategic implementation plan created in LogSeq page
+  `projects/[project]/[topic]/plan` with proper metadata properties
 - Architecture consultations completed and documented
 - Implementation phases defined with clear objectives
 - Quality and testing strategy integrated

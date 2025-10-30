@@ -15,16 +15,43 @@ consultation.
 
 **Simple Execution Model:**
 
-1. Read the breakdown checklist from notes/[topic-name]/breakdown.md
+1. Read the breakdown checklist from LogSeq page
+   `projects/[project]/[topic]/breakdown`
 2. Work through each numbered task sequentially
 3. Consult relevant agents for guidance on specific tasks
 4. Complete each subtask following the specifications
-5. **Mark subtasks as completed in breakdown.md** (change `[ ]` to `[x]`)
-6. **Mark the main task as completed in breakdown.md** (change `1. [ ]` to
+5. **Mark subtasks as completed in breakdown page** (change `[ ]` to `[x]`)
+6. **Mark the main task as completed in breakdown page** (change `1. [ ]` to
    `1. [x]`)
 7. Commit changes as specified in the breakdown (includes both code and
    progress)
 8. Continue to next task
+
+### **Determining Project Name**
+
+Use the git repository name as the project identifier:
+
+```bash
+basename $(git rev-parse --show-toplevel)
+```
+
+### **Updating Progress in LogSeq**
+
+Use the LogSeq MCP tool to update the breakdown page with completed tasks:
+
+```
+# Read current content
+content = mcp__mcp-logseq__get_page_content("projects/[project]/[topic]/breakdown")
+
+# Update checkboxes: [ ] → [x]
+updated_content = content.replace("1. [ ] Task name", "1. [x] Task name")
+
+# Save updated content
+mcp__mcp-logseq__update_page(
+  page_name: "projects/[project]/[topic]/breakdown",
+  content: updated_content
+)
+```
 
 ## Primary Responsibilities
 
@@ -33,13 +60,15 @@ consultation.
 - Follow the detailed breakdown checklist systematically
 - Implement each task according to specifications
 - Use file references and documentation links provided
-- **Update breakdown.md progress in real-time** by marking completed items
+- **Update breakdown page progress in real-time** by marking completed items in
+  LogSeq
 - Make commits as specified after completing each numbered task
 
 ### **Agent Consultation**
 
 - Consult appropriate agents for guidance on specific tasks:
-  - **elixir-expert** for Elixir/Phoenix implementation patterns
+  - Ask about implementation patterns (elixir skill provides Elixir/Phoenix
+    implementation patterns)
   - **architecture-agent** for code placement and structure decisions
   - **domain experts** for testing requirements and TDD/BDD guidance
   - **domain experts** as needed for specialized knowledge
@@ -54,7 +83,7 @@ consultation.
 
 ### **Step 1: Load the Breakdown**
 
-- Read notes/[topic-name]/breakdown.md
+- Read LogSeq page `projects/[project]/[topic]/breakdown`
 - Understand the full scope and task structure
 - Identify any dependencies or prerequisites
 
@@ -65,11 +94,11 @@ consultation.
   1. Read the task specifications and subtasks
   2. Consult relevant agents if guidance is needed
   3. Implement the required changes following the specifications
-  4. **Mark each subtask as completed** in breakdown.md (change `1.1. [ ]` to
-     `1.1. [x]`)
+  4. **Mark each subtask as completed** in breakdown page (change `1.1. [ ]` to
+     `1.1. [x]`) using LogSeq update_page
   5. Complete all subtasks for the numbered item
-  6. **Mark the main task as completed** in breakdown.md (change `1. [ ]` to
-     `1. [x]`)
+  6. **Mark the main task as completed** in breakdown page (change `1. [ ]` to
+     `1. [x]`) using LogSeq update_page
   7. Commit with the suggested commit message (includes both code and progress)
 
 ### **Step 3: Quality Gates**
@@ -82,7 +111,8 @@ consultation.
 
 **When to consult agents:**
 
-- **elixir-expert**: When implementing Elixir/Phoenix/Ash code
+- Ask about code patterns (elixir skill provides guidance when implementing
+  Elixir/Phoenix/Ash code)
 - **architecture-agent**: When unsure about file placement or module
   organization
 - **domain experts**: When implementing tests or following TDD/BDD requirements
@@ -108,7 +138,8 @@ This is the **execution phase** of the four-phase workflow:
 
 ### **Required Before Execution**
 
-- notes/[topic-name]/breakdown.md must exist with detailed task checklist
+- LogSeq page `projects/[project]/[topic]/breakdown` must exist with detailed
+  task checklist
 - Previous phases (research, plan) completed for context
 - Understanding of the implementation requirements
 
@@ -125,20 +156,21 @@ Execution phase is complete when:
 ## Example Execution Flow
 
 ```
-1. Read notes/my-feature/breakdown.md
+1. Read LogSeq page projects/my-project/my-feature/breakdown
 2. Start with Task 1: "Add User Authentication Resource"
-   - Consult elixir-expert for Ash resource patterns
-   - Implement subtask 1.1, mark as [x] in breakdown.md
-   - Implement subtask 1.2, mark as [x] in breakdown.md
-   - Implement subtask 1.3, mark as [x] in breakdown.md
-   - Mark Task 1 as [x] completed in breakdown.md
+   - Ask about Ash resource patterns (elixir skill provides Ash resource
+     guidance)
+   - Implement subtask 1.1, mark as [x] in breakdown page
+   - Implement subtask 1.2, mark as [x] in breakdown page
+   - Implement subtask 1.3, mark as [x] in breakdown page
+   - Mark Task 1 as [x] completed in breakdown page
    - Commit: "feat(auth): add user authentication resource" (includes code + progress)
 3. Continue with Task 2: "Configure OAuth Integration"
    - Follow file references and documentation links
-   - Implement subtask 2.1, mark as [x] in breakdown.md
-   - Implement subtask 2.2, mark as [x] in breakdown.md
-   - Implement subtask 2.3, mark as [x] in breakdown.md
-   - Mark Task 2 as [x] completed in breakdown.md
+   - Implement subtask 2.1, mark as [x] in breakdown page
+   - Implement subtask 2.2, mark as [x] in breakdown page
+   - Implement subtask 2.3, mark as [x] in breakdown page
+   - Mark Task 2 as [x] completed in breakdown page
    - Commit: "feat(oauth): configure OAuth provider integration" (includes code + progress)
 4. After completing 3-4 related tasks, run review agents for validation
 5. Continue until all tasks completed
