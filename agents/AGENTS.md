@@ -59,6 +59,33 @@ Once the task/topic becomes clear:
    - Learn from previous similar implementations
    - Avoid repeating past mistakes
 
+#### Immediate Capture Protocol (During Session)
+
+**CRITICAL**: Store memories immediately after overcoming challenges to capture hard-won knowledge:
+
+**Trigger moments for immediate memory storage:**
+- **After multiple attempts**: Solved a problem that took several tries
+- **After extensive debugging**: Fixed an issue that required deep investigation
+- **After research breakthroughs**: Discovered the right approach after trying wrong paths
+- **After learning curve**: Figured out how unfamiliar technology/API works
+- **After workflow issues**: Found a better process after struggling with inefficient approach
+- **After tooling struggles**: Solved configuration or setup problems
+
+**What to capture immediately:**
+- The specific problem and what made it difficult
+- Wrong approaches tried and why they didn't work
+- The solution that finally worked
+- Key insights that made the difference
+- How to recognize this problem faster next time
+- Time-saving shortcuts discovered
+
+**Why immediate capture matters:**
+- Details are fresh and accurate
+- Captures the full context of the struggle
+- Prevents repeating the same mistakes
+- Makes future sessions dramatically faster
+- Builds institutional knowledge over time
+
 #### End of Session Protocol
 
 After completing significant work:
@@ -81,21 +108,35 @@ After completing significant work:
    - `technical-patterns`: Solutions to recurring problems, best practices discovered
    - `context`: Project-specific context that spans sessions
    - `conversation-insights`: Important realizations or lessons learned
+   - `hard-won-knowledge`: Problems that took effort to solve (captured immediately)
 
 #### When to Use Memory Integration
 
-**Always use at session boundaries:**
-- Start of a new topic or project
-- After completing significant features or fixes
-- When user reveals important preferences
-- After discovering valuable patterns or solutions
-- When making architectural decisions
+**Always at session boundaries:**
+- Start of a new topic or project → RETRIEVE relevant context
+- After completing significant features or fixes → STORE session insights
 
-**Memory improves over time:**
+**Immediately after challenges (don't wait for session end):**
+- Solved problem after multiple attempts → STORE the solution path
+- Fixed bug that required deep debugging → STORE diagnostic approach
+- Discovered working approach after failures → STORE what works and what doesn't
+- Figured out confusing technology/API → STORE the mental model
+- Found better workflow after struggling → STORE the improved process
+- Solved tool/config issues → STORE the fix for next time
+
+**Other important triggers:**
+- When user reveals important preferences → STORE immediately
+- After discovering valuable patterns → STORE before moving on
+- When making architectural decisions → STORE the rationale
+- After learning something that will save time later → STORE right away
+
+**Memory compounds over time:**
 - Each stored memory makes future sessions more effective
+- Hard-won knowledge prevents repeating struggles
 - Patterns become clearer across multiple sessions
 - User preferences are consistently respected
 - Project knowledge accumulates naturally
+- Speed and efficiency increase dramatically
 
 ### Missing Agent Protocol
 
@@ -409,10 +450,14 @@ implementation:
 
 ```
 FOUR-PHASE WORKFLOW - Complete topic development:
+0. memory-agent RETRIEVE → Load relevant context before starting
 1. research command → Codebase impact analysis with third-party detection
 2. plan command → Feature specifications using discovered patterns
 3. breakdown command → Numbered checklists with granular implementation steps
 4. execute command → Sequential implementation following breakdown checklist
+   💡 During execution: memory-agent STORE after overcoming challenges
+5. ALL REVIEW AGENTS IN PARALLEL → Comprehensive validation
+6. memory-agent STORE → Save session learnings and patterns
 
 📁 Output: LogSeq pages with complete documentation
    projects/[project]/[topic]/
@@ -422,6 +467,8 @@ FOUR-PHASE WORKFLOW - Complete topic development:
    └── [implementation artifacts] (Phase 4)
 
 🚀 CRITICAL: Each phase builds on the previous, execution includes ALL REVIEW AGENTS
+💾 CRITICAL: Context at start (Phase 0), hard-won knowledge during work (Phase 4),
+            session insights at end (Phase 6)
 ```
 
 **When to use Four-Phase Workflow:**
@@ -441,9 +488,12 @@ STANDARD WORKFLOW - Always include review phase:
 2. architecture-agent → Determine integration approach
 3. feature-planner → Create detailed plan
 4. Execute the plan → Implement following the plan with expert consultation
+   💡 After solving difficult problems: memory-agent (STORE hard-won knowledge)
 5. 🚀 ALL REVIEW AGENTS IN PARALLEL → Comprehensive validation
+6. memory-agent (STORE session learnings)
 
 ⚠️ CRITICAL: Steps 1-4 build the feature, Step 5 validates it
+   💾 CRITICAL: Capture hard-won knowledge immediately (Step 4), session insights at end (Step 6)
    Never skip the review phase!
 ```
 
