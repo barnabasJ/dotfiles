@@ -41,6 +41,8 @@ status:: active priority:: high created:: [[2025-10-30]]
 - Single space after `::`
 - NO spaces before key
 - NO leading hyphens for page properties
+- 🚨 **NO BLANK LINE between properties and first content block** - this is
+  critical to avoid empty blocks
 
 ### 3. Content Blocks
 
@@ -157,6 +159,71 @@ Paragraph 2.
 - Keep nesting to 3-4 levels maximum
 - Excessive nesting causes export problems
 - Use page links `[[Page Name]]` instead of deep hierarchies
+
+### Pitfall 6: Empty Block at Top (CRITICAL)
+
+```markdown
+❌ WRONG (creates empty block): title:: My Page status:: active
+
+- First content block
+
+✅ CORRECT (no empty block): title:: My Page status:: active
+
+- First content block
+```
+
+**Why This Matters:**
+
+- Blank line between properties and first content creates an unwanted empty
+  block
+- Empty blocks clutter the outline view
+- Properties should flow directly into first content block with NO blank line
+- This is the most common mistake when programmatically creating pages
+
+### Pitfall 7: Hashtags Create Pages (CRITICAL)
+
+```markdown
+❌ WRONG (creates unwanted page):
+
+- # Issue #379: Bug Fix
+- Fixed bug #123
+
+✅ CORRECT (external link, no page):
+
+- # [Issue #379](https://github.com/org/repo/issues/379): Bug Fix
+- Fixed bug \#123 (escaped hashtag)
+- Fixed [bug #123](https://github.com/org/repo/issues/123) (link)
+```
+
+**Why This Matters:**
+
+- **Hashtags (`#tag`) and page links (`[[page]]`) are identical in LogSeq** -
+  both create page references
+- `#379` automatically creates a page named "379" in your graph
+- `#[[issue-379]]` creates a page named "issue-379"
+- This clutters your graph with unwanted pages for issue numbers, IDs, etc.
+- Use external markdown links `[label](URL)` for GitHub/Jira issues
+- Use backslash escape `\#379` to prevent page creation (backslash invisible in
+  view)
+- Use backticks `` `#379` `` to format as code (also prevents linking)
+
+**When to use hashtags vs page links:**
+
+- `#tag` - For intentional tags (looks like a tag visually)
+- `[[Page Name]]` - For intentional page references (looks like regular text)
+- `[External Link](URL)` - For external resources (GitHub, Jira, web)
+- `\#escaped` - When you need hashtag symbol without creating page
+
+**External issue reference patterns:**
+
+```markdown
+// GitHub issue [Issue #379](https://github.com/org/repo/issues/379)
+[GH-379](https://github.com/org/repo/issues/379)
+
+// Jira issue [PROJ-5544](https://company.atlassian.net/browse/PROJ-5544)
+
+// Escaped reference (no link) Issue \#379 was fixed in commit abc123
+```
 
 ## Template for Issue/Bug Tracking
 
@@ -336,14 +403,15 @@ Create separate blocks for:
 Follow this checklist:
 
 1. ✅ Start with page properties (no hyphens)
-2. ✅ Add blank line after properties
+2. 🚨 **NO BLANK LINE after properties** - goes directly to first content block
 3. ✅ All content as bullets with `-`
 4. ✅ Use 2-space indentation for nesting
 5. ✅ Headings have leading `-`
-6. ✅ Code blocks within bullet points
-7. ✅ Keep nesting shallow (3-4 levels max)
-8. ✅ No multiple markdown headings in single block
-9. ✅ One unordered list per block level
+6. 🚨 **Avoid hashtags for IDs/numbers** - use `\#379` or `[#379](URL)` instead
+7. ✅ Code blocks within bullet points
+8. ✅ Keep nesting shallow (3-4 levels max)
+9. ✅ No multiple markdown headings in single block
+10. ✅ One unordered list per block level
 
 ## Complete Working Example
 
@@ -381,5 +449,8 @@ created:: [[2025-10-30]]
 - LogSeq is an **outliner**, not a document editor
 - Think in **blocks** (bullet points), not paragraphs
 - **Properties first** (no bullets), **content second** (all bullets)
+- 🚨 **NO BLANK LINE between properties and content** - prevents empty blocks
+- 🚨 **Hashtags create pages** - use `\#379` or `[#379](URL)` for external
+  references
 - **Simple structure** beats complex nesting
 - When in doubt, use more blocks with less nesting
