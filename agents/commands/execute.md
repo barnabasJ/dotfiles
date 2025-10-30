@@ -81,9 +81,24 @@ mcp__mcp-logseq__update_page(
 
 ## Execution Process
 
-### **Step 1: Load the Breakdown**
+### **Step 1: Load Context and Breakdown**
 
-- Read LogSeq page `projects/[project]/[topic]/breakdown`
+**Full Context Review:**
+
+- Read LogSeq page `projects/[project]/[topic]/research` for codebase impact
+  analysis and existing patterns
+- Read LogSeq page `projects/[project]/[topic]/plan` for strategic
+  implementation approach
+- Read LogSeq page `projects/[project]/[topic]/breakdown` for detailed task
+  checklist
+
+**Why review all phases:**
+
+- **Research** provides file locations, existing patterns, and documentation
+  links
+- **Plan** explains the strategic approach and architectural decisions
+- **Breakdown** gives step-by-step tasks with specific file references
+
 - Understand the full scope and task structure
 - Identify any dependencies or prerequisites
 
@@ -156,7 +171,10 @@ Execution phase is complete when:
 ## Example Execution Flow
 
 ```
-1. Read LogSeq page projects/my-project/my-feature/breakdown
+1. Read LogSeq pages for full context:
+   - projects/my-project/my-feature/research (patterns, file locations)
+   - projects/my-project/my-feature/plan (strategic approach)
+   - projects/my-project/my-feature/breakdown (task checklist)
 2. Start with Task 1: "Add User Authentication Resource"
    - Ask about Ash resource patterns (elixir skill provides Ash resource
      guidance)

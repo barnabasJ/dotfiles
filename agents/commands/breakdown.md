@@ -48,6 +48,9 @@ structures that enable efficient execution and quality implementation.
 
    - Read and analyze strategic implementation plan from LogSeq page
      `projects/[project]/[topic]/plan`
+   - Review research findings from LogSeq page
+     `projects/[project]/[topic]/research` for file locations and existing
+     patterns
    - Extract implementation phases, dependencies, and requirements
    - Identify task dependencies and constraints
    - Validate plan completeness for detailed task creation
