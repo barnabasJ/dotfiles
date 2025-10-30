@@ -22,11 +22,12 @@ domain-specific knowledge to ensure high-quality implementation.
 
 **ALWAYS consult appropriate agents for:**
 
-- Elixir/Phoenix work: elixir-expert for patterns and best practices
+- Elixir/Phoenix work: Leverage elixir skill knowledge for patterns and best
+  practices
 - Architecture decisions: architecture-agent for structural guidance
 - Complex research needs: research-agent for documentation and analysis
 - Code review: Use all review agents in parallel after implementation
-- Domain-specific expertise: Relevant experts for specialized knowledge
+- Domain-specific expertise: Relevant skill knowledge for specialized areas
 
 **DO directly:**
 
@@ -65,25 +66,56 @@ Suggested new agent:
 Would you like me to help create this agent definition?
 ```
 
+## Skills - Domain Knowledge Repository
+
+**Skills provide domain expertise automatically based on context. Unlike agents
+(which are explicitly called), skills are passively available when needed.**
+
+### Available Skills
+
+Domain knowledge is now provided via Claude Code Skills, which load
+automatically when working with relevant files:
+
+#### **elixir** - Elixir, Phoenix, Ecto, Ash Expertise
+
+- **Auto-loads when**: Working with .ex, .exs files or Elixir projects
+- **Provides**: Critical code style guidelines, Ash migrations, Phoenix/LiveView
+  patterns, testing best practices
+- **Location**: `agents/skills/elixir/SKILL.md`
+
+#### **lua** - Lua Language and Neovim Plugin Development
+
+- **Auto-loads when**: Working with .lua files
+- **Provides**: Language fundamentals, metatables, performance optimization,
+  Neovim integration
+- **Location**: `agents/skills/lua/SKILL.md`
+
+#### **neovim** - Editor Configuration and Plugins
+
+- **Auto-loads when**: Working with Neovim configuration files
+- **Provides**: Configuration patterns, plugin management with lazy.nvim, LSP
+  setup
+- **Location**: `agents/skills/neovim/SKILL.md`
+
+#### **chezmoi** - Dotfile Management
+
+- **Auto-loads when**: Working with chezmoi dotfiles
+- **Provides**: File naming conventions, templating patterns, cross-platform
+  configuration
+- **Location**: `agents/skills/chezmoi/SKILL.md`
+
+#### **testing** - Testing Methodologies
+
+- **Auto-loads when**: Working with test files or discussing testing strategies
+- **Provides**: TDD/BDD approaches, test organization, coverage strategies,
+  quality practices
+- **Location**: `agents/skills/testing/SKILL.md`
+
 ## Specialized Agents - Your Implementation Team
 
-**These are your sub-agents that perform ALL actual work:**
+**These are your sub-agents that perform active tasks:**
 
 ### Available Specialized Agents
-
-#### **elixir-expert** - READ-ONLY Elixir Guidance (MANDATORY for All Elixir Work)
-
-- **When to use**: ALWAYS when working with Elixir, Phoenix, Ecto, Ash, or any
-  Elixir libraries
-- **Purpose**: READ-ONLY consultation of usage_rules.md and provides
-  documentation-backed guidance
-- **Read-Only Role**: Provides Elixir expertise and patterns for the
-  orchestrator to implement
-- **Never**: Attempt Elixir work without consulting this agent first
-- **Critical**: NEVER writes or modifies Elixir code - only provides guidance
-  and patterns
-- **Tools**: `mix usage_rules.docs`, `mix usage_rules.search_docs`
-  (documentation lookup only)
 
 #### **research-agent** - READ-ONLY Technical Research
 
@@ -98,21 +130,6 @@ Would you like me to help create this agent definition?
   and reports findings
 - **Specializes in**: Official docs, API research, technology comparisons, usage
   patterns
-
-#### **test-expert** - READ-ONLY Testing Methodology Guidance
-
-- **When to use**: When developing test strategies, determining what to test, or
-  learning testing methodologies
-- **Purpose**: READ-ONLY language-agnostic testing guidance and methodology
-  expertise
-- **Read-Only Role**: Provides testing strategy and best practices for the
-  orchestrator to implement
-- **Specializes in**: TDD/BDD, test organization, coverage strategy, testing
-  methodologies
-- **Coordinates with**: Language experts (elixir-expert, etc.) for
-  framework-specific patterns
-- **Critical**: NEVER attempts to write tests or modify files - only provides
-  testing guidance
 
 #### **elixir-reviewer** - MANDATORY After Elixir Changes
 
@@ -218,9 +235,9 @@ Would you like me to help create this agent definition?
 - **When to use**: For complex new functionality requiring detailed planning
 - **Purpose**: Creates comprehensive feature plans with research integration and
   expert consultation
-- **Consults**: research-agent, elixir-expert, senior-engineer-reviewer as
-  needed
-- **Output**: Structured planning documents in notes/features/
+- **Consults**: research-agent, leverages elixir skill knowledge,
+  senior-engineer-reviewer as needed
+- **Output**: LogSeq pages at `projects/[project]/feature/[feature-name]`
 
 #### **fix-planner** - Focused Fix Planning
 
@@ -228,8 +245,9 @@ Would you like me to help create this agent definition?
   systematic analysis
 - **Purpose**: Creates focused fix plans with root cause analysis and risk
   assessment
-- **Consults**: elixir-expert, research-agent, security-reviewer as needed
-- **Output**: Fix planning documents in notes/fixes/
+- **Consults**: leverages elixir skill knowledge, research-agent,
+  security-reviewer as needed
+- **Output**: LogSeq pages at `projects/[project]/fix/[fix-name]`
 
 #### **task-planner** - Lightweight Task Planning
 
@@ -238,7 +256,7 @@ Would you like me to help create this agent definition?
   structure
 - **Smart Escalation**: Recommends feature-planner or fix-planner for complex
   work
-- **Output**: Task planning documents in notes/tasks/
+- **Output**: LogSeq pages at `projects/[project]/task/[task-name]`
 
 ### Four-Phase Workflow Commands
 
@@ -254,8 +272,7 @@ The main orchestrator performs the coordination work directly:
   gathering
 - **Orchestrates**: Project-first analysis, file-level impact mapping, service
   detection, and targeted documentation links
-- **Output**: Codebase impact analysis documents in
-  notes/[topic-name]/research.md
+- **Output**: LogSeq pages at `projects/[project]/[topic]/research`
 
 #### **plan command** - Strategic Implementation Planning
 
@@ -265,7 +282,7 @@ The main orchestrator performs the coordination work directly:
   patterns, third-party integration plans, and architectural guidance
 - **Coordinates**: architecture-agent, domain experts, senior-engineer-reviewer
   for plan validation using existing project patterns
-- **Output**: Detailed implementation plans in notes/[topic-name]/plan.md
+- **Output**: LogSeq pages at `projects/[project]/[topic]/plan`
 
 #### **breakdown command** - Task Decomposition
 
@@ -274,9 +291,9 @@ The main orchestrator performs the coordination work directly:
 - **Purpose**: You create numbered checklists with detailed substeps (e.g., Ash
   resource creation), file references, documentation links, and commit
   instructions
-- **Coordinates**: test-developer, architecture-agent, domain experts for task
-  optimization and detailed implementation guidance
-- **Output**: Numbered checklist breakdowns in notes/[topic-name]/breakdown.md
+- **Coordinates**: testing skill knowledge, architecture-agent, domain experts
+  for task optimization and detailed implementation guidance
+- **Output**: LogSeq pages at `projects/[project]/[topic]/breakdown`
 
 #### **execute command** - Implementation Execution
 
@@ -293,7 +310,8 @@ The main orchestrator performs the coordination work directly:
 - **When to use**: For code placement, module organization, and integration
   decisions
 - **Purpose**: Analyzes existing structure and guides proper code organization
-- **Consults**: elixir-expert, research-agent for framework-specific patterns
+- **Consults**: leverages elixir skill knowledge, research-agent for
+  framework-specific patterns
 - **Focus**: File placement, module boundaries, integration patterns, structural
   consistency
 - **Complements**: senior-engineer-reviewer by providing structural vs strategic
@@ -313,10 +331,11 @@ FOUR-PHASE WORKFLOW - Complete topic development:
 3. breakdown command → Numbered checklists with granular implementation steps
 4. execute command → Sequential implementation following breakdown checklist
 
-📁 Output: notes/[topic-name]/ folder with complete documentation
-   ├── research.md     (Phase 1)
-   ├── plan.md         (Phase 2)
-   ├── breakdown.md    (Phase 3)
+📁 Output: LogSeq pages with complete documentation
+   projects/[project]/[topic]/
+   ├── research        (Phase 1)
+   ├── plan            (Phase 2)
+   ├── breakdown       (Phase 3)
    └── [implementation artifacts] (Phase 4)
 
 🚀 CRITICAL: Each phase builds on the previous, execution includes ALL REVIEW AGENTS
@@ -376,12 +395,13 @@ When agents need to coordinate sub-agents:
 You (Orchestrator)
 ├── feature-planner
 │   ├── research-agent (for unknown tech)
-│   ├── architecture-agent (for structure)
-│   └── elixir-expert (for patterns)
+│   └── architecture-agent (for structure)
 └── Direct Implementation
     ├── architecture-agent (for placement guidance)
-    ├── elixir-expert (for patterns)
     └── elixir-reviewer (for validation)
+
+Note: Skills (elixir, testing, etc.) provide passive knowledge automatically
+based on context and are not part of the active agent orchestration tree.
 ```
 
 ### Agent Selection Matrix
@@ -390,11 +410,11 @@ You (Orchestrator)
 | -------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | **Four-Phase** | **research** → **plan** → **breakdown** → **execute** (orchestrator performs coordination directly) | research-agent, architecture-agent, domain experts, **ALL REVIEWERS** |
 | New Feature    | feature-planner → direct implementation → **ALL REVIEWERS IN PARALLEL** 🚀                          | research-agent, architecture-agent, domain experts                    |
-| Bug Fix        | fix-planner → direct implementation → **ALL REVIEWERS IN PARALLEL** 🚀                              | elixir-expert, qa-reviewer                                            |
+| Bug Fix        | fix-planner → direct implementation → **ALL REVIEWERS IN PARALLEL** 🚀                              | elixir skill knowledge, qa-reviewer                                   |
 | Research       | research-agent                                                                                      | documentation-expert (for docs)                                       |
 | Code Review    | **ALL REVIEWERS IN PARALLEL** 🚀                                                                    | **Run simultaneously for fast comprehensive analysis**                |
 | Documentation  | documentation-expert                                                                                | research-agent, documentation-reviewer                                |
-| Testing        | Direct implementation with expert consultation                                                      | qa-reviewer, elixir-expert                                            |
+| Testing        | Direct implementation with expert consultation                                                      | qa-reviewer, elixir skill knowledge                                   |
 
 ### Implementation Principles
 
@@ -496,7 +516,9 @@ directly:
   expert consultations
 - **Right-sized approach**: Each planner provides appropriate level of detail
   for work type
-- **Save in correct location**: notes/features/, notes/fixes/, or notes/tasks/
+- **Save to LogSeq**: Planning documents stored in LogSeq at
+  `projects/[project]/feature/*`, `projects/[project]/fix/*`, or
+  `projects/[project]/task/*`
 - **Keep updated**: Mark tasks completed and update status as work progresses
 
 ## Git Workflow
