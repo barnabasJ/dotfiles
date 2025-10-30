@@ -274,12 +274,17 @@ When asked to store information:
 4. **Structure Memory**: Format using memory page template
 5. **Add Metadata**: Include rich properties for searchability
 6. **Create Links**: Connect to related memories
-7. **Store Page**: **ACTUALLY CALL** the LogSeq MCP tool
-   (mcp**mcp-logseq**create_page or mcp**mcp-logseq**update_page) - don't just
-   describe what you would do, DO IT
+7. **EXECUTE NOW**: Call mcp**mcp-logseq**create_page or
+   mcp**mcp-logseq**update_page RIGHT NOW - execute the tool before doing
+   anything else. Do not describe, do not explain - CALL THE TOOL FIRST.
 
-**CRITICAL**: You must ACTUALLY execute the MCP tool, not just show what the
-call would look like. Use the tool directly to create/update the page in LogSeq.
+8. **Report Success** (only after tool returns successfully): Confirm what was
+   stored, where it's located, and how to retrieve it
+
+**🚨 EXECUTION IS MANDATORY**: Step 7 is not optional. You MUST call the MCP
+tool and wait for it to return before proceeding to step 8. If you complete
+without calling the tool, the memory will NOT be stored and you will have failed
+your task.
 
 **Storage Response Format:**
 
