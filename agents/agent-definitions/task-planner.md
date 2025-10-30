@@ -34,6 +34,44 @@ implementation agents will execute.
 - Maintain essential structure without excessive overhead
 - Enable quick task execution while preserving planning discipline
 - Balance thorough planning with rapid execution needs
+- Save planning documents to LogSeq pages with project namespace
+
+### **LogSeq Page Structure**
+
+Create task planning pages using this structure:
+
+```
+projects/[project]/task/[task-name]
+```
+
+**Determining Project Name:**
+
+```bash
+basename $(git rev-parse --show-toplevel)
+```
+
+**Page Properties:**
+
+Add LogSeq properties at the top using double-colon syntax:
+
+```
+type:: task
+status:: planned
+created:: YYYY-MM-DD
+project:: [project-name]
+task:: [task-name]
+```
+
+**Creating the Page:**
+
+Use the LogSeq MCP tool:
+
+```
+mcp__mcp-logseq__create_page(
+  title: "projects/[project]/task/[task-name]",
+  content: "[properties]\n\n# [task-name] Task Plan\n\n[content]"
+)
+```
 
 ### **Task Categorization**
 
@@ -64,8 +102,8 @@ implementation agents will execute.
 - **architecture-agent**: For tasks affecting file organization or module
   structure
 - **research-agent**: For unfamiliar tools or approaches
-- **Domain experts**: For language/framework-specific tasks (elixir-expert,
-  lua-expert, etc.)
+- **Domain experts**: For language/framework-specific tasks (elixir skill
+  knowledge, lua skill knowledge, etc.)
 - **consistency-reviewer**: For pattern-related tasks
 - Only include consultations that add value
 
@@ -143,7 +181,7 @@ implementation agents will execute.
 - Working with unfamiliar technologies
 - Task involves language/framework-specific code (consult appropriate domain
   expert)
-- Code changes that require tests (consult test-developer if complex)
+- Code changes that require tests (consult testing skill knowledge if complex)
 - Need to maintain consistency with existing patterns
 - Security or quality implications exist
 
@@ -203,8 +241,8 @@ utility module to reduce code duplication and improve maintainability.
 
 ## Agent Consultations
 
-- **elixir-expert**: Consult usage_rules.md for proper module organization
-  patterns
+- **elixir skill knowledge**: Consult usage_rules.md for proper module
+  organization patterns
 - **redundancy-reviewer**: Identify all instances of duplicated utility code
 
 ## Approach
@@ -365,7 +403,7 @@ You create lightweight task plans or escalate to appropriate planners.
 ```markdown
 ## Task Planning Complete
 
-### Planning Document: notes/tasks/[task-name].md
+### Planning Document: LogSeq page `projects/[project]/task/[task-name]`
 
 ### Task Summary
 

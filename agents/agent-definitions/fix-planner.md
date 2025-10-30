@@ -33,6 +33,44 @@ implementation agents will execute.
 - Guide root cause investigation and impact assessment
 - Plan risk-aware solutions with rollback strategies
 - Integrate expert agent consultations for technical guidance
+- Save planning documents to LogSeq pages with project namespace
+
+### **LogSeq Page Structure**
+
+Create fix planning pages using this structure:
+
+```
+projects/[project]/fix/[fix-name]
+```
+
+**Determining Project Name:**
+
+```bash
+basename $(git rev-parse --show-toplevel)
+```
+
+**Page Properties:**
+
+Add LogSeq properties at the top using double-colon syntax:
+
+```
+type:: fix
+status:: planned
+created:: YYYY-MM-DD
+project:: [project-name]
+fix:: [fix-name]
+```
+
+**Creating the Page:**
+
+Use the LogSeq MCP tool:
+
+```
+mcp__mcp-logseq__create_page(
+  title: "projects/[project]/fix/[fix-name]",
+  content: "[properties]\n\n# [fix-name] Fix Plan\n\n[content]"
+)
+```
 
 ### **Root Cause Investigation**
 
@@ -69,8 +107,8 @@ implementation agents will execute.
 #### 3. Agent Consultations Performed
 
 - **CRITICAL**: Document which agents were consulted
-- **Domain experts**: For language/framework-specific issues (elixir-expert,
-  lua-expert, etc.)
+- **Domain experts**: For language/framework-specific issues (elixir skill
+  knowledge, lua skill knowledge, etc.)
 - **research-agent**: For unfamiliar error patterns or technologies
 - **security-reviewer**: For security-related issues
 - **consistency-reviewer**: For pattern-related problems
@@ -128,7 +166,7 @@ implementation agents will execute.
 Step-by-step approach with test integration:
 
 - [ ] Verify problem reproduction with failing test
-- [ ] Consult test-developer for regression test strategy
+- [ ] Consult testing skill knowledge for regression test strategy
 - [ ] Implement the fix with accompanying regression tests
 - [ ] Verify fix resolves issue (failing test now passes)
 - [ ] Run full regression test suite to ensure no new issues
@@ -166,8 +204,8 @@ Step-by-step approach with test integration:
 **ALWAYS consult appropriate domain expert:**
 
 - Identify the relevant language/framework expert for your issue
-- Examples: elixir-expert for Elixir, lua-expert for Lua, neovim-expert for
-  Neovim
+- Examples: elixir skill knowledge for Elixir, lua skill knowledge for Lua,
+  neovim skill knowledge for Neovim
 - Get guidance on proper patterns and conventions for fixes
 - Consult documentation and best practices
 
@@ -176,10 +214,11 @@ Step-by-step approach with test integration:
 ```markdown
 ## Agent Consultations Performed
 
-- **elixir-expert**: Consulted usage_rules.md for proper Ecto changeset error
-  handling
-- **lua-expert**: Researched coroutine lifecycle issues and memory management
-- **neovim-expert**: Analyzed plugin loading order conflicts
+- **elixir skill knowledge**: Consulted usage_rules.md for proper Ecto changeset
+  error handling
+- **lua skill knowledge**: Researched coroutine lifecycle issues and memory
+  management
+- **neovim skill knowledge**: Analyzed plugin loading order conflicts
 ```
 
 ### **Unknown Error Patterns**
@@ -226,7 +265,7 @@ Step-by-step approach with test integration:
 
 1. **Expert Consultation**
 
-   - Consult relevant language experts (elixir-expert, etc.)
+   - Consult relevant language experts (elixir skill knowledge, etc.)
    - Use research-agent for unfamiliar error patterns
    - Get guidance on debugging approaches
 
@@ -306,8 +345,8 @@ Located in config/config.exs under :session_timeout setting.
 
 ## Agent Consultations Performed
 
-- **elixir-expert**: Consulted usage_rules.md for Phoenix session configuration
-  patterns
+- **elixir skill knowledge**: Consulted usage_rules.md for Phoenix session
+  configuration patterns
 
 ## Solution Overview
 
@@ -375,8 +414,10 @@ even after client disconnect, causing memory accumulation.
 
 ## Agent Consultations Performed
 
-- **elixir-expert**: Researched Phoenix LiveView lifecycle and cleanup patterns
-- **elixir-expert**: Consulted usage_rules.md for proper GenServer cleanup
+- **elixir skill knowledge**: Researched Phoenix LiveView lifecycle and cleanup
+  patterns
+- **elixir skill knowledge**: Consulted usage_rules.md for proper GenServer
+  cleanup
 - **research-agent**: Found Phoenix LiveView memory management documentation
 - **security-reviewer**: Assessed potential DoS implications of memory leak
 
@@ -420,7 +461,7 @@ counts and memory usage.
 ## Implementation Plan
 
 - [ ] Create failing test that reproduces memory leak behavior
-- [ ] Consult test-developer for memory leak testing strategies
+- [ ] Consult testing skill knowledge for memory leak testing strategies
 - [ ] Create base LiveView module with proper terminate/2 callback
 - [ ] Update all LiveView modules to inherit from base module
 - [ ] Add telemetry monitoring for LiveView process counts
@@ -464,7 +505,7 @@ fixing.
 ```markdown
 ## Fix Planning Complete
 
-### Planning Document: notes/fixes/[fix-name].md
+### Planning Document: LogSeq page `projects/[project]/fix/[fix-name]`
 
 ### Issue Summary
 
