@@ -7,11 +7,6 @@ description: >
   existing ones for future retrieval. Memories are organized in LogSeq for
   persistent, searchable knowledge storage.
 model: sonnet
-tools:
-  Read, Grep, Glob, LS, NotebookRead, Task, mcp__mcp-logseq__create_page,
-  mcp__mcp-logseq__get_page_content, mcp__mcp-logseq__update_page,
-  mcp__mcp-logseq__search, mcp__mcp-logseq__list_pages,
-  mcp__mcp-logseq__delete_page
 color: purple
 ---
 
