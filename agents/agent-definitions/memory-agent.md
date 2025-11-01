@@ -361,6 +361,47 @@ mcp__ash-logseq__logseq_api(
 
 ## Memory Retrieval Workflow
 
+### **Proactive Problem-Solving Protocol**
+
+**🚨 CRITICAL**: When encountering problems, errors, or challenges, ALWAYS check
+memories FIRST before attempting to solve from scratch.
+
+**Trigger Moments for Memory Consultation:**
+
+- Error messages or failures during implementation
+- Unfamiliar APIs or technology that seems vaguely familiar
+- Debugging challenges that feel like they've been encountered before
+- Configuration or setup issues
+- Performance problems or optimization needs
+- Integration difficulties with external services
+- Test failures with unclear causes
+
+**Search Strategy for Problem-Solving:**
+
+1. Search `claude/memories/hard-won-knowledge/` for similar problems first
+2. Look for technology-specific memories in `claude/memories/technical/`
+3. Check project-specific patterns in `claude/memories/project/`
+4. Review user preferences in `claude/memories/user/` that might guide the
+   solution approach
+
+**Why This Matters:**
+
+- ✅ Prevents repeating the same debugging process
+- ✅ Leverages solutions that already worked
+- ✅ Saves significant time on recurring issues
+- ✅ Maintains consistency with proven approaches
+- ✅ Builds on institutional knowledge
+- ✅ Avoids trying failed approaches again
+
+**Example Search Queries:**
+
+- "API error 403 authentication" → Find previous auth debugging
+- "webpack build failing" → Find previous build issues
+- "database migration error" → Find migration troubleshooting
+- "test timeout" → Find test performance solutions
+
+### **General Information Retrieval**
+
 When asked to retrieve information:
 
 1. **Parse Request**: Understand what information is needed
@@ -419,6 +460,7 @@ When asked to store information:
    THE TOOL FIRST.
 
    **CRITICAL LOGSEQ FORMAT RULES**:
+
    - Properties at top (NO leading hyphens)
    - Each property on separate line: `key:: value`
    - **NO BLANK LINE** after properties - first content block comes immediately
