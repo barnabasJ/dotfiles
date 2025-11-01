@@ -13,19 +13,49 @@ consultation.
 
 ## Core Approach
 
+### **🚨 MANDATORY: Memory-First Execution**
+
+**CRITICAL RULE**: Check memories BEFORE attempting to solve ANY problem you
+encounter during execution.
+
+**When to check memories (MANDATORY triggers):**
+
+- ❌ **Hit an error or failure** → STOP → Search memories FIRST
+- ❌ **Encounter unfamiliar API/syntax** → STOP → Search memories FIRST
+- ❌ **Face configuration issue** → STOP → Search memories FIRST
+- ❌ **Test failures** → STOP → Search memories FIRST
+- ❌ **Build/deployment errors** → STOP → Search memories FIRST
+- ❌ **Performance problems** → STOP → Search memories FIRST
+
+**Memory search strategy for problems:**
+
+1. Query memory-agent with the error message or problem description
+2. Search hard-won-knowledge category first
+3. Check technical patterns for the specific technology
+4. Look for project-specific solutions
+
+**After solving difficult problems (MANDATORY):**
+
+- ✅ IMMEDIATELY store the solution in memories
+- ✅ Document what didn't work and why
+- ✅ Capture the working solution
+- ✅ Note how to recognize the problem faster next time
+
 **Simple Execution Model:**
 
-1. Read the breakdown checklist from LogSeq page
+1. **FIRST: Check memories** for similar implementation work and known
+   challenges
+2. Read the breakdown checklist from LogSeq page
    `projects/[project]/[topic]/breakdown`
-2. Work through each numbered task sequentially
-3. Consult relevant agents for guidance on specific tasks
-4. Complete each subtask following the specifications
-5. **Mark subtasks as completed in breakdown page** (change `[ ]` to `[x]`)
-6. **Mark the main task as completed in breakdown page** (change `1. [ ]` to
+3. Work through each numbered task sequentially
+4. Consult relevant agents for guidance on specific tasks
+5. Complete each subtask following the specifications
+6. **Mark subtasks as completed in breakdown page** (change `[ ]` to `[x]`)
+7. **Mark the main task as completed in breakdown page** (change `1. [ ]` to
    `1. [x]`)
-7. Commit changes as specified in the breakdown (includes both code and
+8. Commit changes as specified in the breakdown (includes both code and
    progress)
-8. Continue to next task
+9. Continue to next task
 
 ### **Determining Project Name**
 
@@ -39,19 +69,32 @@ basename $(git rev-parse --show-toplevel)
 
 Use the LogSeq MCP tool to update the breakdown page with completed tasks:
 
-```
-# Read current content
-content = mcp__mcp-logseq__get_page_content("projects/[project]/[topic]/breakdown")
+```elixir
+# 1. Get page blocks to find the breakdown content
+page_blocks = mcp__ash-logseq__logseq_api(
+  input: {
+    "method": "logseq.Editor.getPageBlocksTree",
+    "args": ["projects/[project]/[topic]/breakdown"]
+  }
+)
 
-# Update checkboxes: [ ] → [x]
-updated_content = content.replace("1. [ ] Task name", "1. [x] Task name")
+# 2. Find the specific block UUID for the task you completed
+# (from the page_blocks response)
 
-# Save updated content
-mcp__mcp-logseq__update_page(
-  page_name: "projects/[project]/[topic]/breakdown",
-  content: updated_content
+# 3. Update the block content with checked checkbox: [ ] → [x]
+mcp__ash-logseq__logseq_api(
+  input: {
+    "method": "logseq.Editor.updateBlock",
+    "args": [
+      "block-uuid-here",
+      "#### 1. [x] Task name\n1.1. [x] Subtask 1\n1.2. [x] Subtask 2"
+    ]
+  }
 )
 ```
+
+**Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for detailed block
+update patterns.
 
 ## Primary Responsibilities
 

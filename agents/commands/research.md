@@ -64,6 +64,39 @@ implementation phases will use.
 
 ## Impact Analysis Process
 
+### **🚨 PHASE 0: MANDATORY Memory Consultation (DO THIS FIRST)**
+
+**CRITICAL**: Before starting ANY research, you MUST check memories for similar
+work.
+
+**Required Memory Searches:**
+
+1. **Search for similar topics**: Query memory-agent for related research on
+   this topic or technology
+2. **Check for integration patterns**: Look for memories about similar
+   third-party integrations
+3. **Retrieve project patterns**: Search for previous work on this specific
+   project
+4. **Find hard-won knowledge**: Check for challenges encountered with similar
+   technologies
+
+**Search queries to run:**
+
+- "research [topic/technology name]"
+- "[third-party service name] integration"
+- "[project name] patterns"
+- "challenges with [technology]"
+
+**Why this is mandatory:**
+
+- ✅ Prevents repeating research already done
+- ✅ Leverages previous integration experiences
+- ✅ Finds documented solutions to known problems
+- ✅ Maintains consistency with established patterns
+- ✅ Saves significant research time
+
+**❌ DO NOT PROCEED to Phase 1 without completing memory checks**
+
 ### **Phase 1: Project Discovery**
 
 1. **Dependency Analysis**

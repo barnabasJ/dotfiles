@@ -43,6 +43,46 @@ into detailed, executable tasks.
 
 ## Your Implementation Planning Process
 
+### **🚨 PHASE 0: MANDATORY Memory Consultation (DO THIS FIRST)**
+
+**CRITICAL**: Before creating ANY implementation plan, you MUST check memories
+for similar planning work.
+
+**Required Memory Searches:**
+
+1. **Search for similar plans**: Query memory-agent for related implementation
+   plans
+2. **Check architectural decisions**: Look for memories about similar
+   architectural approaches
+3. **Retrieve implementation patterns**: Search for previous implementation
+   strategies
+4. **Find planning lessons**: Check for challenges encountered in similar
+   planning work
+
+**Search queries to run:**
+
+- "plan [topic/feature name]"
+- "[technology/framework] implementation approach"
+- "architectural decision [pattern type]"
+- "implementation strategy [similar feature]"
+
+**Why this is mandatory:**
+
+- ✅ Prevents recreating similar plans from scratch
+- ✅ Leverages proven implementation approaches
+- ✅ Avoids repeating planning mistakes
+- ✅ Maintains architectural consistency
+- ✅ Saves significant planning time
+
+**What to do with retrieved memories:**
+
+- Use similar plan structures as templates
+- Apply proven architectural patterns
+- Learn from previous implementation challenges
+- Follow established planning conventions
+
+**❌ DO NOT PROCEED to Phase 1 without completing memory checks**
+
 ### **Phase 1: Impact Analysis Review and Planning Foundation**
 
 1. **Codebase Impact Analysis Review**

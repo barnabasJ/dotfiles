@@ -42,6 +42,46 @@ structures that enable efficient execution and quality implementation.
 
 ## Your Task Breakdown Process
 
+### **🚨 PHASE 0: MANDATORY Memory Consultation (DO THIS FIRST)**
+
+**CRITICAL**: Before creating ANY task breakdown, you MUST check memories for
+similar breakdown work.
+
+**Required Memory Searches:**
+
+1. **Search for similar breakdowns**: Query memory-agent for related task
+   breakdowns
+2. **Check workflow patterns**: Look for memories about similar implementation
+   workflows
+3. **Retrieve testing strategies**: Search for previous TDD/BDD breakdown
+   approaches
+4. **Find breakdown lessons**: Check for challenges encountered in similar
+   breakdown work
+
+**Search queries to run:**
+
+- "breakdown [topic/feature name]"
+- "task workflow [similar feature]"
+- "testing strategy [technology/framework]"
+- "implementation checklist [pattern type]"
+
+**Why this is mandatory:**
+
+- ✅ Prevents recreating similar breakdowns from scratch
+- ✅ Leverages proven task structures
+- ✅ Applies successful testing workflows
+- ✅ Avoids repeating breakdown mistakes
+- ✅ Maintains workflow consistency
+
+**What to do with retrieved memories:**
+
+- Use similar breakdown structures as templates
+- Apply proven task organization patterns
+- Follow established testing workflows
+- Learn from previous execution challenges
+
+**❌ DO NOT PROCEED to Phase 1 without completing memory checks**
+
 ### **Phase 1: Strategic Plan Analysis**
 
 1. **Implementation Plan Review**
