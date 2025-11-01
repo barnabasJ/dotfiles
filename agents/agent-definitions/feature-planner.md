@@ -65,14 +65,53 @@ feature:: [feature-name]
 
 **Creating the Page:**
 
-Use the LogSeq MCP tool:
+Use the LogSeq MCP tools to create pages. The convenience tool is recommended:
 
-```
-mcp__mcp-logseq__create_page(
-  title: "projects/[project]/feature/[feature-name]",
-  content: "[properties]\n\n# [feature-name] Feature Plan\n\n[content]"
+**Recommended Approach (Using create_page):**
+
+```elixir
+mcp__ash-logseq__create_page(
+  input: {
+    "page_name": "projects/[project]/feature/[feature-name]",
+    "content": """
+type:: feature
+status:: planning
+created:: YYYY-MM-DD
+project:: [project-name]
+feature:: [feature-name]
+
+- # [feature-name] Feature Plan
+- [content sections go here]
+"""
+  }
 )
 ```
+
+**Alternative Approach (Using generic API):**
+
+```elixir
+page_content = """
+type:: feature
+status:: planning
+created:: YYYY-MM-DD
+project:: [project-name]
+feature:: [feature-name]
+
+- # [feature-name] Feature Plan
+- [content sections go here]
+"""
+
+mcp__ash-logseq__logseq_api(
+  input: {
+    "method": "logseq.Editor.createPage",
+    "args": ["projects/[project]/feature/[feature-name]", page_content]
+  }
+)
+```
+
+**Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for comprehensive tool
+documentation including `read_page`, `search_blocks`, and `replace_line` for
+working with existing pages.
 
 ### **Research Coordination**
 

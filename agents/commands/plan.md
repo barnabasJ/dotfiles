@@ -143,14 +143,54 @@ topic:: [topic-name]
 
 ### **Creating the Page**
 
-Use the LogSeq MCP tool to create the page:
+Use the LogSeq MCP tools to create pages. The convenience tool is recommended:
 
-```
-mcp__mcp-logseq__create_page(
-  title: "projects/[project]/[topic]/plan",
-  content: "[properties]\n\n# [topic] Implementation Plan\n\n[content]"
+**Recommended Approach (Using create_page):**
+
+```elixir
+mcp__ash-logseq__create_page(
+  input: {
+    "page_name": "projects/[project]/[topic]/plan",
+    "content": """
+type:: plan
+status:: active
+created:: YYYY-MM-DD
+project:: [project-name]
+topic:: [topic-name]
+
+- # [topic] Implementation Plan
+- [content sections go here]
+"""
+  }
 )
 ```
+
+**Alternative Approach (Using generic API):**
+
+```elixir
+page_content = """
+type:: plan
+status:: active
+created:: YYYY-MM-DD
+project:: [project-name]
+topic:: [topic-name]
+
+- # [topic] Implementation Plan
+- [content sections go here]
+"""
+
+mcp__ash-logseq__logseq_api(
+  input: {
+    "method": "logseq.Editor.createPage",
+    "args": ["projects/[project]/[topic]/plan", page_content]
+  }
+)
+```
+
+**Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for comprehensive tool
+documentation including `read_page` for analyzing existing research,
+`search_blocks` for finding related content, and `replace_line` for updating
+page content.
 
 ### 3. **Strategic Implementation Planning**
 

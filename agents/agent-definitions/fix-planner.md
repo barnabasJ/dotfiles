@@ -63,14 +63,53 @@ fix:: [fix-name]
 
 **Creating the Page:**
 
-Use the LogSeq MCP tool:
+Use the LogSeq MCP tools to create pages. The convenience tool is recommended:
 
-```
-mcp__mcp-logseq__create_page(
-  title: "projects/[project]/fix/[fix-name]",
-  content: "[properties]\n\n# [fix-name] Fix Plan\n\n[content]"
+**Recommended Approach (Using create_page):**
+
+```elixir
+mcp__ash-logseq__create_page(
+  input: {
+    "page_name": "projects/[project]/fix/[fix-name]",
+    "content": """
+type:: fix
+status:: planning
+created:: YYYY-MM-DD
+project:: [project-name]
+fix:: [fix-name]
+
+- # [fix-name] Fix Plan
+- [content sections go here]
+"""
+  }
 )
 ```
+
+**Alternative Approach (Using generic API):**
+
+```elixir
+page_content = """
+type:: fix
+status:: planning
+created:: YYYY-MM-DD
+project:: [project-name]
+fix:: [fix-name]
+
+- # [fix-name] Fix Plan
+- [content sections go here]
+"""
+
+mcp__ash-logseq__logseq_api(
+  input: {
+    "method": "logseq.Editor.createPage",
+    "args": ["projects/[project]/fix/[fix-name]", page_content]
+  }
+)
+```
+
+**Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for comprehensive tool
+documentation including `read_page`, `search_blocks`, and `replace_line` for
+working with existing pages.
 
 ### **Root Cause Investigation**
 
