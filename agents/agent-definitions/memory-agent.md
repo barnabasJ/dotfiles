@@ -450,14 +450,153 @@ When asked to store information:
 
 1. **Analyze Content**: Understand what needs to be remembered
 2. **Determine Category**: Classify memory into appropriate category
-3. **Check Existing**: Search for related or duplicate memories
-4. **Structure Memory**: Format using memory page template
-5. **Add Metadata**: Include rich properties for searchability
-6. **Create Links**: Connect to related memories
-7. **EXECUTE NOW**: Call mcp**ash-logseq**logseq_api with appropriate method
-   (logseq.Editor.createPage or logseq.Editor.updateBlock) RIGHT NOW - execute
-   the tool before doing anything else. Do not describe, do not explain - CALL
-   THE TOOL FIRST.
+
+### **🚨 STEP 3: MANDATORY - Check for Existing Memories (UPDATE > CREATE)**
+
+**CRITICAL**: Before creating a new memory page, you MUST search for existing
+memories on the same or similar topic.
+
+**Required Search Process:**
+
+1. **Search by topic keywords**: Use `search_blocks` or `logseq_api` search
+
+   ```
+   mcp__ash-logseq__search_blocks(
+     input: {
+       "query": "[key topic words]",
+       "max_results": 50
+     }
+   )
+   ```
+
+2. **Search in target category**: Look in `claude/memories/[category]/`
+   namespace
+
+   ```
+   Search for pages starting with "claude/memories/[category]/"
+   ```
+
+3. **Check for similar topics**: Look for memories about:
+   - Same technology/tool/framework
+   - Same type of problem or solution
+   - Same project or context
+   - Similar error messages or challenges
+
+**Decision Matrix - What to do with search results:**
+
+**If existing memory found on same/similar topic:**
+
+- ✅ **UPDATE** the existing memory (add new information)
+- ✅ Add update timestamp: `updated:: YYYY-MM-DD`
+- ✅ Append new insights to existing content
+- ✅ Update confidence level if information strengthens/weakens
+- ✅ Add "Update History" section if not present
+- ❌ **DO NOT** create a new separate memory
+
+**If NO existing memory found:**
+
+- ✅ **CREATE** new memory page
+- ✅ This is a genuinely new topic/problem/solution
+
+**If unsure whether to update or create:**
+
+- ✅ **Prefer UPDATE** - consolidation is better than fragmentation
+- ✅ Memories on the same technology/problem should be together
+- ✅ Different solutions to same problem = UPDATE with alternatives
+- ✅ Same problem in different projects = UPDATE with project-specific notes
+
+**Why UPDATE > CREATE is critical:**
+
+- ✅ Prevents memory fragmentation
+- ✅ Keeps related information together
+- ✅ Shows evolution of understanding over time
+- ✅ Makes retrieval more effective
+- ✅ Builds comprehensive knowledge bases
+- ❌ Multiple small memories are harder to search and maintain
+
+**Example: When to UPDATE vs CREATE:**
+
+✅ **UPDATE existing memory:**
+
+- Existing: "Stripe payment integration challenges"
+- New: Another Stripe integration problem → **UPDATE** existing memory
+- Existing: "Phoenix LiveView WebSocket errors"
+- New: Different LiveView WebSocket issue → **UPDATE** existing memory
+- Existing: "Elixir testing patterns"
+- New: New testing approach discovered → **UPDATE** with new pattern
+
+❌ **CREATE new memory (different topics):**
+
+- Existing: "Stripe payment integration"
+- New: "AWS S3 file upload" → **CREATE** new memory (different service)
+- Existing: "Elixir testing patterns"
+- New: "Elixir deployment strategies" → **CREATE** new memory (different topic)
+
+### **How to UPDATE an Existing Memory**
+
+When updating an existing memory, preserve history and show evolution:
+
+**Update Structure:**
+
+```markdown
+type:: memory category:: [category] created:: YYYY-MM-DD (original creation
+date) updated:: YYYY-MM-DD (today's date) confidence:: [adjust based on new
+information]
+
+- # [Topic Title]
+- ## Context
+
+  - [Original context preserved]
+  - **Update YYYY-MM-DD**: [New context or changes]
+
+- ## Current Solution
+
+  - [Most recent/best approach]
+  - **Why this works**: [Explanation]
+
+- ## Historical Approaches
+
+  - **YYYY-MM-DD**: [First approach tried]
+    - Result: [What happened]
+  - **YYYY-MM-DD**: [Second approach tried]
+    - Result: [What happened]
+  - **YYYY-MM-DD**: [Current approach - what finally worked]
+
+- ## Lessons Learned
+
+  - [Original lessons]
+  - **Added YYYY-MM-DD**: [New lessons from latest experience]
+
+- ## Related Issues
+  - [Links to related memories or problems]
+```
+
+**Tools for updating:**
+
+- **Small updates**: Use `replace_line` to update specific properties or
+  sections
+- **Large updates**: Use `read_page` to get full content, then modify and use
+  generic API to update blocks
+- **Property updates**: Use `replace_line` to update `updated::` timestamp
+
+**Update workflow:**
+
+1. Read existing memory with `read_page`
+2. Add new information to appropriate section
+3. Update `updated::` property with today's date
+4. Use `replace_line` or `updateBlock` to save changes
+
+5. **Structure Memory**: Format using memory page template (for NEW memories)
+6. **Add Metadata**: Include rich properties for searchability
+7. **Create Links**: Connect to related memories
+8. **EXECUTE NOW**: Call appropriate MCP tool based on Step 3 decision:
+
+   - **If UPDATING**: Use `updateBlock` or `replace_line` to modify existing
+     memory
+   - **If CREATING**: Use `createPage` to create new memory
+
+   Execute the tool RIGHT NOW - do not describe, do not explain - CALL THE TOOL
+   FIRST.
 
    **CRITICAL LOGSEQ FORMAT RULES**:
 
@@ -466,7 +605,7 @@ When asked to store information:
    - **NO BLANK LINE** after properties - first content block comes immediately
    - First content must be a bullet: `- # Title`
 
-8. **Report Success** (only after tool returns successfully): Confirm what was
+9. **Report Success** (only after tool returns successfully): Confirm what was
    stored, where it's located, and how to retrieve it
 
 **🚨 EXECUTION IS MANDATORY**: Step 7 is not optional. You MUST call the MCP
