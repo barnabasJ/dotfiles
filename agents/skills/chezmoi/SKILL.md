@@ -1,8 +1,6 @@
 ---
 name: chezmoi
-description:
-  Expert guidance on chezmoi dotfile management, templating, cross-platform
-  configuration, and repository organization
+description: Chezmoi dotfile management expertise
 ---
 
 # Chezmoi Expertise

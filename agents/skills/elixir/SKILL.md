@@ -1,8 +1,6 @@
 ---
 name: elixir
-description:
-  Expert guidance on Elixir, Phoenix, Ecto, Ash, and OTP patterns with
-  documentation-backed best practices and critical code style guidelines
+description: Elixir programming
 ---
 
 # Elixir Expertise
@@ -34,7 +32,6 @@ mix run --no-halt my_server.exs
 **When to use each approach:**
 
 - **Use `mix run` for:**
-
   - Scripts that need access to your application modules
   - Database operations (seeds, migrations, data fixes)
   - Any script that uses project dependencies

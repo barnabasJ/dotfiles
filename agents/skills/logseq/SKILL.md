@@ -581,18 +581,38 @@ mcp__ash-logseq__logseq_api(
 
 ### Overview
 
-The LogSeq MCP server provides several tools for working with LogSeq
-programmatically via the Model Context Protocol (MCP). These tools range from a
-generic API wrapper to specialized convenience tools for common operations.
+LogSeq is accessed programmatically through the **ash-logseq MCP server**, which
+uses the Model Context Protocol (MCP) to provide specialized tools for LogSeq
+operations.
+
+**What is MCP?** Model Context Protocol is a standard protocol for connecting AI
+assistants to external data sources and tools. MCP servers expose tools that
+Claude can call directly.
+
+**Available MCP Server**: `ash-logseq`
+
+**Tool Naming Convention**: When you see `mcp__ash-logseq__read_page`, this
+means:
+
+- `mcp__` - Prefix indicating this is an MCP tool
+- `ash-logseq` - The MCP server name
+- `read_page` - The specific action/tool provided by that server
 
 ### Available MCP Tools
 
-#### **1. mcp**ash-logseq**logseq_api** (Generic API - Most Flexible)
+The ash-logseq MCP server provides tools ranging from specialized convenience
+functions to generic API access:
+
+#### **1. logseq_api** (Generic API - Most Flexible)
+
+**Full name**: `mcp__ash-logseq__logseq_api`
 
 The primary tool that provides access to the complete LogSeq HTTP API. Use this
 for operations not covered by specialized tools or when you need full control.
 
-#### **2. mcp**ash-logseq**read_page** (Convenience - Reading)
+#### **2. read_page** (Convenience - Reading)
+
+**Full name**: `mcp__ash-logseq__read_page`
 
 Simplified tool to read a LogSeq page and render it as clean markdown. Easier
 than using the generic API for page reading.
@@ -600,22 +620,62 @@ than using the generic API for page reading.
 **When to use**: Reading page content for analysis, extracting information, or
 displaying content.
 
-#### **3. mcp**ash-logseq**create_page** (Convenience - Creating)
+#### **3. create_page** (Convenience - Creating)
+
+**Full name**: `mcp__ash-logseq__create_page`
 
 Simplified tool to create a LogSeq page from markdown content. Wrapper around
 the generic API's createPage method.
 
 **When to use**: Creating new pages with markdown content.
 
-#### **4. mcp**ash-logseq**search_blocks** (Specialized - Searching)
+#### **4. append_to_page** (Convenience - Appending)
+
+**Full name**: `mcp__ash-logseq__append_to_page`
+
+Simplified tool to append content to the end of an existing LogSeq page. Parses
+markdown into blocks and appends them after all existing content.
+
+**When to use**: Adding new content to existing pages without replacing existing
+content.
+
+**⚠️ Warning**: Page must exist. Use `create_page` for new pages.
+
+#### **5. delete_page** (Convenience - Deleting)
+
+**Full name**: `mcp__ash-logseq__delete_page`
+
+Safely delete a LogSeq page with confirmation. This is a permanent, destructive
+operation with no undo.
+
+**When to use**: Removing pages that are no longer needed.
+
+**⚠️ Warning**: Requires `confirm: true` parameter. Supports `dry_run: true` for
+validation without deletion. This operation is irreversible.
+
+#### **6. search_blocks** (Specialized - Block Search)
+
+**Full name**: `mcp__ash-logseq__search_blocks`
 
 Search for blocks containing specific content across the LogSeq graph with
 enriched metadata.
 
-**When to use**: Finding specific blocks, searching for content, discovering
-related information.
+**When to use**: Finding specific blocks by content, searching within pages,
+discovering related information by block text.
 
-#### **5. mcp**ash-logseq**replace_line** (Specialized - Bulk Updates)
+#### **7. search_pages** (Specialized - Page Search)
+
+**Full name**: `mcp__ash-logseq__search_pages`
+
+Search for pages by name/title across the LogSeq graph with enriched metadata
+and content preview.
+
+**When to use**: Finding pages by name patterns, discovering pages by title
+keywords, locating memory pages by category paths.
+
+#### **8. replace_line** (Specialized - Bulk Updates)
+
+**Full name**: `mcp__ash-logseq__replace_line`
 
 Replace line content in LogSeq page blocks recursively. Powerful tool for bulk
 content updates.
@@ -631,7 +691,10 @@ content, fixing repeated issues.
 | -------------------- | ---------------- | --------------------------------------- |
 | Read page content    | `read_page`      | `logseq_api` with `getPageBlocksTree`   |
 | Create new page      | `create_page`    | `logseq_api` with `createPage`          |
-| Search for content   | `search_blocks`  | `logseq_api` with `search`              |
+| Append to page       | `append_to_page` | `logseq_api` with `insertBlock`         |
+| Delete page          | `delete_page`    | `logseq_api` with `deletePage`          |
+| Search pages by name | `search_pages`   | `logseq_api` with `search`              |
+| Search block content | `search_blocks`  | `logseq_api` with `search`              |
 | Bulk replace content | `replace_line`   | Manual block updates with `updateBlock` |
 | Update single block  | `logseq_api`     | `updateBlock` method                    |
 | Complex operations   | `logseq_api`     | Full API control                        |
@@ -845,7 +908,83 @@ created:: 2025-11-01
 
 **When to use**: Creating new planning pages, memory pages, or any new content.
 
-#### **Using search_blocks** (Enhanced Search)
+#### **Using append_to_page** (Simplified Page Appending)
+
+Append content to the end of an existing LogSeq page:
+
+```elixir
+mcp__ash-logseq__append_to_page(
+  input: {
+    "page_name": "projects/my-project/feature/existing-feature",
+    "content": """
+- ## New Section
+  - Additional notes discovered
+  - Follow-up tasks
+"""
+  }
+)
+```
+
+**Returns**: Success/failure status with updated page details.
+
+**When to use**: Adding new information to existing pages, appending session
+notes, or extending documentation without modifying existing content.
+
+**⚠️ Error**: Returns NotFound if page doesn't exist - use `create_page`
+instead.
+
+#### **Using delete_page** (Safe Page Deletion)
+
+Delete a LogSeq page with confirmation:
+
+```elixir
+# Dry-run validation (preview without deleting)
+mcp__ash-logseq__delete_page(
+  input: {
+    "page_name": "projects/my-project/obsolete-feature",
+    "confirm": true,
+    "dry_run": true
+  }
+)
+
+# Permanent deletion
+mcp__ash-logseq__delete_page(
+  input: {
+    "page_name": "projects/my-project/obsolete-feature",
+    "confirm": true
+  }
+)
+```
+
+**Returns**: Deletion result with metadata, mode (:permanent or :dry_run),
+timestamp, and page metadata captured before deletion.
+
+**When to use**: Removing obsolete pages, cleaning up test pages, or deleting
+abandoned planning documents.
+
+**⚠️ Warning**: This is a permanent, destructive operation with NO undo.
+`confirm: true` is required. Always use `dry_run: true` first to validate.
+
+#### **Using search_pages** (Enhanced Page Search)
+
+Search for pages by name/title with enriched metadata:
+
+```elixir
+mcp__ash-logseq__search_pages(
+  input: {
+    "query": "project payment",
+    "max_results": 50,
+    "case_sensitive": false
+  }
+)
+```
+
+**Returns**: List of matching pages with names, metadata, and content preview.
+
+**When to use**: Finding pages by name patterns, discovering project pages,
+locating memory categories, or searching for topic pages.
+
+#### **Using search_blocks** (Enhanced Block Search)
 
 Search for blocks with enriched metadata:
 
@@ -862,8 +1001,8 @@ mcp__ash-logseq__search_blocks(
 **Returns**: List of matching blocks with UUIDs, page IDs, block numbers, and
 metadata.
 
-**When to use**: Finding specific content, discovering related information, or
-locating blocks to update.
+**When to use**: Finding specific content within pages, discovering related
+information by block text, or locating blocks to update.
 
 #### **Using replace_line** (Bulk Content Updates)
 
@@ -899,8 +1038,8 @@ search_blocks first to preview what will be changed.
 ### MCP Best Practices
 
 1. **Use convenience tools when available**: Prefer `read_page`, `create_page`,
-   `search_blocks`, and `replace_line` for common operations over the generic
-   API
+   `append_to_page`, `delete_page`, `search_pages`, `search_blocks`, and
+   `replace_line` for common operations over the generic API
 2. **Always use JSON objects**: Never pass JSON strings to the `input` parameter
 3. **Think in phases, not items**: Create one block per logical phase/section
    with multi-line content, not separate blocks for every subtask (see "Creating
@@ -917,8 +1056,12 @@ search_blocks first to preview what will be changed.
    indicates success
 9. **Error handling**: The MCP tools will return error details if operations
    fail
-10. **Test bulk operations**: Use `search_blocks` to preview before using
-    `replace_line` for bulk updates
+10. **Test bulk operations**: Use `search_pages` or `search_blocks` to preview
+    before using `replace_line` for bulk updates
+11. **Safe deletion**: Always use `dry_run: true` with `delete_page` first to
+    validate before permanent deletion
+12. **Append vs replace**: Use `append_to_page` to add content without modifying
+    existing blocks, use `replace_line` for bulk updates
 
 ### Example: Updating a Breakdown with Checkboxes
 

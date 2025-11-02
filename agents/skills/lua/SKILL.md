@@ -1,8 +1,6 @@
 ---
 name: lua
-description:
-  Expert guidance on Lua language patterns, idioms, metatables, and Neovim
-  plugin development with performance optimization
+description: Lua programming and Neovim
 ---
 
 # Lua Expertise

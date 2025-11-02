@@ -1,8 +1,6 @@
 ---
 name: testing
-description:
-  Expert guidance on testing methodologies, test organization, coverage
-  strategies, and quality assurance practices
+description: Software testing
 ---
 
 # Testing Expertise
