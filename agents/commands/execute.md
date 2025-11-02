@@ -67,10 +67,12 @@ basename $(git rev-parse --show-toplevel)
 
 ### **Updating Progress in LogSeq**
 
-Use the LogSeq MCP tool to update the breakdown page with completed tasks:
+Use ash-logseq MCP server tools to update the breakdown page with completed
+tasks:
 
 ```elixir
 # 1. Get page blocks to find the breakdown content
+# Using logseq_api tool from ash-logseq MCP server
 page_blocks = mcp__ash-logseq__logseq_api(
   input: {
     "method": "logseq.Editor.getPageBlocksTree",
@@ -82,6 +84,7 @@ page_blocks = mcp__ash-logseq__logseq_api(
 # (from the page_blocks response)
 
 # 3. Update the block content with checked checkbox: [ ] → [x]
+# Using logseq_api tool from ash-logseq MCP server
 mcp__ash-logseq__logseq_api(
   input: {
     "method": "logseq.Editor.updateBlock",
@@ -93,8 +96,8 @@ mcp__ash-logseq__logseq_api(
 )
 ```
 
-**Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for detailed block
-update patterns.
+**Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for comprehensive MCP
+tool documentation and detailed block update patterns.
 
 ## Primary Responsibilities
 

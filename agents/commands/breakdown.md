@@ -178,9 +178,10 @@ topic:: [topic-name]
 
 Use the LogSeq MCP tools to create pages. The convenience tool is recommended:
 
-**Recommended Approach (Using create_page):**
+**Recommended Approach (Using create_page from ash-logseq MCP server):**
 
 ```elixir
+# Tool from ash-logseq MCP server
 mcp__ash-logseq__create_page(
   input: {
     "page_name": "projects/[project]/[topic]/breakdown",
@@ -198,7 +199,7 @@ topic:: [topic-name]
 )
 ```
 
-**Alternative Approach (Using generic API):**
+**Alternative Approach (Using logseq_api tool from ash-logseq MCP server):**
 
 ```elixir
 page_content = """
@@ -212,6 +213,7 @@ topic:: [topic-name]
 - [content sections go here]
 """
 
+# Generic API tool from ash-logseq MCP server
 mcp__ash-logseq__logseq_api(
   input: {
     "method": "logseq.Editor.createPage",
@@ -220,10 +222,11 @@ mcp__ash-logseq__logseq_api(
 )
 ```
 
-**Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for comprehensive tool
-documentation. Use `read_page` to analyze research and plan pages,
-`replace_line` to update task checkboxes as work progresses, and `search_blocks`
-to find related tasks.
+**Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for comprehensive MCP
+tool documentation. The ash-logseq MCP server provides: `read_page` to analyze
+research and plan pages, `search_pages` to find related pages, `replace_line` to
+update task checkboxes as work progresses, and `search_blocks` to find related
+tasks.
 
 ### 3. **Task Design**
 

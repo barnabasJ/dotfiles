@@ -63,11 +63,13 @@ fix:: [fix-name]
 
 **Creating the Page:**
 
-Use the LogSeq MCP tools to create pages. The convenience tool is recommended:
+Use ash-logseq MCP server tools to create pages. The convenience tool is
+recommended:
 
-**Recommended Approach (Using create_page):**
+**Recommended Approach (Using create_page from ash-logseq MCP server):**
 
 ```elixir
+# Tool from ash-logseq MCP server
 mcp__ash-logseq__create_page(
   input: {
     "page_name": "projects/[project]/fix/[fix-name]",
@@ -85,7 +87,7 @@ fix:: [fix-name]
 )
 ```
 
-**Alternative Approach (Using generic API):**
+**Alternative Approach (Using logseq_api tool from ash-logseq MCP server):**
 
 ```elixir
 page_content = """
@@ -99,6 +101,7 @@ fix:: [fix-name]
 - [content sections go here]
 """
 
+# Generic API tool from ash-logseq MCP server
 mcp__ash-logseq__logseq_api(
   input: {
     "method": "logseq.Editor.createPage",
@@ -107,9 +110,10 @@ mcp__ash-logseq__logseq_api(
 )
 ```
 
-**Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for comprehensive tool
-documentation including `read_page`, `search_blocks`, and `replace_line` for
-working with existing pages.
+**Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for comprehensive MCP
+tool documentation. The ash-logseq MCP server provides: `read_page`,
+`search_blocks`, `replace_line`, and other tools for working with existing
+pages.
 
 ### **Root Cause Investigation**
 

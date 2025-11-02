@@ -30,13 +30,10 @@ You coordinate the memory consolidation process, working with memory-agent to:
 1. **Search all memory categories**:
 
    ```
-   Use mcp__ash-logseq__search_blocks to find all pages in:
-   - claude/memories/user-preferences/
-   - claude/memories/project-knowledge/
-   - claude/memories/technical-patterns/
-   - claude/memories/hard-won-knowledge/
-   - claude/memories/context/
-   - claude/memories/conversation-insights/
+   Use the ash-logseq MCP server's search_pages tool to find all memory pages:
+   Tool: mcp__ash-logseq__search_pages
+   - Query: "claude/memories/"
+   - This will return all pages in the memory namespace
    ```
 
 2. **Catalog memories**:
@@ -118,7 +115,8 @@ For each consolidation plan:
 1. **Read all related memories**:
 
    ```
-   Use mcp__ash-logseq__read_page for each memory to merge
+   Use the ash-logseq MCP server's read_page tool for each memory to merge:
+   Tool: mcp__ash-logseq__read_page
    ```
 
 2. **Create consolidated content**:
@@ -131,7 +129,9 @@ For each consolidation plan:
 3. **Update target memory**:
 
    ```
-   Use mcp__ash-logseq__replace_line or updateBlock to update primary memory
+   Use ash-logseq MCP tools to update the primary memory:
+   - For bulk pattern updates: mcp__ash-logseq__replace_line
+   - For precise updates: mcp__ash-logseq__logseq_api with updateBlock method
    ```
 
 4. **Update memory properties**:
@@ -145,7 +145,10 @@ For each consolidation plan:
 5. **Archive or delete merged memories**:
 
    - Add "Status: Consolidated into [[target-memory]]" to merged memories
-   - OR delete if content is fully merged
+   - OR delete if content is fully merged:
+     - Tool: mcp**ash-logseq**delete_page
+     - Use `dry_run: true` FIRST to validate
+     - Then use `confirm: true` for permanent deletion
 
 6. **Update cross-references**:
    - Find memories linking to merged memories
