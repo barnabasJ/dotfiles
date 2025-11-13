@@ -340,6 +340,7 @@ All workflows: memory-agent (RETRIEVE) → work → memory-agent (STORE)
 | Code Review    | **ALL REVIEWERS IN PARALLEL** 🚀                   | Fast comprehensive analysis                        |
 | Documentation  | documentation-expert                               | research-agent, documentation-reviewer             |
 | Testing        | Direct implementation with expert consultation     | qa-reviewer, elixir skill                          |
+| **LogSeq Ops** | **logseq-agent** (MANDATORY - NO DIRECT MCP)       | architecture-agent (for structure guidance)        |
 
 ## Test Requirements - MANDATORY
 
