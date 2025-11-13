@@ -193,6 +193,14 @@ All reviewers are READ-ONLY: analyze and report, NEVER write code.
 - Usage: Via Task tool in regular workflow; MCP tools in specialized commands
 - Architecture: Orchestrator coordinates, agents specialize
 
+**logseq-agent** - LogSeq Gateway (ALL LogSeq Operations)
+
+- Use: MANDATORY for ANY LogSeq interaction (reading, writing, searching,
+  updating)
+- Scope: ALL namespaces (projects/, claude/memories/, docs/, everything)
+- Tools: All ash-logseq MCP tools
+- Rule: NEVER use MCP tools directly - ALWAYS use this agent
+
 ## LogSeq Integration via MCP
 
 **MCP (Model Context Protocol)**: Standard protocol connecting AI to external
@@ -205,6 +213,8 @@ data sources.
 - `read_page` - Read page as clean markdown
 - `create_page` - Create page from markdown
 - `append_to_page` - Append to existing page
+- `replace_page` - Replace entire page content safely with backup (requires
+  `confirm: true`)
 - `delete_page` - Safely delete with confirmation (requires `confirm: true`)
 
 **Search:**
