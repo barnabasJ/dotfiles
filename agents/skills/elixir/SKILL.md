@@ -10,37 +10,81 @@ patterns, Ash framework, and OTP behaviors.
 
 ## Critical Code Style Guidelines
 
-### Running Elixir Code
+### Running Elixir Code and Testing
 
-**NEVER use the `elixir` command directly for running scripts in a Mix
-project:**
+**ALWAYS use a scratch test file for testing code snippets - NEVER create new
+files, use `mix run`, or use `iex` for quick tests:**
 
 ```elixir
-# ❌ INCORRECT - Don't use elixir command for project scripts
-elixir my_script.exs
+# ✅ CORRECT - Use test/scratch_test.exs for all test scripts
+# Create/update test/scratch_test.exs with your test code, then run:
+mix test test/scratch_test.exs
 
-# ✅ CORRECT - Use mix run for scripts needing project context
-mix run my_script.exs
+# ❌ INCORRECT - Don't create new test files
+mix test test/some_new_test.exs  # Creates clutter
 
-# ✅ CORRECT - Use mix run with environment (only when not using default dev)
-MIX_ENV=prod mix run priv/repo/seeds.exs
+# ❌ INCORRECT - Don't use mix run for testing
+mix run scratch.exs  # Use test framework instead
 
-# ✅ CORRECT - For long-running processes
-mix run --no-halt my_server.exs
+# ❌ INCORRECT - Don't use iex for complex multi-line tests
+iex -S mix  # Hard to iterate on multi-line code
 ```
 
-**When to use each approach:**
+**Scratch Test File Setup:**
 
-- **Use `mix run` for:**
-  - Scripts that need access to your application modules
-  - Database operations (seeds, migrations, data fixes)
-  - Any script that uses project dependencies
-  - Running in different environments (dev/test/prod)
+1. **Create `test/scratch_test.exs`** (if it doesn't exist)
+2. **Add to `.gitignore`**:
+   ```
+   # Scratch test file
+   test/scratch_test.exs
+   ```
+3. **Use for all test scripts**:
 
-- **Only use `elixir` command for:**
-  - Standalone scripts with zero dependencies
-  - Quick one-off calculations
-  - Scripts completely independent of your project
+   ```elixir
+   # test/scratch_test.exs
+   defmodule ScratchTest do
+     use ExUnit.Case
+
+     # Testing user creation
+     test "create user" do
+       alias MyApp.Accounts
+
+       params = %{
+         email: "test@example.com",
+         name: "Test User"
+       }
+
+       case Accounts.create_user(params) do
+         {:ok, user} ->
+           IO.inspect(user, label: "Created user")
+           assert user.email == "test@example.com"
+         {:error, changeset} ->
+           IO.inspect(changeset.errors, label: "Errors")
+           flunk("User creation failed")
+       end
+     end
+   end
+   ```
+
+4. **Run with**: `mix test test/scratch_test.exs`
+
+**Benefits of scratch test file approach:**
+
+- **Single file to manage**: Always know where test code lives
+- **Git-ignored**: Never accidentally commit test code
+- **Easy iteration**: Edit and re-run without file management
+- **Test framework benefits**: Proper test isolation, helpers, and formatting
+- **Database cleanup**: Automatic sandbox rollback between tests
+- **Better output**: Clear pass/fail with detailed error messages
+- **No cleanup needed**: Just overwrite for next test
+
+**🚨 CRITICAL: This is the ONLY way to run test code**
+
+- **NEVER use `iex -S mix`** - always use the scratch test file instead
+- **NEVER use `mix run`** - always use the scratch test file instead
+- **NEVER create temporary files** - always use the scratch test file instead
+- For literally any code testing, exploration, or experimentation, use
+  `test/scratch_test.exs` and run with `mix test test/scratch_test.exs`
 
 ### Pipe Operator Usage
 
