@@ -38,7 +38,7 @@ organized by function:
 - `architecture-agent.md` - Project structure & integration
 - `documentation-expert.md`, `documentation-reviewer.md` - Documentation
   specialists
-- `neovim-expert.md`, `lua-expert.md`, `chezmoi-expert.md`, `logseq-expert.md` -
+- `neovim-expert.md`, `lua-expert.md`, `chezmoi-expert.md`, `logseq-agent.md` -
   Tool-specific experts
 
 ### Current Command System Architecture
