@@ -178,14 +178,14 @@ topic:: [topic-name]
 
 Use the LogSeq MCP tools to create pages. The convenience tool is recommended:
 
-**Recommended Approach (Using create_page from ash-logseq MCP server):**
+**Creating Breakdown Page (Using create_block from ash-logseq MCP server):**
 
 ```elixir
-# Tool from ash-logseq MCP server
-mcp__ash-logseq__create_page(
+# Tool from ash-logseq MCP server - creates a new page
+mcp__ash-logseq__create_block(
   input: {
-    "page_name": "projects/[project]/[topic]/breakdown",
-    "content": """
+    "parent": nil,  # nil = create new page
+    "content": """projects/[project]/[topic]/breakdown
 type:: breakdown
 status:: active
 created:: YYYY-MM-DD
@@ -199,34 +199,17 @@ topic:: [topic-name]
 )
 ```
 
-**Alternative Approach (Using logseq_api tool from ash-logseq MCP server):**
+**Key Points:**
 
-```elixir
-page_content = """
-type:: breakdown
-status:: active
-created:: YYYY-MM-DD
-project:: [project-name]
-topic:: [topic-name]
-
-- # [topic] Task Breakdown
-- [content sections go here]
-"""
-
-# Generic API tool from ash-logseq MCP server
-mcp__ash-logseq__logseq_api(
-  input: {
-    "method": "logseq.Editor.createPage",
-    "args": ["projects/[project]/[topic]/breakdown", page_content]
-  }
-)
-```
+- Use `parent: nil` to create a new page
+- First line becomes the page name: `projects/[project]/[topic]/breakdown`
+- Properties follow immediately (no blank line)
+- All content uses bullet points (`-`)
 
 **Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for comprehensive MCP
-tool documentation. The ash-logseq MCP server provides: `read_page` to analyze
-research and plan pages, `search_pages` to find related pages, `replace_line` to
-update task checkboxes as work progresses, and `search_blocks` to find related
-tasks.
+tool documentation. The ash-logseq MCP server provides: `read_block` to analyze
+pages, `search_blocks` to find pages, `replace_block` to update task checkboxes
+as work progresses, and `create_block` for adding new tasks.
 
 ### 3. **Task Design**
 

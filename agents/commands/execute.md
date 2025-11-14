@@ -47,15 +47,18 @@ encounter during execution.
    challenges
 2. Read the breakdown checklist from LogSeq page
    `projects/[project]/[topic]/breakdown`
-3. Work through each numbered task sequentially
-4. Consult relevant agents for guidance on specific tasks
-5. Complete each subtask following the specifications
-6. **Mark subtasks as completed in breakdown page** (change `[ ]` to `[x]`)
-7. **Mark the main task as completed in breakdown page** (change `1. [ ]` to
+3. **SECOND: Create todo list** using TodoWrite tool to track all tasks from the
+   breakdown checklist - this provides visibility and helps ensure no tasks are
+   forgotten
+4. Work through each numbered task sequentially
+5. Consult relevant agents for guidance on specific tasks
+6. Complete each subtask following the specifications
+7. **Mark subtasks as completed in breakdown page** (change `[ ]` to `[x]`)
+8. **Mark the main task as completed in breakdown page** (change `1. [ ]` to
    `1. [x]`)
-8. Commit changes as specified in the breakdown (includes both code and
+9. Commit changes as specified in the breakdown (includes both code and
    progress)
-9. Continue to next task
+10. Continue to next task
 
 ### **Determining Project Name**
 
@@ -71,27 +74,30 @@ Use ash-logseq MCP server tools to update the breakdown page with completed
 tasks:
 
 ```elixir
-# 1. Get page blocks to find the breakdown content
-# Using logseq_api tool from ash-logseq MCP server
-page_blocks = mcp__ash-logseq__logseq_api(
+# 1. Search for the breakdown page
+results = mcp__ash-logseq__search_blocks(
   input: {
-    "method": "logseq.Editor.getPageBlocksTree",
-    "args": ["projects/[project]/[topic]/breakdown"]
+    "query": "projects/[project]/[topic]/breakdown"
   }
 )
 
-# 2. Find the specific block UUID for the task you completed
+# 2. Read the page to get block structure
+page_blocks = mcp__ash-logseq__read_block(
+  input: {
+    "block_uuid": "uuid-from-search-results",
+    "max_depth": 3
+  }
+)
+
+# 3. Find the specific task block UUID from the hierarchy
 # (from the page_blocks response)
 
-# 3. Update the block content with checked checkbox: [ ] → [x]
-# Using logseq_api tool from ash-logseq MCP server
-mcp__ash-logseq__logseq_api(
+# 4. Update the block content with checked checkbox: [ ] → [x]
+mcp__ash-logseq__replace_block(
   input: {
-    "method": "logseq.Editor.updateBlock",
-    "args": [
-      "block-uuid-here",
-      "#### 1. [x] Task name\n1.1. [x] Subtask 1\n1.2. [x] Subtask 2"
-    ]
+    "block_uuid": "block-uuid-here",
+    "content": "#### 1. [x] Task name\n1.1. [x] Subtask 1\n1.2. [x] Subtask 2",
+    "confirm": true
   }
 )
 ```
@@ -221,23 +227,32 @@ Execution phase is complete when:
    - projects/my-project/my-feature/research (patterns, file locations)
    - projects/my-project/my-feature/plan (strategic approach)
    - projects/my-project/my-feature/breakdown (task checklist)
-2. Start with Task 1: "Add User Authentication Resource"
+2. Create todo list from breakdown using TodoWrite:
+   - Task 1: Add User Authentication Resource
+   - Task 2: Configure OAuth Integration
+   - Task 3: Add Authentication Tests
+   - (etc. for all tasks in breakdown)
+3. Start with Task 1: "Add User Authentication Resource"
+   - Mark Task 1 as in_progress in todo list
    - Ask about Ash resource patterns (elixir skill provides Ash resource
      guidance)
    - Implement subtask 1.1, mark as [x] in breakdown page
    - Implement subtask 1.2, mark as [x] in breakdown page
    - Implement subtask 1.3, mark as [x] in breakdown page
    - Mark Task 1 as [x] completed in breakdown page
+   - Mark Task 1 as completed in todo list
    - Commit: "feat(auth): add user authentication resource" (includes code + progress)
-3. Continue with Task 2: "Configure OAuth Integration"
+4. Continue with Task 2: "Configure OAuth Integration"
+   - Mark Task 2 as in_progress in todo list
    - Follow file references and documentation links
    - Implement subtask 2.1, mark as [x] in breakdown page
    - Implement subtask 2.2, mark as [x] in breakdown page
    - Implement subtask 2.3, mark as [x] in breakdown page
    - Mark Task 2 as [x] completed in breakdown page
+   - Mark Task 2 as completed in todo list
    - Commit: "feat(oauth): configure OAuth provider integration" (includes code + progress)
-4. After completing 3-4 related tasks, run review agents for validation
-5. Continue until all tasks completed
+5. After completing 3-4 related tasks, run review agents for validation
+6. Continue until all tasks completed
 ```
 
 The **execute** command transforms detailed planning into working implementation

@@ -39,6 +39,12 @@ implementation agents will execute.
 
 ### **LogSeq Page Structure**
 
+**🚨 CRITICAL FORMATTING RULE**: When creating LogSeq content, send regular
+markdown without adding extra formatting specifically for LogSeq presentation.
+Use standard markdown features (bold, italics, code blocks, etc.) naturally, but
+do NOT add special formatting to try to control how LogSeq displays content -
+LogSeq handles its own presentation.
+
 Create feature planning pages using this structure:
 
 ```
@@ -68,14 +74,14 @@ feature:: [feature-name]
 Use ash-logseq MCP server tools to create pages. The convenience tool is
 recommended:
 
-**Recommended Approach (Using create_page from ash-logseq MCP server):**
+**Creating Planning Page (Using create_block from ash-logseq MCP server):**
 
 ```elixir
-# Tool from ash-logseq MCP server
-mcp__ash-logseq__create_page(
+# Tool from ash-logseq MCP server - creates a new page
+mcp__ash-logseq__create_block(
   input: {
-    "page_name": "projects/[project]/feature/[feature-name]",
-    "content": """
+    "parent": nil,  # nil = create new page
+    "content": """projects/[project]/feature/[feature-name]
 type:: feature
 status:: planning
 created:: YYYY-MM-DD
@@ -89,33 +95,16 @@ feature:: [feature-name]
 )
 ```
 
-**Alternative Approach (Using logseq_api tool from ash-logseq MCP server):**
+**Key Points:**
 
-```elixir
-page_content = """
-type:: feature
-status:: planning
-created:: YYYY-MM-DD
-project:: [project-name]
-feature:: [feature-name]
-
-- # [feature-name] Feature Plan
-- [content sections go here]
-"""
-
-# Generic API tool from ash-logseq MCP server
-mcp__ash-logseq__logseq_api(
-  input: {
-    "method": "logseq.Editor.createPage",
-    "args": ["projects/[project]/feature/[feature-name]", page_content]
-  }
-)
-```
+- Use `parent: nil` to create a new page
+- First line becomes the page name: `projects/[project]/feature/[feature-name]`
+- Properties follow immediately (no blank line between page name and properties)
+- All content uses bullet points (`-`)
 
 **Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for comprehensive MCP
-tool documentation. The ash-logseq MCP server provides: `read_page`,
-`search_blocks`, `replace_line`, and other tools for working with existing
-pages.
+tool documentation. The ash-logseq MCP server provides: `read_block`,
+`search_blocks`, `create_block`, and `replace_block` for working with LogSeq.
 
 ### **Research Coordination**
 

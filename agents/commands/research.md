@@ -457,14 +457,14 @@ topic:: [topic-name]
 
 Use the LogSeq MCP tools to create pages. The convenience tool is recommended:
 
-**Recommended Approach (Using create_page from ash-logseq MCP server):**
+**Creating Research Page (Using create_block from ash-logseq MCP server):**
 
 ```elixir
-# Tool from ash-logseq MCP server
-mcp__ash-logseq__create_page(
+# Tool from ash-logseq MCP server - creates a new page
+mcp__ash-logseq__create_block(
   input: {
-    "page_name": "projects/[project]/[topic]/research",
-    "content": """
+    "parent": nil,  # nil = create new page
+    "content": """projects/[project]/[topic]/research
 type:: research
 status:: completed
 created:: YYYY-MM-DD
@@ -478,33 +478,17 @@ topic:: [topic-name]
 )
 ```
 
-**Alternative Approach (Using logseq_api tool from ash-logseq MCP server):**
+**Key Points:**
 
-```elixir
-page_content = """
-type:: research
-status:: completed
-created:: YYYY-MM-DD
-project:: [project-name]
-topic:: [topic-name]
-
-- # [topic] Research
-- [content sections go here]
-"""
-
-# Generic API tool from ash-logseq MCP server
-mcp__ash-logseq__logseq_api(
-  input: {
-    "method": "logseq.Editor.createPage",
-    "args": ["projects/[project]/[topic]/research", page_content]
-  }
-)
-```
+- Use `parent: nil` to create a new page
+- First line becomes the page name: `projects/[project]/[topic]/research`
+- Properties follow immediately (no blank line)
+- All content uses bullet points (`-`)
 
 **Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for comprehensive MCP
-tool documentation. The ash-logseq MCP server provides: `read_page`,
-`search_pages`, `search_blocks`, `replace_line`, and other tools for working
-with existing pages.
+tool documentation. The ash-logseq MCP server provides: `read_block`,
+`search_blocks`, `create_block`, and `replace_block` for working with LogSeq
+pages.
 
 ## What You Provide as Research Orchestrator
 

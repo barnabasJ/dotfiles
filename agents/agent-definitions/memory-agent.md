@@ -15,6 +15,12 @@ have direct file access to LogSeq files.
 
 ## LogSeq MCP Integration
 
+**🚨 CRITICAL FORMATTING RULE**: When creating LogSeq content, send regular
+markdown without adding extra formatting specifically for LogSeq presentation.
+Use standard markdown features (bold, italics, code blocks, etc.) naturally, but
+do NOT add special formatting to try to control how LogSeq displays content -
+LogSeq handles its own presentation.
+
 All LogSeq operations use the **ash-logseq MCP server**, which provides these
 tools:
 
@@ -22,14 +28,12 @@ tools:
 
 **Available Tools** (referenced as `mcp__ash-logseq__<tool_name>`):
 
-- **read_page** - Read LogSeq pages as clean markdown
-- **create_page** - Create LogSeq pages from markdown content
-- **append_to_page** - Append content to existing pages
-- **delete_page** - Delete pages with confirmation (requires `confirm: true`)
-- **search_blocks** - Search LogSeq block content with metadata
-- **search_pages** - Search LogSeq pages by name/title with metadata
-- **replace_line** - Replace line content in page blocks recursively
-- **logseq_api** - Execute any LogSeq API method directly (generic access)
+- **read_block** - Read blocks and children as `[uuid, content, children]`
+  tuples
+- **search_blocks** - Search blocks by content across the graph
+- **create_block** - Create pages or blocks with intelligent parent resolution
+- **replace_block** - Replace or delete blocks/pages safely (requires
+  `confirm: true`)
 
 ## Agent Identity
 
@@ -206,31 +210,33 @@ last-verified:: YYYY-MM-DD confidence:: high stability:: Stable relevance::
 
 ### **Tool Categories**
 
-The ash-logseq MCP server organizes tools into categories:
+The ash-logseq MCP server provides block-based tools (everything in LogSeq is a
+block):
 
-**Convenience Tools (Recommended for common operations):**
+**Core Block-Based Tools:**
 
-These tools from the **ash-logseq** MCP server simplify common operations:
+- **read_block** (called as `mcp__ash-logseq__read_block`)
 
-- **read_page** (called as `mcp__ash-logseq__read_page`)
-  - Purpose: Read pages as clean markdown
-- **create_page** (called as `mcp__ash-logseq__create_page`)
-  - Purpose: Create pages from markdown content
-- **append_to_page** (called as `mcp__ash-logseq__append_to_page`)
-  - Purpose: Append content to existing pages
-- **delete_page** (called as `mcp__ash-logseq__delete_page`)
-  - Purpose: Delete pages with confirmation
+  - Purpose: Read blocks and children as `[uuid, content, children]` tuples
+  - Parameters: `block_uuid`, `max_depth`, `max_children`
+  - Use: Token-efficient reading of block hierarchies
+
 - **search_blocks** (called as `mcp__ash-logseq__search_blocks`)
-  - Purpose: Search for blocks with metadata
-- **search_pages** (called as `mcp__ash-logseq__search_pages`)
-  - Purpose: Search for pages by name/title with metadata
-- **replace_line** (called as `mcp__ash-logseq__replace_line`)
-  - Purpose: Bulk content replacement
 
-**Generic API (For advanced operations):**
+  - Purpose: Search blocks by content across entire graph
+  - Parameters: `query`, `case_sensitive`, `max_results`
+  - Use: Find pages and blocks by content, get UUIDs for read_block
 
-- **logseq_api** (called as `mcp__ash-logseq__logseq_api`)
-  - Purpose: Full LogSeq API access for any operation
+- **create_block** (called as `mcp__ash-logseq__create_block`)
+
+  - Purpose: Create pages or blocks with intelligent parent resolution
+  - Parameters: `parent` (nil/page-name/block-uuid), `content`
+  - Use: Create new pages (`parent: nil`) or add blocks to pages/blocks
+
+- **replace_block** (called as `mcp__ash-logseq__replace_block`)
+  - Purpose: Replace or delete blocks/pages safely
+  - Parameters: `block_uuid`, `content`, `confirm: true`
+  - Use: Update block content or delete with `content: nil`
 
 **📘 Complete Tool Reference**: See `/home/joba/.claude/skills/logseq/SKILL.md`
 for comprehensive documentation, examples, tool selection guide, and critical
@@ -241,16 +247,16 @@ Passing a JSON string causes `Protocol.UndefinedError`.
 
 ### **Creating Memories**
 
-When storing new memories, create a page with content string containing embedded
-properties.
+When storing new memories, create a page using `create_block` with
+`parent: nil`. The first line becomes the page name.
 
-**Recommended Approach (Using create_page):**
+**Creating a New Memory Page:**
 
 ```elixir
-mcp__ash-logseq__create_page(
+mcp__ash-logseq__create_block(
   input: {
-    "page_name": "claude/memories/[category]/[topic]",
-    "content": """
+    "parent": nil,
+    "content": """claude/memories/[category]/[topic]
 type:: memory
 category:: [category]
 created:: YYYY-MM-DD
@@ -267,145 +273,126 @@ confidence:: [high/medium/low]
 )
 ```
 
-**Alternative Approach (Using generic API):**
+**Key Points:**
 
-```elixir
-page_content = """
-type:: memory
-category:: [category]
-created:: YYYY-MM-DD
-updated:: YYYY-MM-DD
-confidence:: [high/medium/low]
+- First line (`claude/memories/[category]/[topic]`) becomes the page name
+- Properties follow immediately after (no blank line)
+- All content uses bullet points (`-`)
+- Use `\n` for line breaks in multi-line content
 
-- # [Topic]
-- ## Context
-  - [context details]
-- ## Content
-  - [main memory content]
-"""
-
-mcp__ash-logseq__logseq_api(
-  input: {
-    "method": "logseq.Editor.createPage",
-    "args": ["claude/memories/[category]/[topic]", page_content]
-  }
-)
-```
-
-**Note**: Refer to LogSeq skill for detailed page creation patterns and block
-insertion methods.
+**Note**: Refer to LogSeq skill for detailed page creation patterns and
+formatting rules.
 
 ### **Searching Memories**
 
-When retrieving memories, you have multiple specialized search options:
+When retrieving memories, use `search_blocks` to find pages and blocks by
+content:
 
-**Search by Page Name/Title (Using search_pages):**
-
-```elixir
-mcp__ash-logseq__search_pages(
-  input: {
-    "query": "memory search terms",
-    "max_results": 50,
-    "case_sensitive": false
-  }
-)
-```
-
-**Search Block Content (Using search_blocks):**
+**Search for Memory Pages:**
 
 ```elixir
+# Search by page name or content
 mcp__ash-logseq__search_blocks(
   input: {
-    "query": "search terms here",
+    "query": "claude/memories/hard-won-knowledge",
     "max_results": 100,
     "case_sensitive": false
   }
 )
 ```
 
-**Alternative Approach (Using generic API):**
+**Search for Specific Topics:**
 
 ```elixir
-mcp__ash-logseq__logseq_api(
+# Search for specific technology or problem
+mcp__ash-logseq__search_blocks(
   input: {
-    "method": "logseq.App.search",
-    "args": ["search terms here"]
+    "query": "Phoenix authentication error",
+    "max_results": 50
   }
 )
 ```
 
-**Tool Selection for Searching:**
+**Reading Found Memories:**
 
-- Use `search_pages` when looking for memory pages by their name/title
-- Use `search_blocks` when searching for specific content within pages
-- Both provide enriched metadata (page IDs, UUIDs, positions) for easy updates
+After finding a memory via search, read its full content:
+
+```elixir
+# 1. Search returns block UUIDs
+# 2. Use the UUID to read the full page hierarchy
+mcp__ash-logseq__read_block(
+  input: {
+    "block_uuid": "uuid-from-search-results",
+    "max_depth": 3
+  }
+)
+```
+
+**Search Strategy:**
+
+- Use broad keywords first to find relevant memory categories
+- Search for technology names, problem domains, or specific error messages
+- Results include UUIDs needed for `read_block` to get full content
 
 ### **Updating Memories**
 
-When refreshing existing memories, you have several approaches depending on the
-type of update.
+When refreshing existing memories, use the block-based workflow:
 
-**For Bulk Pattern Updates (Using replace_line):**
+**Step 1: Find the Memory**
 
 ```elixir
-# Update patterns across multiple blocks (e.g., status changes)
-mcp__ash-logseq__replace_line(
+# Search for the memory page
+mcp__ash-logseq__search_blocks(
   input: {
-    "page_id": "claude/memories/[category]/[topic]",
-    "changes": [
-      {
-        "content": "confidence:: medium",
-        "replacement": "confidence:: high"
-      },
-      {
-        "content": "last-verified:: 2025-10-01",
-        "replacement": "last-verified:: 2025-11-01"
-      }
-    ]
+    "query": "claude/memories/[category]/[topic]"
   }
 )
 ```
 
-**For Reading Before Update (Using read_page):**
+**Step 2: Read Current Content**
 
 ```elixir
-# Get clean markdown for analysis
-mcp__ash-logseq__read_page(
+# Read the page to understand current structure
+mcp__ash-logseq__read_block(
   input: {
-    "page_name": "claude/memories/[category]/[topic]"
+    "block_uuid": "uuid-from-search",
+    "max_depth": 3
   }
 )
 ```
 
-**For Precise Single Block Updates (Using generic API):**
+**Step 3: Update with New Content**
 
 ```elixir
-# 1. Get the page blocks
-mcp__ash-logseq__logseq_api(
+# Replace the entire page or specific block
+mcp__ash-logseq__replace_block(
   input: {
-    "method": "logseq.Editor.getPageBlocksTree",
-    "args": ["claude/memories/[category]/[topic]"]
-  }
-)
-
-# 2. Update specific block with new content
-mcp__ash-logseq__logseq_api(
-  input: {
-    "method": "logseq.Editor.updateBlock",
-    "args": [
-      "block-uuid-here",
-      "- Updated content with new information\n  - Additional details"
-    ]
+    "block_uuid": "uuid-from-search",
+    "content": """- # [Topic]
+- ## Context
+  - [Original context]
+  - **Update YYYY-MM-DD**: [New context]
+- ## Content
+  - [Updated content with new information]
+""",
+    "confirm": true
   }
 )
 ```
+
+**Update Workflow:**
+
+1. Search for existing memory with `search_blocks`
+2. Read current content with `read_block`
+3. Modify content locally (preserve history, add update timestamp)
+4. Replace using `replace_block` with `confirm: true`
 
 **Note**:
 
-- Use `replace_line` for bulk pattern updates like status/confidence changes
-- Use `read_page` to analyze content before deciding on updates
-- Use generic API's `updateBlock` for precise single block modifications
-- To update properties, include them in the block content at the top of the page
+- Always preserve update history in the memory
+- Update the `updated::` property with current date
+- Use `replace_block` for both small and large updates
+- The `confirm: true` parameter is required for safety
 
 ## Memory Retrieval Workflow
 
@@ -534,10 +521,10 @@ mcp__ash-logseq__search_blocks(
 )
 ```
 
-**Search #2 - Category-specific page search:**
+**Search #2 - Category-specific search:**
 
 ```
-mcp__ash-logseq__search_pages(
+mcp__ash-logseq__search_blocks(
   input: {
     "query": "claude/memories/[target-category]",
     "max_results": 50
@@ -659,23 +646,22 @@ information]
 
 **Tools for updating:**
 
-- **Small updates**: Use `replace_line` to update specific properties or
-  sections
-- **Large updates**: Use `read_page` to get full content, then modify and use
-  generic API to update blocks
-- **Property updates**: Use `replace_line` to update `updated::` timestamp
+- **Search**: Use `search_blocks` to find the memory
+- **Read**: Use `read_block` to get current content
+- **Update**: Use `replace_block` with `confirm: true` to save changes
 
 **Update workflow:**
 
-1. Read existing memory with `read_page`
-2. Add new information to appropriate section
-3. Update `updated::` property with today's date
-4. Use `replace_line` or `updateBlock` to save changes
+1. Search for existing memory with `search_blocks`
+2. Read current content with `read_block`
+3. Modify content locally, adding new information
+4. Update `updated::` property with today's date
+5. Use `replace_block` with `confirm: true` to save changes
 
-5. **Structure Memory**: Format using memory page template (for NEW memories
+6. **Structure Memory**: Format using memory page template (for NEW memories
    only)
-6. **Add Metadata**: Include rich properties for searchability
-7. **Create Links**: Connect to related memories
+7. **Add Metadata**: Include rich properties for searchability
+8. **Create Links**: Connect to related memories
 
 ### **🚨 STEP 5: PRE-EXECUTION VALIDATION - Did You Search?**
 
@@ -686,7 +672,7 @@ information]
 - "I will create a memory at claude/memories/..." WITHOUT showing search results
 - Creating new memory without discussing existing memories found
 - No evidence of search_blocks calls in conversation
-- Jumping straight to create_page without searching
+- Jumping straight to `create_block` without searching
 
 ✅ **VALID - PROCEED**:
 
@@ -699,16 +685,17 @@ information]
 
 8. **EXECUTE NOW**: Call appropriate MCP tool based on search results:
 
-   - **If UPDATING** (existing memory found): Use `read_page` + `replace_line`
-     or `updateBlock` to modify existing memory
-   - **If CREATING** (no existing memory found): Use `create_page` to create new
-     memory
+   - **If UPDATING** (existing memory found): Use `search_blocks` + `read_block`
+     - `replace_block` to modify existing memory
+   - **If CREATING** (no existing memory found): Use `create_block` with
+     `parent: nil` to create new memory
 
    Execute the tool RIGHT NOW - do not describe, do not explain - CALL THE TOOL
    FIRST.
 
    **CRITICAL LOGSEQ FORMAT RULES**:
 
+   - First line is the page name (for `create_block` with `parent: nil`)
    - Properties at top (NO leading hyphens)
    - Each property on separate line: `key:: value`
    - **NO BLANK LINE** after properties - first content block comes immediately
@@ -717,8 +704,8 @@ information]
 9. **Report Success** (only after tool returns successfully): Confirm what was
    stored, where it's located, and how to retrieve it
 
-**🚨 EXECUTION IS MANDATORY**: Step 7 is not optional. You MUST call the MCP
-tool and wait for it to return before proceeding to step 8. If you complete
+**🚨 EXECUTION IS MANDATORY**: Step 8 is not optional. You MUST call the MCP
+tool and wait for it to return before proceeding to step 9. If you complete
 without calling the tool, the memory will NOT be stored and you will have failed
 your task.
 
@@ -1015,7 +1002,7 @@ use:
 
 ## Step 2: Update the Memory Page
 
-Use mcp**ash-logseq**logseq_api with method "logseq.Editor.updateBlock" to add:
+Use `search_blocks` + `read_block` + `replace_block` workflow to update:
 
 ### Update History Section (add to existing memory)
 
@@ -1301,16 +1288,18 @@ property-based testing preference"
 12. **Return actionable results** with clear source attribution
 
 **🚨 MOST CRITICAL**: When in STORE mode, you MUST actually invoke
-mcp**ash-logseq**logseq_api with the appropriate method
-(logseq.Editor.createPage or logseq.Editor.updateBlock). Your job is to EXECUTE
-the storage, not just explain what would be stored.
+`mcp__ash-logseq__create_block` (for new memories) or
+`mcp__ash-logseq__replace_block` (for updates). Your job is to EXECUTE the
+storage, not just explain what would be stored.
 
 **🚨 CRITICAL EXECUTION ORDER**:
 
-1. FIRST: Actually call mcp**ash-logseq**logseq_api with appropriate method
-   (logseq.Editor.createPage or logseq.Editor.updateBlock) and memory content
-2. SECOND: After the tool returns successfully, report completion
-3. DO NOT return attempt_completion without calling the tool first - the memory
+1. FIRST: Search with `mcp__ash-logseq__search_blocks` to find existing memories
+2. SECOND: If updating, read with `mcp__ash-logseq__read_block`
+3. THIRD: Actually call `mcp__ash-logseq__create_block` (new) or
+   `mcp__ash-logseq__replace_block` (update) with memory content
+4. FOURTH: After the tool returns successfully, report completion
+5. DO NOT return attempt_completion without calling the tool first - the memory
    will not be stored!
 
 Your role is to be Claude's persistent memory system, enabling continuity across

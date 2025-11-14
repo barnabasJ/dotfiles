@@ -185,14 +185,14 @@ topic:: [topic-name]
 
 Use the LogSeq MCP tools to create pages. The convenience tool is recommended:
 
-**Recommended Approach (Using create_page from ash-logseq MCP server):**
+**Creating Plan Page (Using create_block from ash-logseq MCP server):**
 
 ```elixir
-# Tool from ash-logseq MCP server
-mcp__ash-logseq__create_page(
+# Tool from ash-logseq MCP server - creates a new page
+mcp__ash-logseq__create_block(
   input: {
-    "page_name": "projects/[project]/[topic]/plan",
-    "content": """
+    "parent": nil,  # nil = create new page
+    "content": """projects/[project]/[topic]/plan
 type:: plan
 status:: active
 created:: YYYY-MM-DD
@@ -206,34 +206,19 @@ topic:: [topic-name]
 )
 ```
 
-**Alternative Approach (Using logseq_api tool from ash-logseq MCP server):**
+**Key Points:**
 
-```elixir
-page_content = """
-type:: plan
-status:: active
-created:: YYYY-MM-DD
-project:: [project-name]
-topic:: [topic-name]
-
-- # [topic] Implementation Plan
-- [content sections go here]
-"""
-
-# Generic API tool from ash-logseq MCP server
-mcp__ash-logseq__logseq_api(
-  input: {
-    "method": "logseq.Editor.createPage",
-    "args": ["projects/[project]/[topic]/plan", page_content]
-  }
-)
-```
+- Use `parent: nil` to create a new page
+- First line becomes the page name: `projects/[project]/[topic]/plan`
+- Properties follow immediately (no blank line)
+- All content uses bullet points (`-`)
 
 **Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for comprehensive MCP
-tool documentation. The ash-logseq MCP server provides: `read_page` for
-analyzing existing research, `search_pages` for finding pages by name,
-`search_blocks` for finding related content, and `replace_line` for updating
-page content.
+tool documentation. The ash-logseq MCP server provides: `read_block` for
+analyzing existing research, `search_blocks` for finding pages, `replace_block`
+for updates, and `create_block` for adding content content, `replace_line` for
+updating page content, `append_to_page` for adding content, and `delete_page`
+for removing obsolete pages.
 
 ### 3. **Strategic Implementation Planning**
 

@@ -130,9 +130,45 @@ For each consolidation plan:
 
    ```
    Use ash-logseq MCP tools to update the primary memory:
+   - For complete page rewrites: mcp__ash-logseq__replace_page (PREFERRED for large consolidations)
    - For bulk pattern updates: mcp__ash-logseq__replace_line
-   - For precise updates: mcp__ash-logseq__logseq_api with updateBlock method
+   - For precise single-block updates: mcp__ash-logseq__logseq_api with updateBlock method
    ```
+
+   **When to use each tool**:
+
+   - **`replace_page`** (Most efficient for consolidation):
+
+     - Use when merging multiple memories into one comprehensive page
+     - Use when restructuring entire page content
+     - Safely wraps old content during replacement (zero data loss)
+     - REQUIRES `confirm: true` for safety
+     - Use `dry_run: true` first to preview changes
+     - Optional: `keep_backup: true` to preserve old content for manual review
+     - Example workflow:
+
+       ```
+       # Step 1: Preview changes
+       Tool: mcp__ash-logseq__replace_page
+       Parameters:
+         page_name: "claude/memories/technical/consolidated-topic"
+         content: "[complete new markdown content]"
+         confirm: true
+         dry_run: true
+
+       # Step 2: Execute replacement
+       Tool: mcp__ash-logseq__replace_page
+       Parameters:
+         page_name: "claude/memories/technical/consolidated-topic"
+         content: "[complete new markdown content]"
+         confirm: true
+         dry_run: false
+       ```
+
+   - **`replace_line`**: Use only for specific line-by-line pattern replacements
+     across blocks
+   - **`logseq_api`**: Use only for precise single-block updates with known
+     block IDs
 
 4. **Update memory properties**:
 
@@ -197,6 +233,33 @@ Recommend running consolidation again in [timeframe] or after [trigger]
 ```
 
 ## Consolidation Strategies
+
+### **Tool Selection for Consolidation**
+
+**Use `replace_page` when:**
+
+- ✅ Merging 2+ memories into single comprehensive page
+- ✅ Completely restructuring memory organization
+- ✅ Large-scale content changes (>50% of page)
+- ✅ Need zero-data-loss safety with backup wrapper
+
+**Use `replace_line` when:**
+
+- ✅ Making consistent pattern replacements across multiple blocks
+- ✅ Updating specific repeated content (dates, statuses, links)
+- ✅ Small targeted changes without full page rewrite
+
+**Use `logseq_api` when:**
+
+- ✅ Updating single specific block with known ID
+- ✅ Precise surgical changes to individual items
+
+**For consolidation workflow, `replace_page` is PREFERRED** because:
+
+- More efficient than line-by-line updates
+- Safer with built-in backup mechanism
+- Better for restructuring content
+- Cleaner for large-scale merges
 
 ### **When to Consolidate**
 
