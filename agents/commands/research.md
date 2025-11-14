@@ -455,33 +455,38 @@ topic:: [topic-name]
 
 ### **Creating the Page**
 
-Use the LogSeq MCP tools to create pages. The convenience tool is recommended:
+**🚨 CRITICAL**: Use the **logseq-agent** to create LogSeq pages. NEVER use MCP
+tools directly.
 
-**Creating Research Page (Using create_block from ash-logseq MCP server):**
+**Creating Research Page (via logseq-agent):**
 
-```elixir
-# Tool from ash-logseq MCP server - creates a new page
-mcp__ash-logseq__create_block(
-  input: {
-    "parent": nil,  # nil = create new page
-    "content": """projects/[project]/[topic]/research
-type:: research
-status:: completed
-created:: YYYY-MM-DD
-project:: [project-name]
-topic:: [topic-name]
+Invoke the logseq-agent with the Task tool:
 
-- # [topic] Research
-- [content sections go here]
-"""
-  }
+```
+Task(
+  subagent_type: "logseq-agent",
+  description: "Create research page for [topic]",
+  prompt: "Create a research page at projects/[project]/[topic]/research with the following content:
+
+  [Provide the research findings, structured with proper headings, links, and tags]
+
+  Include properties:
+  - type:: research
+  - status:: completed
+  - created:: YYYY-MM-DD
+  - project:: [project-name]
+  - topic:: [topic-name]
+  - tags:: [relevant tags]
+  "
 )
 ```
 
 **Key Points:**
 
-- Use `parent: nil` to create a new page
-- First line becomes the page name: `projects/[project]/[topic]/research`
+- ALWAYS invoke logseq-agent for LogSeq operations
+- Provide clear content and structure in the prompt
+- logseq-agent handles all MCP tool interactions
+- logseq-agent applies proper formatting, linking, and tagging
 - Properties follow immediately (no blank line)
 - All content uses bullet points (`-`)
 

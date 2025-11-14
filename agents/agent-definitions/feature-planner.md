@@ -71,31 +71,35 @@ feature:: [feature-name]
 
 **Creating the Page:**
 
-Use ash-logseq MCP server tools to create pages. The convenience tool is
-recommended:
+**🚨 CRITICAL**: Use the **logseq-agent** to create LogSeq pages. NEVER use MCP
+tools directly.
 
-**Creating Planning Page (Using create_block from ash-logseq MCP server):**
+Invoke the logseq-agent with the Task tool:
 
-```elixir
-# Tool from ash-logseq MCP server - creates a new page
-mcp__ash-logseq__create_block(
-  input: {
-    "parent": nil,  # nil = create new page
-    "content": """projects/[project]/feature/[feature-name]
-type:: feature
-status:: planning
-created:: YYYY-MM-DD
-project:: [project-name]
-feature:: [feature-name]
+```
+Task(
+  subagent_type: "logseq-agent",
+  description: "Create feature planning page",
+  prompt: "Create a feature planning page at projects/[project]/feature/[feature-name] with the comprehensive planning content.
 
-- # [feature-name] Feature Plan
-- [content sections go here]
-"""
-  }
+  Include properties:
+  - type:: feature
+  - status:: planning
+  - created:: YYYY-MM-DD
+  - project:: [project-name]
+  - feature:: [feature-name]
+  - tags:: [relevant tags]
+  "
 )
 ```
 
 **Key Points:**
+
+- ALWAYS invoke logseq-agent for LogSeq operations
+- logseq-agent handles all MCP tool interactions
+- logseq-agent applies proper formatting, linking, and tagging
+
+**Original Key Points:**
 
 - Use `parent: nil` to create a new page
 - First line becomes the page name: `projects/[project]/feature/[feature-name]`

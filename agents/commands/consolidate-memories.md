@@ -29,11 +29,14 @@ You coordinate the memory consolidation process, working with memory-agent to:
 
 1. **Search all memory categories**:
 
+   **🚨 CRITICAL**: Use the **logseq-agent** for ALL LogSeq operations.
+
    ```
-   Use the ash-logseq MCP server's search_pages tool to find all memory pages:
-   Tool: mcp__ash-logseq__search_pages
-   - Query: "claude/memories/"
-   - This will return all pages in the memory namespace
+   Task(
+     subagent_type: "logseq-agent",
+     description: "Search all memory pages",
+     prompt: "Search for all pages in the claude/memories/ namespace and list them with their categories and topics."
+   )
    ```
 
 2. **Catalog memories**:
@@ -112,11 +115,20 @@ For each consolidation opportunity:
 
 For each consolidation plan:
 
+**🚨 CRITICAL**: Use the **logseq-agent** for ALL LogSeq operations.
+
 1. **Read all related memories**:
 
    ```
-   Use the ash-logseq MCP server's read_page tool for each memory to merge:
-   Tool: mcp__ash-logseq__read_page
+   Task(
+     subagent_type: "logseq-agent",
+     description: "Read memories for consolidation",
+     prompt: "Read the following memory pages and provide their full content:
+     - claude/memories/[category]/[memory-1]
+     - claude/memories/[category]/[memory-2]
+     - claude/memories/[category]/[memory-3]
+     "
+   )
    ```
 
 2. **Create consolidated content**:
@@ -129,66 +141,57 @@ For each consolidation plan:
 3. **Update target memory**:
 
    ```
-   Use ash-logseq MCP tools to update the primary memory:
-   - For complete page rewrites: mcp__ash-logseq__replace_page (PREFERRED for large consolidations)
-   - For bulk pattern updates: mcp__ash-logseq__replace_line
-   - For precise single-block updates: mcp__ash-logseq__logseq_api with updateBlock method
+   Task(
+     subagent_type: "logseq-agent",
+     description: "Consolidate memories into primary memory",
+     prompt: "Update the memory page at claude/memories/[category]/[consolidated-name]:
+
+     Replace the entire page content with this consolidated information:
+     [Provide the merged content with all unique insights preserved]
+
+     Add property:
+     - consolidated-from:: [[memory-2]], [[memory-3]]
+
+     This consolidates information from multiple related memories into one comprehensive page.
+     "
+   )
    ```
 
-   **When to use each tool**:
+   **Consolidation approach**:
 
-   - **`replace_page`** (Most efficient for consolidation):
+   - logseq-agent handles the safe replacement with proper wrapping
+   - No data loss - old content is preserved during updates
+   - logseq-agent applies proper formatting and linking
 
-     - Use when merging multiple memories into one comprehensive page
-     - Use when restructuring entire page content
-     - Safely wraps old content during replacement (zero data loss)
-     - REQUIRES `confirm: true` for safety
-     - Use `dry_run: true` first to preview changes
-     - Optional: `keep_backup: true` to preserve old content for manual review
-     - Example workflow:
-
-       ```
-       # Step 1: Preview changes
-       Tool: mcp__ash-logseq__replace_page
-       Parameters:
-         page_name: "claude/memories/technical/consolidated-topic"
-         content: "[complete new markdown content]"
-         confirm: true
-         dry_run: true
-
-       # Step 2: Execute replacement
-       Tool: mcp__ash-logseq__replace_page
-       Parameters:
-         page_name: "claude/memories/technical/consolidated-topic"
-         content: "[complete new markdown content]"
-         confirm: true
-         dry_run: false
-       ```
-
-   - **`replace_line`**: Use only for specific line-by-line pattern replacements
-     across blocks
-   - **`logseq_api`**: Use only for precise single-block updates with known
-     block IDs
-
-4. **Update memory properties**:
+4. **Archive or delete merged memories**:
 
    ```
-   updated:: YYYY-MM-DD
-   consolidated-from:: [[memory-2]], [[memory-3]]
-   confidence:: [adjusted based on combined information]
+   Task(
+     subagent_type: "logseq-agent",
+     description: "Archive merged memories",
+     prompt: "For each of these merged memory pages, add a note that they were consolidated:
+     - claude/memories/[category]/[memory-2]
+     - claude/memories/[category]/[memory-3]
+
+     Add to each page:
+     - status:: consolidated
+     - consolidated-into:: [[consolidated-name]]
+     - consolidated-date:: YYYY-MM-DD
+
+     OR delete them if content is fully merged and no longer needed.
+     "
+   )
    ```
 
-5. **Archive or delete merged memories**:
+5. **Update cross-references**:
 
-   - Add "Status: Consolidated into [[target-memory]]" to merged memories
-   - OR delete if content is fully merged:
-     - Tool: mcp**ash-logseq**delete_page
-     - Use `dry_run: true` FIRST to validate
-     - Then use `confirm: true` for permanent deletion
-
-6. **Update cross-references**:
-   - Find memories linking to merged memories
-   - Update links to point to consolidated memory
+   ```
+   Task(
+     subagent_type: "logseq-agent",
+     description: "Update cross-references",
+     prompt: "Search for any pages that link to the old memory pages [memory-2] and [memory-3], and update those links to point to the new consolidated memory page [[consolidated-name]]."
+   )
+   ```
 
 ### **Phase 5: Report Results**
 

@@ -183,42 +183,38 @@ topic:: [topic-name]
 
 ### **Creating the Page**
 
-Use the LogSeq MCP tools to create pages. The convenience tool is recommended:
+**🚨 CRITICAL**: Use the **logseq-agent** to create LogSeq pages. NEVER use MCP
+tools directly.
 
-**Creating Plan Page (Using create_block from ash-logseq MCP server):**
+**Creating Plan Page (via logseq-agent):**
 
-```elixir
-# Tool from ash-logseq MCP server - creates a new page
-mcp__ash-logseq__create_block(
-  input: {
-    "parent": nil,  # nil = create new page
-    "content": """projects/[project]/[topic]/plan
-type:: plan
-status:: active
-created:: YYYY-MM-DD
-project:: [project-name]
-topic:: [topic-name]
+Invoke the logseq-agent with the Task tool:
 
-- # [topic] Implementation Plan
-- [content sections go here]
-"""
-  }
+```
+Task(
+  subagent_type: "logseq-agent",
+  description: "Create plan page for [topic]",
+  prompt: "Create a plan page at projects/[project]/[topic]/plan with the following content:
+
+  [Provide the implementation plan, structured with phases, approaches, and technical decisions]
+
+  Include properties:
+  - type:: plan
+  - status:: active
+  - created:: YYYY-MM-DD
+  - project:: [project-name]
+  - topic:: [topic-name]
+  - tags:: [relevant tags]
+  "
 )
 ```
 
 **Key Points:**
 
-- Use `parent: nil` to create a new page
-- First line becomes the page name: `projects/[project]/[topic]/plan`
-- Properties follow immediately (no blank line)
-- All content uses bullet points (`-`)
-
-**Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for comprehensive MCP
-tool documentation. The ash-logseq MCP server provides: `read_block` for
-analyzing existing research, `search_blocks` for finding pages, `replace_block`
-for updates, and `create_block` for adding content content, `replace_line` for
-updating page content, `append_to_page` for adding content, and `delete_page`
-for removing obsolete pages.
+- ALWAYS invoke logseq-agent for LogSeq operations
+- Provide clear plan structure and content in the prompt
+- logseq-agent handles all MCP tool interactions
+- logseq-agent applies proper formatting, linking, and tagging
 
 ### 3. **Strategic Implementation Planning**
 

@@ -73,32 +73,22 @@ basename $(git rev-parse --show-toplevel)
 Use ash-logseq MCP server tools to update the breakdown page with completed
 tasks:
 
-```elixir
-# 1. Search for the breakdown page
-results = mcp__ash-logseq__search_blocks(
-  input: {
-    "query": "projects/[project]/[topic]/breakdown"
-  }
-)
+**🚨 CRITICAL**: Use the **logseq-agent** for ALL LogSeq operations. NEVER use
+MCP tools directly.
 
-# 2. Read the page to get block structure
-page_blocks = mcp__ash-logseq__read_block(
-  input: {
-    "block_uuid": "uuid-from-search-results",
-    "max_depth": 3
-  }
-)
+```
+# Use logseq-agent to mark tasks as completed
+Task(
+  subagent_type: "logseq-agent",
+  description: "Mark task [N] as completed in breakdown",
+  prompt: "Update the breakdown page at projects/[project]/[topic]/breakdown:
 
-# 3. Find the specific task block UUID from the hierarchy
-# (from the page_blocks response)
+  Find task [N] and mark it as completed by changing [ ] to [x] for:
+  - The main task
+  - All completed subtasks
 
-# 4. Update the block content with checked checkbox: [ ] → [x]
-mcp__ash-logseq__replace_block(
-  input: {
-    "block_uuid": "block-uuid-here",
-    "content": "#### 1. [x] Task name\n1.1. [x] Subtask 1\n1.2. [x] Subtask 2",
-    "confirm": true
-  }
+  Keep uncompleted subtasks as [ ].
+  "
 )
 ```
 

@@ -229,11 +229,15 @@ data sources.
 
 **Usage Pattern:**
 
-- Regular workflow: NEVER call MCP directly; ALWAYS invoke memory-agent via Task
-  tool
-- Specialized commands: May use MCP directly (e.g., `/consolidate-memories`)
+- **🚨 CRITICAL**: NEVER call MCP tools directly
+- **Regular workflow**: ALWAYS invoke **logseq-agent** via Task tool for ALL
+  LogSeq operations
+- **memory-agent**: Uses logseq-agent internally for memory storage/retrieval
+- Even specialized commands should use logseq-agent (e.g.,
+  `/consolidate-memories`)
 
-Complete docs: `/home/joba/.claude/skills/logseq/SKILL.md`
+**MCP tools are ONLY for use by logseq-agent** - all other agents and the
+orchestrator must use logseq-agent as the gateway.
 
 ## Four-Phase Workflow Commands
 
