@@ -1,253 +1,147 @@
-# Create Documentation Command
+---
+name: document
+description: >
+  DOCUMENT COMMAND: Documentation creation and maintenance. Creates
+  comprehensive, high-quality documentation using industry-standard
+  methodologies and specialized documentation expertise.
+---
 
-## Purpose
+## Mandatory Workflow
 
-Create new documentation or comprehensively document existing features using
-industry-standard methodologies and specialized documentation agents.
+**🚨 CRITICAL**: You MUST follow this workflow for EVERY documentation task.
 
-## When to Use
+### Step 1: Create Todo List (MANDATORY)
 
-- **New feature** needs documentation
-- **Existing feature** lacks documentation
-- **API endpoints** need reference documentation
-- **Architecture decisions** need recording
-- **User guides** need creation
-- **Developer onboarding** documentation needed
+**BEFORE doing any work**, use the TodoWrite tool to create a task list that
+includes:
 
-## Process
+1. Read main instructions (`docs/commands/document/instructions`)
+2. Read relevant specific instruction pages (documentation type selection,
+   content development, quality assurance)
+3. [Your actual documentation task items go here]
+4. **MANDATORY FINAL TASK**: Update knowledge management and review session
+   learnings
 
-### Step 1: Identify Documentation Needs
+The final task MUST ALWAYS be:
 
-1. **Analyze target**:
+- **Content**: "Review session learnings and update knowledge base for future
+  effectiveness"
+- **Active Form**: "Reviewing session learnings and updating knowledge base"
 
-   - What needs to be documented?
-   - Who is the target audience?
-   - What type of documentation is needed?
-   - What level of detail is required?
+This ensures you continuously improve by capturing what you learned during the
+session.
 
-2. **Choose documentation type**:
-   - API Reference (OpenAPI/REST/GraphQL)
-   - Architecture Documentation (C4 Model, ADRs)
-   - User Guides (tutorials, how-tos)
-   - Developer Documentation (setup, contributing)
-   - Troubleshooting Guides
+### Step 2: Read Your Instructions
 
-### Step 2: Documentation Creation
+Read the main instructions page to understand your role, responsibilities, and
+the full scope of available guidance:
 
-Use **documentation-expert** to:
+**Page**: `docs/commands/document/instructions`
 
-- Select appropriate methodology (Docs as Code, DITA, minimalism)
-- Apply relevant style guide (Google, Microsoft)
-- Structure content with progressive disclosure
-- Include necessary sections and examples
-- Ensure accessibility compliance (WCAG)
+This page provides:
 
-### Step 3: Content Development
+- Overview of the documentation command's purpose and workflow
+- Index of all instruction pages organized by topic
+- Quick reference guide for documentation approaches
+- Links to all detailed instruction pages
 
-The documentation-expert will:
+### Step 3: Branch to Specific Instructions Based on Task
 
-1. **Create structure** based on documentation type
-2. **Write content** following methodology
-3. **Add examples** and code samples
-4. **Include visuals** where helpful
-5. **Implement navigation** and search features
+After reading the main instructions, determine which specific instruction pages
+you need based on the documentation task:
 
-### Step 4: Quality Assurance
+- **Documentation Type Selection**: For choosing the right documentation format
+  (API, architecture, user guides, etc.)
+- **Content Development**: For creating comprehensive, well-structured
+  documentation
+- **Quality Standards**: For ensuring accuracy, completeness, and accessibility
+- **Integration & Publishing**: For placing documentation in the right location
+  and linking it properly
 
-Use **documentation-reviewer** to:
+### Step 4: Execute Your Documentation
 
-- Validate technical accuracy
-- Check completeness
-- Verify style guide compliance
-- Test readability scores
-- Ensure accessibility standards
+After reading the relevant instructions, proceed with your documentation
+following the guidance from those pages.
 
-### Step 5: Integration
+**🚨 CRITICAL RULES** (from instructions):
 
-- Place documentation in appropriate location
-- Update navigation and indexes
-- Add to documentation build process
-- Create necessary cross-references
-- Commit with descriptive message
+1. **Use documentation-expert for all documentation creation** - Leverage
+   specialized expertise for methodology and standards
+2. **Apply industry-standard methodologies** - Use Docs as Code, DITA, or
+   minimalism approach as appropriate
+3. **Ensure accessibility compliance** - Follow WCAG standards for inclusive
+   documentation
 
-## Documentation Templates
+### Step 5: Session Review and Improvement (MANDATORY)
 
-### **Feature Documentation**
+**BEFORE completing your work**, you MUST:
 
-```markdown
-# Feature Name
+1. Review what you learned during this session:
 
-## Overview
+   - New documentation patterns that worked well
+   - Challenges encountered in documentation structure
+   - Better approaches discovered for technical accuracy
+   - Common mistakes to avoid in documentation creation
+   - Gaps in current documentation instructions
 
-Brief description and value proposition
+2. Update your knowledge base:
+   - Update `docs/commands/document/best-practices` with learnings
+   - Update relevant instruction pages if you discovered better approaches
+   - Add new documentation templates or examples where needed
+   - Document any edge cases you encountered with specific content types
 
-## Getting Started
+**This is NOT optional** - continuous improvement is part of your core
+responsibilities.
 
-Minimal steps to first success
+## Critical Constraints
 
-## Core Concepts
+**🚨 CRITICAL FORMATTING RULE**: When creating documentation, use standard
+markdown features and clear structure. Focus on content clarity and
+accessibility rather than visual presentation controls.
 
-Key terms and ideas explained
+**🚨 MANDATORY EXPERT CONSULTATION**: Use documentation-expert (via Task tool)
+for ALL documentation creation. NEVER create documentation without expert
+guidance.
 
-## Usage Guide
+## Your Authority
 
-### Basic Usage
+**YOU ARE THE DOCUMENTATION COORDINATOR**: Your role is to create comprehensive,
+high-quality documentation for features, APIs, architectures, and user guides.
+You ensure documentation follows industry standards and is accessible to target
+audiences.
 
-Common scenarios with examples
+## Available Tools
 
-### Advanced Usage
+- **TodoWrite**: Track your task progress (MANDATORY at session start and end)
+- **Task tool**: Invoke documentation-expert for creation and
+  documentation-reviewer for QA
+- **Read, Grep**: Analyzing features and code for documentation content
+- **Write, Edit**: Creating and updating documentation files
 
-Complex scenarios and edge cases
+## Quick Reference
 
-## API Reference
+**Mandatory workflow for every session:**
 
-Detailed parameter documentation
-
-## Configuration
-
-Available options and defaults
-
-## Troubleshooting
-
-Common issues and solutions
-
-## Related Resources
-
-Links to relevant documentation
+```
+1. Create todo list with TodoWrite (MANDATORY)
+   - Include: read instructions, analysis tasks, creation tasks, QA, final review
+2. Read docs/commands/document/instructions
+3. Branch to specific instruction pages based on documentation type
+4. Execute your documentation following the protocols
+5. Review learnings and update knowledge base (MANDATORY)
 ```
 
-### **API Documentation**
+**Critical Success Criteria:**
 
-````markdown
-# API Name
+- Documentation type and audience clearly identified
+- Content developed with industry-standard methodology
+- All relevant sections included for documentation type
+- Code examples accurate and tested
+- Accessibility standards (WCAG) compliant
+- Quality review completed with no critical issues
+- Documentation properly integrated and linked
+- Clear and comprehensive for target audience
 
-## Overview
-
-API purpose and capabilities
-
-## Authentication
-
-How to authenticate requests
-
-## Base URL
-
-`https://api.example.com/v1`
-
-## Endpoints
-
-### GET /resource
-
-Brief description
-
-**Parameters**
-
-- `param1` (required): Description
-- `param2` (optional): Description
-
-**Response**
-
-```json
-{
-  "field": "value"
-}
-```
-````
-
-**Error Codes**
-
-- `400`: Bad Request
-- `401`: Unauthorized
-- `404`: Not Found
-
-## Rate Limiting
-
-Request limits and headers
-
-## Examples
-
-Complete request/response examples
-
-````
-
-### **Architecture Documentation**
-```markdown
-# System Architecture
-
-## Overview
-High-level system description
-
-## System Context (C4 Level 1)
-External systems and users
-
-## Container Diagram (C4 Level 2)
-Applications and data stores
-
-## Key Decisions
-### ADR-001: [Decision Title]
-**Status**: Accepted
-**Context**: Why this decision was needed
-**Decision**: What was decided
-**Consequences**: Impact of decision
-
-## Security Architecture
-Authentication and authorization
-
-## Deployment Architecture
-Infrastructure and deployment
-
-## Performance Considerations
-Scalability and optimization
-````
-
-## Documentation Standards
-
-### **Language Guidelines**
-
-- Active voice
-- Present tense
-- Second person (you)
-- Plain language
-- Define technical terms
-
-### **Structure Guidelines**
-
-- Clear heading hierarchy
-- Short paragraphs
-- Bulleted lists
-- Code examples
-- Visual aids
-
-### **Quality Metrics**
-
-- Reading level: 8th-10th grade
-- Completeness: All features covered
-- Accuracy: Technically correct
-- Accessibility: WCAG compliant
-- Maintainability: Easy to update
-
-## Example Usage
-
-```bash
-# Document a new API
-/document api authentication-service
-
-# Document existing feature
-/document feature user-management
-
-# Create architecture documentation
-/document architecture system-overview
-
-# Create user guide
-/document guide getting-started
-```
-
-## Integration Points
-
-- Use after feature implementation
-- Include in definition of done
-- Part of release process
-- Regular documentation reviews
-- Continuous improvement cycle
-
-This command ensures comprehensive, high-quality documentation creation
-following industry best practices and methodologies.
+**Remember**: The instructions in LogSeq are the source of truth. This command
+definition tells you WHERE to find them and WHEN to update them based on what
+you learn.

@@ -1,285 +1,146 @@
-Create a plan and implement a bug fix or issue resolution.
-
-Follow these steps:
+---
+name: fix
+description: >
+  FIX COMMAND: Bug fix and issue resolution. Systematically diagnose root
+  causes, implement fixes, and add comprehensive regression tests to prevent
+  reoccurrence.
+---
 
-1. **Git Workflow**
+## Mandatory Workflow
 
-   - Check if already on an appropriate fix branch (e.g., fix/\*)
-   - If not on a fix branch, create a new one
-   - Use conventional commits (fix: description)
-   - Make small commits while working, so we can better analyze changes and
-     revert if necessary
-   - Do not reference claude in the commit messages
+**🚨 CRITICAL**: You MUST follow this workflow for EVERY fix task.
 
-2. **Investigation Phase**
+### Step 1: Create Todo List (MANDATORY)
 
-   - ultrathink
-   - Always check the existing codebase, documentation, usage-rules
-   - Reproduce the issue reliably
-   - Analyze error messages, logs, and symptoms
-   - Check existing codebase, documentation, and related issues
-   - Create parallel sub-agents and analyse the problem from the following
-     perspectives: factual, senior engineer, security expert, consistency
-     reviewer, and let their feedback guide the fix
-   - Create sub agent to check usage-rules and docs for the libraries we are
-     going to use while fixing the issue
-   - Save investigation docs in the notes/fixes folder in the project (unless
-     otherwise specified)
+**BEFORE doing any work**, use the TodoWrite tool to create a task list that
+includes:
 
-3. **Implementation**
-   - Follow the fix planning document structure below
-   - After every step of implementation, update the planning document with a
-     summary and wait for further instructions
-   - add regression tests
-   - Identify root cause through debugging
-   - Update the plan frequently as you discover new information
-   - Mark completed tasks clearly with ✅ and add detailed status summaries
-   - Include current status section with "what's broken", "what's fixed", and
-     "how to test"
-   - Document discovered complications immediately when found
+1. Read main instructions (`docs/commands/fix/instructions`)
+2. Read relevant specific instruction pages (investigation, root cause analysis,
+   testing strategy)
+3. [Your actual fix task items go here]
+4. **MANDATORY FINAL TASK**: Update knowledge management and review session
+   learnings
 
-**CRITICAL**: Fixes are NOT complete without regression tests:
+The final task MUST ALWAYS be:
 
-- Every bug fix must include tests that verify the fix
-- Regression tests must fail before the fix and pass after
-- All existing tests must continue to pass
-- Consult domain experts for comprehensive test creation patterns
-- Never claim fix completion without working tests
+- **Content**: "Review session learnings and update knowledge base for future
+  effectiveness"
+- **Active Form**: "Reviewing session learnings and updating knowledge base"
 
-## Fix Planning Document Structure
+This ensures you continuously improve by capturing what you learned during the
+session.
 
-### 1. Issue Description
+### Step 2: Read Your Instructions
 
-- Clear description of the problem or bug
-- Steps to reproduce the issue
-- Expected vs actual behavior
-- Impact and urgency level
+Read the main instructions page to understand your role, responsibilities, and
+the full scope of available guidance:
 
-### 2. Root Cause Analysis
+**Page**: `docs/commands/fix/instructions`
 
-- Investigation findings
-- Where the issue originates
-- Why it's happening (technical explanation)
-- Related components or dependencies affected
+This page provides:
 
-### 3. Solution Overview
+- Overview of the fix command's purpose and workflow
+- Index of all instruction pages organized by topic
+- Quick reference guide for debugging approaches
+- Links to all detailed instruction pages
 
-- High-level approach to fix the issue
-- Key technical decisions
-- Alternative approaches considered and why they were rejected
+### Step 3: Branch to Specific Instructions Based on Task
 
-### 4. Technical Details
+After reading the main instructions, determine which specific instruction pages
+you need based on the fix task:
 
-- File locations that need changes
-- Configuration specifics
-- Dependencies or prerequisites
-- Backwards compatibility considerations
+- **Investigation & Reproduction**: For reliably reproducing the issue
+- **Root Cause Analysis**: For identifying the true source of the problem
+- **Implementation Strategy**: For planning the fix approach
+- **Regression Testing**: For creating tests that prevent reoccurrence
 
-### 5. Testing Strategy
+### Step 4: Execute Your Fix
 
-- How to verify the fix works
-- Regression testing approach
-- Edge cases to validate
-- Performance impact assessment
+After reading the relevant instructions, proceed with your fix following the
+guidance from those pages.
 
-### 6. Rollback Plan
-
-- How to revert changes if issues arise
-- Monitoring points to watch post-deployment
-- Backup procedures if applicable
-
-### 7. Implementation Plan
-
-For simple fixes: single checklist with integrated testing For complex fixes:
-break into logical steps, each with its own validation
-
-#### Step Format (for complex fixes)
-
-- [ ] Investigate and confirm root cause
-- [ ] Implement the fix
-- [ ] Test the fix thoroughly
-- [ ] Validate no regressions introduced
-
-## Example: Simple Bug Fix
-
-```markdown
-# Fix Login Timeout Issue
-
-## Issue Description
-
-Users are experiencing login timeouts after 30 seconds, but the expected timeout
-should be 5 minutes.
-
-**Steps to reproduce:**
-
-1. Navigate to login page
-2. Enter credentials but wait 35 seconds before submitting
-3. Submit form
-4. Observe timeout error
-
-**Expected:** 5-minute timeout **Actual:** 30-second timeout **Impact:** High -
-affects user experience
-
-## Root Cause Analysis
-
-- Investigated session configuration in `config/session.conf`
-- Found timeout value set to 30000ms instead of 300000ms
-- Likely a typo during initial configuration
-
-## Solution Overview
-
-Update session timeout configuration from 30 seconds to 5 minutes in the session
-configuration file.
-
-## Technical Details
-
-- **File:** `config/session.conf`
-- **Change:** `session_timeout = 300000` (was 30000)
-- **No breaking changes expected**
-
-## Testing Strategy
-
-- Manual test: Login and wait 4 minutes, verify session active
-- Manual test: Login and wait 6 minutes, verify session expired
-- Automated test: Update session timeout test expectations
-
-## Rollback Plan
-
-- Revert `config/session.conf` to previous value
-- Restart service to apply old configuration
-
-## Implementation Plan
-
-- [ ] Update session timeout value in config file
-- [ ] Test timeout behavior manually
-- [ ] Update automated tests
-- [ ] Deploy and monitor for issues
-```
-
-## Example: Complex Bug Fix
-
-```markdown
-# Fix Memory Leak in Background Job Processor
-
-## Issue Description
-
-Background job processor is consuming increasing amounts of memory over time,
-eventually causing out-of-memory crashes.
-
-**Steps to reproduce:**
-
-1. Start application with background job processor
-2. Queue multiple jobs continuously
-3. Monitor memory usage over 2+ hours
-4. Observe memory continuously increasing
-
-**Expected:** Stable memory usage **Actual:** Memory increases 10MB every hour
-**Impact:** Critical - causes production crashes
-
-## Root Cause Analysis
-
-- Memory profiling revealed job objects not being garbage collected
-- Jobs hold references to large data objects after completion
-- `JobProcessor.cleanup()` method not properly releasing references
-- Issue introduced in commit abc123 when adding job result caching
-
-## Solution Overview
-
-Implement proper cleanup of job references and cached data after job completion.
-Add memory monitoring and periodic garbage collection.
-
-## Technical Details
-
-- **Files:**
-  - `src/jobs/JobProcessor.js` - Main processor logic
-  - `src/jobs/JobCache.js` - Result caching system
-  - `tests/integration/memory-test.js` - Memory leak tests
-- **Changes:**
-  - Add explicit cleanup in job completion handler
-  - Implement LRU cache with size limits
-  - Add memory monitoring middleware
-
-## Testing Strategy
-
-- Memory profiling tests running jobs for 4+ hours
-- Unit tests for cleanup methods
-- Integration tests for cache size limits
-- Performance benchmarks to ensure no regression
-
-## Rollback Plan
-
-- Revert to commit before caching feature (def456)
-- Disable job result caching via feature flag
-- Monitor memory usage returns to baseline
-
-## Implementation Plan
-
-### Step 1: Investigate and Reproduce
-
-- [ ] Set up memory profiling environment
-- [ ] Reproduce issue with test job queue
-- [ ] Identify specific objects not being released
-- [ ] Confirm root cause in job completion flow
-
-### Step 2: Implement Core Fix
-
-- [ ] Add explicit cleanup in JobProcessor completion handler
-- [ ] Update JobCache to use LRU with size limits
-- [ ] Add memory usage logging
-- [ ] Test fix resolves memory leak
-
-### Step 3: Add Monitoring and Tests
-
-- [ ] Implement memory monitoring middleware
-- [ ] Add automated memory leak detection tests
-- [ ] Update existing job tests for cleanup verification
-- [ ] Performance test to ensure no regression
-
-### Step 4: Deployment and Validation
-
-- [ ] Deploy to staging with monitoring
-- [ ] Run 24-hour memory stability test
-- [ ] Deploy to production with careful monitoring
-- [ ] Validate memory usage remains stable
-```
-
-## Debugging Guidelines
-
-### Investigation Techniques
-
-- **Reproduce consistently** - Ensure you can trigger the issue reliably
-- **Check logs and error messages** - Look for patterns and stack traces
-- **Use debugging tools** - Profilers, debuggers, monitoring tools
-- **Isolate the problem** - Narrow down to specific components or conditions
-- **Review recent changes** - Check git history for related modifications
-
-### Documentation Requirements
-
-- **Record investigation steps** - What you tried and what you found
-- **Document evidence** - Screenshots, log snippets, error messages
-- **Note environment details** - OS, versions, configuration differences
-- **Track time spent** - Helps with future similar issues
-
-## Critical Success Factors
+**🚨 CRITICAL RULES** (from instructions):
 
 1. **Reproduce the issue first** - Never start fixing what you can't reproduce
-2. **Understand root cause** - Don't just treat symptoms
-3. **Test thoroughly** - Verify fix works and doesn't break anything else
-4. **Document learnings** - Help prevent similar issues in the future
-5. **Monitor post-fix** - Ensure the issue stays resolved
+2. **Find root cause, not symptoms** - Don't just treat symptoms, fix the
+   underlying issue
+3. **Regression tests are MANDATORY** - Every fix requires tests that fail
+   before and pass after
 
-## Communication Patterns
+### Step 5: Session Review and Improvement (MANDATORY)
 
-### Issue Reporting
+**BEFORE completing your work**, you MUST:
 
-- **Be specific about symptoms** - Exact error messages, steps to reproduce
-- **Include environment details** - What's different about failing cases
-- **Assess impact and urgency** - Help prioritize the fix appropriately
-- **Provide debugging context** - What you've already tried
+1. Review what you learned during this session:
 
-### Fix Documentation
+   - New investigation patterns that worked well
+   - Challenges encountered in root cause analysis
+   - Better approaches discovered for debugging
+   - Common mistakes to avoid in fix implementation
+   - Gaps in current fix instructions
 
-- **Explain the 'why'** - Not just what you changed, but why it fixes the issue
-- **Document side effects** - Any other behavior that might change
-- **Include testing evidence** - Proof that the fix works as intended
-- **Plan for monitoring** - How to detect if the issue returns
+2. Update your knowledge base:
+   - Update `docs/commands/fix/best-practices` with learnings
+   - Update relevant instruction pages if you discovered better approaches
+   - Add debugging techniques or testing strategies where needed
+   - Document any edge cases you encountered with specific technologies
+
+**This is NOT optional** - continuous improvement is part of your core
+responsibilities.
+
+## Critical Constraints
+
+**🚨 ZERO-TOLERANCE TEST POLICY**: Fixes are NOT complete without passing
+regression tests:
+
+- Every bug fix MUST include tests that verify the fix
+- Regression tests must fail before the fix and pass after
+- All existing tests must continue to pass
+- Never claim fix completion without working tests
+
+**🚨 MEMORY-FIRST DEBUGGING**: When encountering problems during fix
+implementation, ALWAYS check memories for similar issues FIRST before attempting
+to debug.
+
+## Your Authority
+
+**YOU ARE THE FIX COORDINATOR**: Your role is to systematically diagnose root
+causes, implement targeted fixes, and ensure comprehensive regression tests
+prevent reoccurrence. You lead the investigation, implementation, and validation
+workflow.
+
+## Available Tools
+
+- **TodoWrite**: Track your task progress (MANDATORY at session start and end)
+- **Task tool**: Invoke other agents (domain experts, qa-reviewer,
+  senior-engineer-reviewer)
+- **Read, Grep, Bash**: Investigation, reproduction, and testing
+- **Edit, Write**: Implementing fixes and creating tests
+
+## Quick Reference
+
+**Mandatory workflow for every session:**
+
+```
+1. Create todo list with TodoWrite (MANDATORY)
+   - Include: read instructions, investigation tasks, implementation, testing, final review
+2. Read docs/commands/fix/instructions
+3. Branch to specific instruction pages based on fix type
+4. Execute your fix following the protocols
+5. Review learnings and update knowledge base (MANDATORY)
+```
+
+**Critical Success Criteria:**
+
+- Issue reliably reproduced with clear steps
+- Root cause identified and documented
+- Fix implemented with minimal changes
+- Regression tests created and passing
+- All existing tests continue to pass
+- Investigation and fix documentation stored in memories
+- Fix properly documented with learnings captured
+
+**Remember**: The instructions in LogSeq are the source of truth. This command
+definition tells you WHERE to find them and WHEN to update them based on what
+you learn.

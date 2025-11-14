@@ -1,250 +1,154 @@
-# Implementation Execution
+---
+name: execute
+description: >
+  EXECUTE COMMAND: Implementation execution phase. Systematically implements
+  detailed task breakdowns while consulting agents for guidance, maintaining
+  progress tracking, and ensuring comprehensive testing.
+---
 
-**CRITICAL**: You are now executing the implementation. Work through the
-detailed task breakdown systematically, consulting agents for guidance and
-expertise as needed.
+## Mandatory Workflow
 
-## Your Role as Implementation Lead
+**🚨 CRITICAL**: You MUST follow this workflow for EVERY execution task.
 
-You are responsible for implementing the detailed task breakdown while
-consulting specialized agents for guidance. Your primary responsibility is to
-follow the checklist methodically while ensuring quality through expert
-consultation.
+### Step 1: Create Todo List (MANDATORY)
 
-## Core Approach
+**BEFORE doing any work**, use the TodoWrite tool to create a task list that
+includes:
 
-### **🚨 MANDATORY: Memory-First Execution**
+1. Read main instructions (`docs/commands/execute/instructions`)
+2. Read relevant specific instruction pages (context loading, sequential
+   implementation, quality gates)
+3. [Your actual execution task items go here - from the breakdown checklist]
+4. **MANDATORY FINAL TASK**: Update knowledge management and review session
+   learnings
 
-**CRITICAL RULE**: Check memories BEFORE attempting to solve ANY problem you
-encounter during execution.
+The final task MUST ALWAYS be:
 
-**When to check memories (MANDATORY triggers):**
+- **Content**: "Review session learnings and update knowledge base for future
+  effectiveness"
+- **Active Form**: "Reviewing session learnings and updating knowledge base"
 
-- ❌ **Hit an error or failure** → STOP → Search memories FIRST
-- ❌ **Encounter unfamiliar API/syntax** → STOP → Search memories FIRST
-- ❌ **Face configuration issue** → STOP → Search memories FIRST
-- ❌ **Test failures** → STOP → Search memories FIRST
-- ❌ **Build/deployment errors** → STOP → Search memories FIRST
-- ❌ **Performance problems** → STOP → Search memories FIRST
+This ensures you continuously improve by capturing what you learned during the
+session.
 
-**Memory search strategy for problems:**
+### Step 2: Read Your Instructions
 
-1. Query memory-agent with the error message or problem description
-2. Search hard-won-knowledge category first
-3. Check technical patterns for the specific technology
-4. Look for project-specific solutions
+Read the main instructions page to understand your role, responsibilities, and
+the full scope of available guidance:
 
-**After solving difficult problems (MANDATORY):**
+**Page**: `docs/commands/execute/instructions`
 
-- ✅ IMMEDIATELY store the solution in memories
-- ✅ Document what didn't work and why
-- ✅ Capture the working solution
-- ✅ Note how to recognize the problem faster next time
+This page provides:
 
-**Simple Execution Model:**
+- Overview of the execution command's purpose and workflow
+- Index of all instruction pages organized by topic
+- Quick reference guide for implementation approaches
+- Links to all detailed instruction pages
 
-1. **FIRST: Check memories** for similar implementation work and known
-   challenges
-2. Read the breakdown checklist from LogSeq page
-   `projects/[project]/[topic]/breakdown`
-3. **SECOND: Create todo list** using TodoWrite tool to track all tasks from the
-   breakdown checklist - this provides visibility and helps ensure no tasks are
-   forgotten
-4. Work through each numbered task sequentially
-5. Consult relevant agents for guidance on specific tasks
-6. Complete each subtask following the specifications
-7. **Mark subtasks as completed in breakdown page** (change `[ ]` to `[x]`)
-8. **Mark the main task as completed in breakdown page** (change `1. [ ]` to
-   `1. [x]`)
-9. Commit changes as specified in the breakdown (includes both code and
-   progress)
-10. Continue to next task
+### Step 3: Branch to Specific Instructions Based on Task
 
-### **Determining Project Name**
+After reading the main instructions, determine which specific instruction pages
+you need based on the execution task:
 
-Use the git repository name as the project identifier:
+- **Context Loading**: For reading research, plan, and breakdown documents
+- **Memory-First Execution**: For checking memories before solving problems
+- **Sequential Implementation**: For following breakdown tasks systematically
+- **Progress Tracking**: For updating LogSeq and committing changes
+- **Quality Gates**: For running reviews and validating implementation
 
-```bash
-basename $(git rev-parse --show-toplevel)
-```
+### Step 4: Execute Your Implementation
 
-### **Updating Progress in LogSeq**
+After reading the relevant instructions, proceed with your implementation
+following the guidance from those pages.
 
-Use ash-logseq MCP server tools to update the breakdown page with completed
-tasks:
+**🚨 CRITICAL RULES** (from instructions):
 
-**🚨 CRITICAL**: Use the **logseq-agent** for ALL LogSeq operations. NEVER use
-MCP tools directly.
+1. **Memory-first debugging** - Check memories BEFORE attempting to solve any
+   problem
+2. **Test validation is mandatory** - No commits with failing tests, zero
+   tolerance
+3. **Progress tracking required** - Update LogSeq breakdown page as tasks
+   complete
 
-```
-# Use logseq-agent to mark tasks as completed
-Task(
-  subagent_type: "logseq-agent",
-  description: "Mark task [N] as completed in breakdown",
-  prompt: "Update the breakdown page at projects/[project]/[topic]/breakdown:
+### Step 5: Session Review and Improvement (MANDATORY)
 
-  Find task [N] and mark it as completed by changing [ ] to [x] for:
-  - The main task
-  - All completed subtasks
+**BEFORE completing your work**, you MUST:
 
-  Keep uncompleted subtasks as [ ].
-  "
-)
-```
+1. Review what you learned during this session:
 
-**Note**: See `/home/joba/.claude/skills/logseq/SKILL.md` for comprehensive MCP
-tool documentation and detailed block update patterns.
+   - New implementation patterns that worked well
+   - Challenges encountered during execution
+   - Better approaches discovered for specific tasks
+   - Common mistakes to avoid in implementation
+   - Gaps in current execution instructions
 
-## Primary Responsibilities
+2. Update your knowledge base:
+   - Update `docs/commands/execute/best-practices` with learnings
+   - Update relevant instruction pages if you discovered better approaches
+   - Add implementation techniques or testing strategies where needed
+   - Document any edge cases you encountered with specific technologies
 
-### **Task Execution**
+**This is NOT optional** - continuous improvement is part of your core
+responsibilities.
 
-- Follow the detailed breakdown checklist systematically
-- Implement each task according to specifications
-- Use file references and documentation links provided
-- **Update breakdown page progress in real-time** by marking completed items in
-  LogSeq
-- Make commits as specified after completing each numbered task
+## Critical Constraints
 
-### **Agent Consultation**
+**🚨 ZERO-TOLERANCE TEST POLICY**: Tasks CANNOT be complete with failing tests:
 
-- Consult appropriate agents for guidance on specific tasks:
-  - Ask about implementation patterns (elixir skill provides Elixir/Phoenix
-    implementation patterns)
-  - **architecture-agent** for code placement and structure decisions
-  - **domain experts** for testing requirements and TDD/BDD guidance
-  - **domain experts** as needed for specialized knowledge
+- ALL tests must pass before committing
+- Run full test suite after each significant task
+- Regression tests required for any bug fixes
+- No acceptable test failures - fix root cause, don't ignore
 
-### **Quality Assurance**
+**🚨 MANDATORY LOGSEQ DELEGATION**: Use the logseq-agent (via Task tool) for ALL
+LogSeq progress updates. NEVER use MCP tools directly.
 
-- Follow testing requirements specified in each task
-- Ensure code follows established patterns and conventions
-- Run all review agents after significant milestones for quality validation
+**🚨 MEMORY-FIRST PROBLEM SOLVING**: When encountering ANY error or problem,
+check memories FIRST before debugging.
 
-## Execution Process
+## Your Authority
 
-### **Step 1: Load Context and Breakdown**
+**YOU ARE THE IMPLEMENTATION LEAD**: Your role is to execute the detailed task
+breakdown systematically while consulting specialized agents for guidance. You
+manage progress tracking, quality assurance, and ensure all implementation meets
+specifications and passes comprehensive testing.
 
-**Full Context Review:**
+## Available Tools
 
-- Read LogSeq page `projects/[project]/[topic]/research` for codebase impact
-  analysis and existing patterns
-- Read LogSeq page `projects/[project]/[topic]/plan` for strategic
-  implementation approach
-- Read LogSeq page `projects/[project]/[topic]/breakdown` for detailed task
-  checklist
+- **TodoWrite**: Track your task progress (MANDATORY at session start and end)
+- **Task tool**: Invoke agents for guidance (domain experts, architecture-agent,
+  qa-reviewer, logseq-agent)
+- **Read, Grep, Bash**: Codebase analysis and testing
+- **Edit, Write**: Implementing code changes
+- **Bash**: Running tests and build processes
 
-**Why review all phases:**
+## Quick Reference
 
-- **Research** provides file locations, existing patterns, and documentation
-  links
-- **Plan** explains the strategic approach and architectural decisions
-- **Breakdown** gives step-by-step tasks with specific file references
-
-- Understand the full scope and task structure
-- Identify any dependencies or prerequisites
-
-### **Step 2: Sequential Implementation**
-
-- Start with task 1 and work through sequentially
-- For each task:
-  1. Read the task specifications and subtasks
-  2. Consult relevant agents if guidance is needed
-  3. Implement the required changes following the specifications
-  4. **Mark each subtask as completed** in breakdown page (change `1.1. [ ]` to
-     `1.1. [x]`) using LogSeq update_page
-  5. Complete all subtasks for the numbered item
-  6. **Mark the main task as completed** in breakdown page (change `1. [ ]` to
-     `1. [x]`) using LogSeq update_page
-  7. Commit with the suggested commit message (includes both code and progress)
-
-### **Step 3: Quality Gates**
-
-- After completing significant milestones (multiple related tasks)
-- Run relevant review agents to validate implementation quality
-- Address any issues identified before continuing
-
-## Agent Consultation Patterns
-
-**When to consult agents:**
-
-- Ask about code patterns (elixir skill provides guidance when implementing
-  Elixir/Phoenix/Ash code)
-- **architecture-agent**: When unsure about file placement or module
-  organization
-- **domain experts**: When implementing tests or following TDD/BDD requirements
-- **domain experts**: For specialized knowledge areas
-
-**How to consult:**
-
-- Ask specific questions about implementation approaches
-- Request pattern guidance for the current codebase
-- Validate architectural decisions
-- Get testing strategy guidance
-
-## Four-Phase Workflow Integration
-
-This is the **execution phase** of the four-phase workflow:
-
-1. **research** - Comprehensive research (completed)
-2. **plan** - Strategic implementation planning (completed)
-3. **breakdown** - Detailed task breakdown (completed)
-4. **execute** ← _You are here_
-
-## Prerequisites
-
-### **Required Before Execution**
-
-- LogSeq page `projects/[project]/[topic]/breakdown` must exist with detailed
-  task checklist
-- Previous phases (research, plan) completed for context
-- Understanding of the implementation requirements
-
-## Success Criteria
-
-Execution phase is complete when:
-
-- All tasks in the breakdown checklist are completed
-- All specified commits have been made
-- Code follows established patterns and passes quality checks
-- Implementation meets the original requirements
-- All review agents validate the final implementation
-
-## Example Execution Flow
+**Mandatory workflow for every session:**
 
 ```
-1. Read LogSeq pages for full context:
-   - projects/my-project/my-feature/research (patterns, file locations)
-   - projects/my-project/my-feature/plan (strategic approach)
-   - projects/my-project/my-feature/breakdown (task checklist)
-2. Create todo list from breakdown using TodoWrite:
-   - Task 1: Add User Authentication Resource
-   - Task 2: Configure OAuth Integration
-   - Task 3: Add Authentication Tests
-   - (etc. for all tasks in breakdown)
-3. Start with Task 1: "Add User Authentication Resource"
-   - Mark Task 1 as in_progress in todo list
-   - Ask about Ash resource patterns (elixir skill provides Ash resource
-     guidance)
-   - Implement subtask 1.1, mark as [x] in breakdown page
-   - Implement subtask 1.2, mark as [x] in breakdown page
-   - Implement subtask 1.3, mark as [x] in breakdown page
-   - Mark Task 1 as [x] completed in breakdown page
-   - Mark Task 1 as completed in todo list
-   - Commit: "feat(auth): add user authentication resource" (includes code + progress)
-4. Continue with Task 2: "Configure OAuth Integration"
-   - Mark Task 2 as in_progress in todo list
-   - Follow file references and documentation links
-   - Implement subtask 2.1, mark as [x] in breakdown page
-   - Implement subtask 2.2, mark as [x] in breakdown page
-   - Implement subtask 2.3, mark as [x] in breakdown page
-   - Mark Task 2 as [x] completed in breakdown page
-   - Mark Task 2 as completed in todo list
-   - Commit: "feat(oauth): configure OAuth provider integration" (includes code + progress)
-5. After completing 3-4 related tasks, run review agents for validation
-6. Continue until all tasks completed
+1. Create todo list with TodoWrite (MANDATORY)
+   - Include: read instructions, all breakdown tasks, QA tasks, final review
+2. Read docs/commands/execute/instructions
+3. Branch to specific instruction pages based on execution type
+4. Load context from research/plan/breakdown documents
+5. Execute tasks sequentially, checking memories for problems
+6. Update progress in LogSeq after each task
+7. Run quality gates and reviews
+8. Review learnings and update knowledge base (MANDATORY)
 ```
 
-The **execute** command transforms detailed planning into working implementation
-by following the breakdown systematically while leveraging agent expertise for
-guidance and quality assurance.
+**Critical Success Criteria:**
+
+- All numbered tasks from breakdown completed
+- All subtasks marked completed in LogSeq breakdown page
+- All commits made with proper commit messages
+- 100% test pass rate - zero failing tests
+- Regression tests added for any bug fixes
+- Quality reviews completed and issues resolved
+- Progress tracking completed in LogSeq
+- Session learnings captured in knowledge base
+
+**Remember**: The instructions in LogSeq are the source of truth. This command
+definition tells you WHERE to find them and WHEN to update them based on what
+you learn.
