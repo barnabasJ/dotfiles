@@ -68,6 +68,9 @@ with memory storage.
 - After discovering working approach → STORE what works/doesn't
 - After figuring out confusing tech → STORE mental model
 - After workflow/tooling struggles → STORE the fix
+- **After user corrections** → STORE what was wrong and the correct approach
+- **After significant discoveries** → STORE the insight immediately
+- **During complex work** → Document progress periodically via logseq-agent
 
 **Immediate Correction (validate and update):**
 
@@ -75,6 +78,7 @@ with memory storage.
 - Technology changed → UPDATE with current approach + version info
 - Better approach found → UPDATE with improved solution
 - Incomplete/conflicting info → UPDATE with corrections
+- **User corrected you** → UPDATE memory with correction details
 
 ### Memory Search Strategy
 
@@ -198,8 +202,13 @@ All reviewers are READ-ONLY: analyze and report, NEVER write code.
 - Use: MANDATORY for ANY LogSeq interaction (reading, writing, searching,
   updating)
 - Scope: ALL namespaces (projects/, claude/memories/, docs/, everything)
-- Tools: All ash-logseq MCP tools
+- Tools: All ash-logseq MCP tools (EXCLUSIVELY - NEVER writes to filesystem)
 - Rule: NEVER use MCP tools directly - ALWAYS use this agent
+- **Collaboration**: Delegates codebase research to other agents
+  (research-agent, architecture-agent, etc.), focuses ONLY on LogSeq operations
+- **Progressive Documentation**: Call frequently during work to document
+  progress, discoveries, corrections, and knowledge along the way (not just at
+  session end)
 
 ## LogSeq Integration via MCP
 
@@ -208,24 +217,25 @@ data sources.
 
 ### ash-logseq MCP Server Tools
 
-**Core Page Operations:**
+**Core Block Operations:**
 
-- `read_page` - Read page as clean markdown
-- `create_page` - Create page from markdown
-- `append_to_page` - Append to existing page
-- `replace_page` - Replace entire page content safely with backup (requires
-  `confirm: true`)
-- `delete_page` - Safely delete with confirmation (requires `confirm: true`)
+- `read_block` - Read block and children as `[uuid, content, children]` tuples
+- `create_block` - Create blocks or pages with unified parent interface:
+  - `parent: nil` → creates a page (requires `page_name`)
+  - `parent: "page-name"` → creates block under page
+  - `parent: "block-uuid"` → creates block under block
+- `replace_block` - Replace block or page content safely (requires `confirm:
+  true`)
+  - `content: nil` → deletes the block/page and all children
 
 **Search:**
 
 - `search_pages` - Find pages by name/title
 - `search_blocks` - Find blocks by content
 
-**Content Manipulation:**
+**Generic API Access:**
 
-- `replace_line` - Bulk updates recursively
-- `logseq_api` - Execute any LogSeq API method
+- `execute` (also exposed as `logseq_api`) - Execute any LogSeq API method
 
 **Usage Pattern:**
 
@@ -238,6 +248,38 @@ data sources.
 
 **MCP tools are ONLY for use by logseq-agent** - all other agents and the
 orchestrator must use logseq-agent as the gateway.
+
+### Progressive Documentation Pattern
+
+**🚨 CRITICAL**: Don't wait until session end to document - use logseq-agent
+frequently throughout work.
+
+**Document immediately after:**
+
+- User corrects an error or misunderstanding
+- Solving a particularly difficult problem
+- Making a significant discovery or breakthrough
+- Completing a major milestone
+- Learning something non-obvious about the system
+- Finding a workaround for a limitation
+
+**Document periodically during:**
+
+- Long-running implementations (document progress every few major steps)
+- Complex debugging sessions (capture diagnostic findings as you go)
+- Research phases (capture findings as discovered, not at end)
+- Multi-step workflows (document after each phase completion)
+
+**Why progressive documentation:**
+
+- Captures context while fresh in working memory
+- Prevents losing insights if session ends unexpectedly
+- Builds knowledge base incrementally
+- Makes knowledge immediately available to other agents
+- Reduces end-of-session memory burden
+
+**Pattern**: Treat logseq-agent as your notebook - write things down as you
+learn them, not just when you're "done".
 
 ## Four-Phase Workflow Commands
 
