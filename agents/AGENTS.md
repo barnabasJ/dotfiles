@@ -209,6 +209,8 @@ All reviewers are READ-ONLY: analyze and report, NEVER write code.
 - **Progressive Documentation**: Call frequently during work to document
   progress, discoveries, corrections, and knowledge along the way (not just at
   session end)
+- **Journal Linking**: Automatically creates chronological work records via
+  journal page links (see docs/logseq-agent/journal-linking-pattern)
 
 ## LogSeq Integration via MCP
 

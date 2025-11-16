@@ -1,10 +1,53 @@
 ---
 name: consolidate-memories
 description: >
-  CONSOLIDATE MEMORIES COMMAND: Memory management and optimization. Reviews all
-  memories, identifies fragmentation, and consolidates related memories into
-  comprehensive knowledge bases while eliminating duplication.
+  CONSOLIDATE MEMORIES COMMAND: Shortcut for memory consolidation. This command
+  is now a convenient alias that delegates to the 'memories' scope of the
+  knowledge-consolidation command. Use /consolidate-memories for quick access or
+  /do knowledge-consolidation memories for the full workflow.
 ---
+
+## Command Delegation
+
+**🚨 IMPORTANT**: This command now delegates to the knowledge-consolidation
+command.
+
+**Quick usage**: `/consolidate-memories` runs the memories scope automatically.
+
+**Full workflow**: For complete control and reporting, use:
+
+```
+/do knowledge-consolidation memories
+```
+
+This provides:
+
+- Structured execution reports
+- Integration with other consolidation scopes
+- Consistent workflow across all knowledge management tasks
+
+## Backward Compatibility
+
+This command maintains backward compatibility while integrating with the broader
+knowledge-consolidation system. When you run `/consolidate-memories`, it:
+
+1. Automatically invokes the memories scope
+2. Follows the same workflow documented in
+   `docs/commands/knowledge-consolidation/memories`
+3. Uses logseq-agent for all LogSeq operations
+4. Generates structured execution reports
+5. Can be combined with other scopes for comprehensive consolidation
+
+## Related Commands
+
+- `/do knowledge-consolidation full` - Run all consolidation scopes (including
+  memories)
+- `/do knowledge-consolidation gap-detection` - Fill knowledge gaps and research
+  missing topics
+- `/do knowledge-consolidation lifecycle` - Promote short-term memories based on
+  age
+- `/do knowledge-consolidation duplicates` - Find and merge duplicate
+  memories/knowledge
 
 ## Mandatory Workflow
 
