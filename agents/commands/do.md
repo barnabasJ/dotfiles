@@ -43,9 +43,12 @@ Use logseq-agent (via Task tool) to:
 
 **If command not found:**
 
-- List available commands from `claude/commands/index`
-- Suggest closest matches
-- Ask user to clarify
+1. Query logseq-agent for available commands from `claude/commands/index`
+2. List available commands grouped by category
+3. Suggest closest matches based on similarity
+4. Ask user: "Would you like to create a new '[command-name]' command?"
+5. If yes, initiate **Command Creation Workflow** (see below)
+6. If no, ask user to clarify which existing command they meant
 
 ### Step 3: Execute Command Instructions
 
@@ -141,6 +144,146 @@ type:: command-execution command:: [command-name] status::
 2. Inform user of missing requirements
 3. Ask whether to proceed or abort
 
+## Command Creation Workflow
+
+When a user requests a command that doesn't exist and confirms they want to
+create it, follow this interactive workflow:
+
+### Step 1: Gather Command Details
+
+Use **AskUserQuestion** tool to collect:
+
+1. **Command Purpose**:
+   - "What is the primary purpose of this command?"
+   - Options: "Analyze/Research", "Plan/Design", "Execute/Implement",
+     "Review/Validate", "Document/Record"
+2. **Scope Type**:
+   - "Does this command need multiple execution modes?"
+   - Options: "Single mode (straightforward)", "Multi-scope (like quick/thorough,
+     or different focus areas)"
+3. **Agent Requirements**:
+   - "Which agents should this command consult?"
+   - Multi-select from: research-agent, architecture-agent, logseq-agent,
+     feature-planner, elixir-reviewer, etc.
+4. **Output Location**:
+   - "Where should command output be stored?"
+   - Options: "projects/[project]/[topic]", "claude/memories/",
+     "docs/[section]", "Custom location"
+
+### Step 2: Build Command Definition
+
+Use **logseq-agent** (via Task tool) to create command definition at
+`claude/commands/[command-name]`:
+
+**Required sections:**
+
+```markdown
+type:: command-definition category:: [from user input] scope:: [global|project]
+tags:: [relevant-tags]
+
+# [Command Name]
+
+## Overview
+
+[Purpose and when to use this command]
+
+## Command Syntax
+
+/do [command-name] [scope-if-applicable] [topic/arguments]
+
+**Examples:**
+
+- `/do [command-name] [example-input]`
+
+## Prerequisites
+
+- [List required setup, tools, or context]
+
+## Workflow Steps
+
+### Step 1: [Step Name]
+
+[Detailed instructions]
+
+### Step 2: [Step Name]
+
+[Detailed instructions]
+
+## Agent Consultations
+
+- **[agent-name]**: [Why and when to consult]
+
+## Tool Usage
+
+- **[tool-name]**: [How and why to use]
+
+## Output Requirements
+
+**Location**: [where output goes] **Format**: [structure expectations]
+
+## Success Criteria
+
+✅ [Criterion 1] ✅ [Criterion 2]
+
+## Critical Rules
+
+- 🚨 [Important constraint or requirement]
+
+## Related Documentation
+
+- [Links to docs/commands/[name]/ pages]
+
+## Update History
+
+- [YYYY-MM-DD]: Initial creation via /do command creation workflow
+```
+
+### Step 3: Create Supporting Documentation
+
+Use **logseq-agent** to create documentation structure at
+`docs/commands/[command-name]/`:
+
+1. **instructions** page:
+   - Detailed execution instructions
+   - Examples and edge cases
+   - Troubleshooting guidance
+2. **examples** page (optional):
+   - Real-world usage examples
+   - Sample outputs
+3. **patterns** page (optional):
+   - Common patterns for this command
+   - Best practices
+
+### Step 4: Update Command Registry
+
+Use **logseq-agent** to:
+
+1. Read `claude/commands/index`
+2. Add new command to appropriate category section
+3. Include brief description and scope information
+4. Sort alphabetically within category
+
+### Step 5: Confirm and Execute
+
+1. Show user a summary of what was created:
+   - Command definition location
+   - Documentation pages created
+   - Registry entry added
+2. Ask: "Would you like to execute this new command now?"
+3. If yes, proceed with Step 2 (Retrieve Command Definition) using the newly
+   created command
+4. If no, inform user they can run `/do [command-name]` when ready
+
+### Step 6: Store Creation as Memory
+
+Use **logseq-agent** to create memory at
+`claude/memories/conversation-insights/command-creation-[command-name]-[date]`:
+
+- Document the command creation context
+- User's intent and requirements
+- Design decisions made
+- Potential improvements identified
+
 ## Available Tools
 
 - **Task tool**: Invoke logseq-agent for reading command definitions and writing
@@ -202,14 +345,27 @@ Step 4: Report via logseq-agent
 ## Success Criteria
 
 ✅ Command name correctly parsed from input ✅ Command definition successfully
-retrieved from LogSeq ✅ Command instructions executed following workflow steps
-✅ Output generated in specified format/location ✅ Execution report saved to
-LogSeq ✅ User informed of completion and output location
+retrieved from LogSeq (or created if missing) ✅ Command instructions executed
+following workflow steps ✅ Output generated in specified format/location ✅
+Execution report saved to LogSeq ✅ User informed of completion and output
+location
+
+**For Command Creation:**
+
+✅ User confirmed intent to create new command ✅ Command details gathered
+interactively ✅ Command definition created at `claude/commands/[name]` ✅
+Supporting documentation structure created at `docs/commands/[name]/` ✅ Command
+registry index updated ✅ Creation memory stored for future reference ✅ User
+offered option to execute new command immediately
 
 ## Notes
 
 - This command enables **data-driven workflows** where command logic lives in
   LogSeq
 - Commands can be updated via logseq-agent without touching the filesystem
+- **Interactive command creation** allows users to rapidly prototype new workflows
+  without manual template creation
 - Execution history provides valuable analytics on command usage
 - Failed executions help improve command definitions over time
+- New commands automatically include documentation structure and registry
+  integration
