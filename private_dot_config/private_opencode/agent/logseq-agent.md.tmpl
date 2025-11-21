@@ -1,0 +1,2 @@
+{{- $content := includeTemplate "agents/agent-definitions/logseq-agent.md" . -}}
+{{- $content | replaceAllRegex "(?s)^---.*?---\n" "" -}}

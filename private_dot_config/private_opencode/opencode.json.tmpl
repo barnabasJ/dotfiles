@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "anthropic/claude-sonnet-4-5",
+  "agent": {
+    "logseq-agent": {
+      "description": "LogSeq gateway for all LogSeq operations, memory management, and review orchestration",
+      "mode": "subagent",
+      "prompt": "{file:agent/logseq-agent.md}",
+      "tools": {
+        "read": true,
+        "grep": true,
+        "glob": true,
+        "task": true,
+        "mcp__ash-logseq__search_blocks": true,
+        "mcp__ash-logseq__read_block": true,
+        "mcp__ash-logseq__create_block": true,
+        "mcp__ash-logseq__replace_block": true
+      }
+    }
+  },
+  "mcp": {
+    "ash-logseq": {
+      "type": "remote",
+      "url": "http://localhost:9000/mcp"
+    }
+  }
+}
