@@ -1,6 +1,18 @@
 {
   "includeCoAuthoredBy": false,
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{{ .chezmoi.sourceDir }}/agents/hooks/session-init.sh",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write|MultiEdit",
