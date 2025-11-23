@@ -11,17 +11,25 @@
           }
         ]
       }
-    ]
-     "Notification": [{
+    ],
+    "Notification": [{
       "hooks": [{
         "type": "command",
+        {{- if eq .chezmoi.os "darwin" }}
         "command": "afplay /System/Library/Sounds/Glass.aiff"
+        {{- else if eq .chezmoi.os "linux" }}
+        "command": "spd-say -t female1 \"Notification from $(tmux display-message -p '#S' 2>/dev/null || echo terminal)\""
+        {{- end }}
       }]
     }],
     "Stop": [{
       "hooks": [{
         "type": "command",
+        {{- if eq .chezmoi.os "darwin" }}
         "command": "afplay /System/Library/Sounds/Tink.aiff"
+        {{- else if eq .chezmoi.os "linux" }}
+        "command": "spd-say -t female1 \"Claude finished in $(tmux display-message -p '#S' 2>/dev/null || echo terminal)\""
+        {{- end }}
       }]
     }]
   },
