@@ -13,10 +13,19 @@ PROJECT_PATH=$(pwd)
 
 if [[ "$ACTIVATION" == "startup" ]]; then
   PROMPT="Ask the logseq agent for session-init. Current project: '$PROJECT_DIR' (path: $PROJECT_PATH). Return:
-1. Project-specific status from projects/ namespace matching this directory
-2. Available commands - The ONLY slash command is '/do'. List as '/do research', '/do plan', '/do commit' etc. Commands defined in claude/commands/
-3. Available agents - logseq-agent is called with different agent instructions from agents/agent-definitions/. Key agents: research-agent, memory-agent, architecture-agent, feature-planner. NOTE: logseq-agent handles both LogSeq operations AND research/information gathering tasks - use logseq-agent for research, not general-purpose agents
-4. Recent work on THIS project
+
+🚨 **CRITICAL**: logseq-agent is your FIRST call for EVERYTHING:
+- Research & information gathering
+- Problem-solving (search past solutions)
+- Executing any specialized agent (loads definitions from LogSeq)
+- All LogSeq operations
+
+## Session Context:
+1. **Project Status**: Current status from projects/ namespace for '$PROJECT_DIR'
+2. **Available Commands**: List all commands from claude/commands/ (format: '/do [command]')
+3. **Available Agents**: List all agent definitions currently in agents/agent-definitions/ (these change over time)
+4. **Recent Work**: Recent activities on THIS project
+
 Keep concise. If no project content found, say so."
 else
   # resume, continue, clear, compact - lighter context
