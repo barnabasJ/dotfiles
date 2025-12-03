@@ -1,11 +1,15 @@
+---@type LazySpec
 return {
 	"nvim-lualine/lualine.nvim",
-	dependencies = { "nvim-tree/nvim-web-devicons" },
+	dependencies = { "nvim-tree/nvim-web-devicons", { "catppuccin/nvim", name = "catppuccin" } },
 	config = function()
 		local codecompanion_status = require("barnabasj.codecompanion_status")
 
 		require("lualine").setup({
 			options = {
+				theme = "catppuccin",
+				section_separators = { left = "\u{e0b4}", right = "\u{e0b6}" },
+				component_separators = { left = "\u{e0b5}", right = "\u{e0b7}" },
 				refresh = {
 					statusline = 100,
 				},

@@ -1,5 +1,6 @@
 [Appearance]
-Font=CodeNewRoman Nerd Font Mono,11,-1,5,50,0,0,0,0,0
+ColorScheme=catppuccin-mocha
+Font=CodeNewRoman Nerd Font Mono,12,-1,5,50,0,0,0,0,0
 
 [General]
 Name=Barnabas
