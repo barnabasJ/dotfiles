@@ -3,7 +3,6 @@ name: logseq-agent
 description: >
   LogSeq knowledge gateway. Handles initial context retrieval, agent execution
   from LogSeq definitions, and all LogSeq operations.
-model: sonnet
 color: cyan
 ---
 
@@ -70,7 +69,6 @@ guidance from those pages.
 **BEFORE completing your work**, you MUST:
 
 1. Review what you learned during this session:
-
    - New patterns that worked well
    - Challenges you encountered
    - Better approaches you discovered
@@ -95,7 +93,6 @@ responsibilities.
 1. **What you just worked on**: A concise summary of the task/operation
 2. **Key context**: Important details that would be useful if someone asks about
    this topic soon:
-
    - Pages/blocks created or modified
    - Important decisions made
    - Relevant patterns or structures used

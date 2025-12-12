@@ -32,10 +32,10 @@ else
   PROMPT="Ask the logseq agent for context for project '$PROJECT_DIR'. Return brief: project status, recent work. Commands: '/do [cmd]'. Agents: logseq-agent with different instructions."
 fi
 
-if [ -n "${IN_HOOK:-}" ]; then
+if [ -n "${NO_LOGSEQ_INIT:-}" ]; then
   CONTEXT=""
 else
-  export IN_HOOK=1
+  export NO_LOGSEQ_INIT=1
 
   CONTEXT=$(claude -p "$PROMPT" \
   --output-format stream-json \
