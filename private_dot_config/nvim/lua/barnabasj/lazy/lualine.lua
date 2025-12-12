@@ -8,8 +8,9 @@ return {
 		require("lualine").setup({
 			options = {
 				theme = "catppuccin",
-				section_separators = { left = "\u{e0b4}", right = "\u{e0b6}" },
-				component_separators = { left = "\u{e0b5}", right = "\u{e0b7}" },
+				-- match the rounded theme from catppuccin/tmux
+				-- section_separators = { left = "\u{e0b4}", right = "\u{e0b6}" },
+				-- component_separators = { left = "\u{e0b5}", right = "\u{e0b7}" },
 				refresh = {
 					statusline = 100,
 				},
