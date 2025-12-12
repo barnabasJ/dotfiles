@@ -1,0 +1,313 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+  "logo": {
+    "type": "builtin",
+    "source": "DarkOS",
+    "color": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "6": "",
+      "7": "",
+      "8": "",
+      "9": ""
+    },
+    "width": null,
+    "height": null,
+    "padding": {
+      "top": 2,
+      "left": 2,
+      "right": 4
+    },
+    "printRemaining": true,
+    "preserveAspectRatio": false,
+    "recache": false,
+    "position": "left",
+    "chafa": {
+      "fgOnly": false,
+      "symbols": "block+border+space-wide-inverted"
+    }
+  },
+  "display": {
+    "stat": false,
+    "pipe": false,
+    "showErrors": false,
+    "disableLinewrap": true,
+    "hideCursor": false,
+    "separator": ": ",
+    "color": {
+      "keys": "",
+      "title": "",
+      "output": "",
+      "separator": ""
+    },
+    "brightColor": true,
+    "duration": {
+      "abbreviation": false,
+      "spaceBeforeUnit": "default"
+    },
+    "size": {
+      "maxPrefix": "YB",
+      "binaryPrefix": "iec",
+      "ndigits": 2,
+      "spaceBeforeUnit": "default"
+    },
+    "temp": {
+      "unit": "D",
+      "ndigits": 1,
+      "color": {
+        "green": "32",
+        "yellow": "93",
+        "red": "91"
+      },
+      "spaceBeforeUnit": "default"
+    },
+    "percent": {
+      "type": [
+        "num",
+        "num-color"
+      ],
+      "ndigits": 0,
+      "color": {
+        "green": "32",
+        "yellow": "93",
+        "red": "91"
+      },
+      "spaceBeforeUnit": "default",
+      "width": 0
+    },
+    "bar": {
+      "char": {
+        "elapsed": "■",
+        "total": "-"
+      },
+      "border": {
+        "left": "[ ",
+        "right": " ]",
+        "leftElapsed": "",
+        "rightElapsed": ""
+      },
+      "color": {
+        "elapsed": "auto",
+        "total": "97",
+        "border": "97"
+      },
+      "width": 10
+    },
+    "fraction": {
+      "ndigits": 2
+    },
+    "noBuffer": false,
+    "key": {
+      "width": 0,
+      "type": "string",
+      "paddingLeft": 0
+    },
+    "freq": {
+      "ndigits": 2,
+      "spaceBeforeUnit": "default"
+    },
+    "constants": []
+  },
+  "general": {
+    "thread": true,
+    "processingTimeout": 5000,
+    "detectVersion": true,
+    "playerName": "",
+    "dsForceDrm": false
+  },
+  "modules": [
+    {
+      "type": "custom",
+      "format": ""
+    },
+    {
+      "type": "title",
+      "key": " ",
+      "keyIcon": "",
+      "fqdn": false,
+      "color": {
+        "user": "",
+        "at": "",
+        "host": ""
+      }
+    },
+    {
+      "type": "separator",
+      "string": "-",
+      "outputColor": "",
+      "times": 0
+    },
+    {
+      "type": "os",
+      "keyIcon": ""
+    },
+    {
+      "type": "host",
+      "keyIcon": "󰌢"
+    },
+    {
+      "type": "kernel",
+      "keyIcon": ""
+    },
+    {
+      "type": "uptime",
+      "keyIcon": ""
+    },
+    {
+      "type": "packages",
+      "keyIcon": "󰏖",
+      "disabled": [
+        "winget"
+      ],
+      "combined": false
+    },
+    {
+      "type": "shell",
+      "keyIcon": ""
+    },
+    {
+      "type": "display",
+      "keyIcon": "󰍹",
+      "compactType": "none",
+      "preciseRefreshRate": false,
+      "order": null
+    },
+    {
+      "type": "de",
+      "keyIcon": "",
+      "slowVersionDetection": false
+    },
+    {
+      "type": "wm",
+      "keyIcon": "",
+      "detectPlugin": false
+    },
+    {
+      "type": "wmtheme",
+      "keyIcon": "󰓸"
+    },
+    {
+      "type": "theme",
+      "keyIcon": "󰉼"
+    },
+    {
+      "type": "icons",
+      "keyIcon": ""
+    },
+    {
+      "type": "font",
+      "keyIcon": ""
+    },
+    {
+      "type": "cursor",
+      "keyIcon": "󰆿"
+    },
+    {
+      "type": "terminal",
+      "keyIcon": ""
+    },
+    {
+      "type": "terminalfont",
+      "keyIcon": ""
+    },
+    {
+      "type": "cpu",
+      "keyIcon": "",
+      "temp": false,
+      "showPeCoreCount": false
+    },
+    {
+      "type": "gpu",
+      "keyIcon": "󰾲",
+      "driverSpecific": false,
+      "detectionMethod": "pci",
+      "temp": false,
+      "hideType": "none",
+      "percent": {
+        "green": 50,
+        "yellow": 80,
+        "type": 0
+      }
+    },
+    {
+      "type": "memory",
+      "keyIcon": "",
+      "percent": {
+        "green": 50,
+        "yellow": 80,
+        "type": 0
+      }
+    },
+    {
+      "type": "swap",
+      "percent": {
+        "green": 50,
+        "yellow": 80,
+        "type": 0
+      },
+      "keyIcon": "󰓡",
+      "separate": false
+    },
+    {
+      "type": "disk",
+      "keyIcon": "",
+      "showRegular": true,
+      "showExternal": true,
+      "showHidden": false,
+      "showSubvolumes": false,
+      "showReadOnly": true,
+      "showUnknown": false,
+      "folders": "",
+      "hideFolders": "/efi:/boot:/boot/*",
+      "hideFS": "",
+      "useAvailable": false,
+      "percent": {
+        "green": 50,
+        "yellow": 80,
+        "type": 0
+      }
+    },
+    {
+      "type": "localip",
+      "keyIcon": "󰩟",
+      "showIpv4": true,
+      "showIpv6": false,
+      "showMac": false,
+      "showLoop": false,
+      "showPrefixLen": true,
+      "showMtu": false,
+      "showSpeed": false,
+      "showFlags": false,
+      "compact": false,
+      "defaultRouteOnly": true,
+      "showAllIps": false,
+      "namePrefix": ""
+    },
+    {
+      "type": "battery",
+      "keyIcon": "",
+      "temp": false,
+      "percent": {
+        "green": 50,
+        "yellow": 20,
+        "type": 0
+      }
+    },
+    {
+      "type": "poweradapter",
+      "keyIcon": "󰚥"
+    },
+    {
+      "type": "locale",
+      "keyIcon": ""
+    },
+    "break",
+    {
+    "type": "custom",
+    "format": "\u001b[48;2;255;0;0m \u001b[0m\u001b[48;2;249;10;5m \u001b[0m\u001b[48;2;244;20;10m \u001b[0m\u001b[48;2;239;31;15m \u001b[0m\u001b[48;2;234;41;20m \u001b[0m\u001b[48;2;228;52;26m \u001b[0m\u001b[48;2;223;62;31m \u001b[0m\u001b[48;2;218;72;36m \u001b[0m\u001b[48;2;213;83;41m \u001b[0m\u001b[48;2;208;93;46m \u001b[0m\u001b[48;2;202;104;52m \u001b[0m\u001b[48;2;197;114;57m \u001b[0m\u001b[48;2;192;124;62m \u001b[0m\u001b[48;2;187;135;67m \u001b[0m\u001b[48;2;182;145;72m \u001b[0m\u001b[48;2;176;156;78m \u001b[0m\u001b[48;2;171;166;83m \u001b[0m\u001b[48;2;166;176;88m \u001b[0m\u001b[48;2;161;187;93m \u001b[0m\u001b[48;2;156;197;98m \u001b[0m\u001b[48;2;150;208;104m \u001b[0m\u001b[48;2;145;218;109m \u001b[0m\u001b[48;2;140;228;114m \u001b[0m\u001b[48;2;135;239;119m \u001b[0m\u001b[48;2;130;249;124m \u001b[0m\u001b[48;2;124;249;130m \u001b[0m\u001b[48;2;119;239;135m \u001b[0m\u001b[48;2;114;228;140m \u001b[0m\u001b[48;2;109;218;145m \u001b[0m\u001b[48;2;104;208;150m \u001b[0m\u001b[48;2;98;197;156m \u001b[0m\u001b[48;2;93;187;161m \u001b[0m\u001b[48;2;88;176;166m \u001b[0m\u001b[48;2;83;166;171m \u001b[0m\u001b[48;2;78;156;176m \u001b[0m\u001b[48;2;72;145;182m \u001b[0m\u001b[48;2;67;135;187m \u001b[0m\u001b[48;2;62;124;192m \u001b[0m\u001b[48;2;57;114;197m \u001b[0m\u001b[48;2;52;104;202m \u001b[0m\u001b[48;2;46;93;208m \u001b[0m\u001b[48;2;41;83;213m \u001b[0m\u001b[48;2;36;72;218m \u001b[0m\u001b[48;2;31;62;223m \u001b[0m\u001b[48;2;26;52;228m \u001b[0m\u001b[48;2;20;41;234m \u001b[0m\u001b[48;2;15;31;239m \u001b[0m\u001b[48;2;10;20;244m \u001b[0m\u001b[48;2;5;10;249m \u001b[0m\u001b[48;2;0;0;255m \u001b[0m"
+    },
+  ]
+}
