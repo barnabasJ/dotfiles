@@ -135,8 +135,13 @@ cmd_cleanup() {
     read -rp "  Remove this worktree? [y/N] " answer
     if [[ "$answer" =~ ^[Yy]$ ]]; then
       echo "  Removing worktree..."
-      git worktree remove "$dir" --force 2>/dev/null || rm -rf "$dir"
-      echo "  Removed."
+      if git worktree remove "$dir" 2>/dev/null; then
+        echo "  Removed."
+      else
+        echo "  WARNING: Could not remove worktree automatically." >&2
+        echo "  This may be due to submodules or uncommitted changes." >&2
+        echo "  To remove manually: git worktree remove --force $dir" >&2
+      fi
     else
       echo "  Skipped."
     fi

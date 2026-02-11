@@ -171,6 +171,48 @@ gt abort
 gt undo
 ```
 
+### Recovering from Merged Branch Blocking Submit
+
+After a PR in the middle of a stack is merged (e.g., via GitHub squash merge),
+`gt submit --stack` may fail with:
+
+```
+WARNING: PR for the following branch has already been merged but the merged
+commits are not contained in the latest trunk branch main.
+ERROR: Aborting non-interactive submit.
+```
+
+This happens because trunk has the squash-merged commit, but Graphite still sees
+the original branch commits and cannot reconcile them automatically.
+
+**Recovery steps:**
+
+```bash
+# 1. Pull trunk and clean up what Graphite can auto-detect
+gt sync
+
+# 2. If the merged branch still blocks submit, check your stack
+gt log short
+
+# 3. Go to the first unmerged branch above the stuck one
+gt checkout <first-unmerged-branch>
+
+# 4. Reparent it directly onto main (skipping the merged branch)
+gt track --parent main
+
+# 5. Restack to rebase all upstack branches onto the new parent chain
+gt restack
+
+# 6. Now submit works again
+gt submit --stack --publish
+```
+
+**Why this works:** The merged branch's commits were squashed into a single
+commit on trunk that does not match the original commits. Graphite cannot
+automatically detect they are the same changes. By reparenting the first
+unmerged child onto `main`, you tell Graphite to skip the stale branch and
+rebase directly onto trunk, which already contains the merged work.
+
 ## Submitting and Merging
 
 ### Submit PRs
@@ -302,13 +344,3 @@ chore(scope): maintenance tasks
 - Each PR should be **independently reviewable**
 - Each PR should **compile and pass tests** on its own
 - If a task is too large, split it into multiple stacked PRs
-
-## Skill Activation
-
-This skill is automatically activated when:
-
-- User asks to create stacked PRs
-- User mentions Graphite or `gt` commands
-- User wants to split work into multiple PRs
-- User asks about PR workflow or branch management
-- User says "stack", "stacked PRs", or "submit stack"
