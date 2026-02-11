@@ -1,5 +1,4 @@
 return {
-	"github/copilot.vim",
 	{
 		"folke/todo-comments.nvim",
 		event = "VimEnter",
