@@ -77,6 +77,15 @@ mix phx.server  # Runs on unique port (9100-9999)
 mix test         # Uses isolated test database
 ```
 
+### Submit PR with Graphite
+
+```bash
+# Use --publish to avoid draft mode in non-interactive (agent) contexts
+gt submit --stack --publish
+```
+
+Without `--publish`, non-interactive `gt submit` creates PRs in draft mode.
+
 ### Teardown and Cleanup
 
 ```bash
