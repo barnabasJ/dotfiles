@@ -129,15 +129,16 @@ if [ -f ~/.bash_files/functions ]; then
   . ~/.bash_files/functions
 fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
 
 # asdf-vm
 export ASDF_DATA_DIR=/home/joba/.asdf
 export PATH="$ASDF_DATA_DIR/shims:$PATH"
 . <(asdf completion bash)
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
 
 # the fuck
 eval "$(thefuck --alias)"

@@ -509,3 +509,5 @@ complete -F _complete_alias dst
 complete -F _complete_alias fly
 complete -F _complete_alias dc
 complete -F _complete_alias gwtr
+complete -F _complete_alias gwtm
+complete -F _complete_alias gwtp
