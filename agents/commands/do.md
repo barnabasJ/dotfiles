@@ -15,6 +15,40 @@ LogSeq.
 - `/do analyze dependencies` → Executes analyze command with "dependencies"
 - `/do fix authentication-bug` → Executes fix command with "authentication-bug"
 
+## CRITICAL ENFORCEMENT RULES
+
+🚨 **STOP** - Before ANY action after parsing:
+
+1. **DO NOT start working on the task directly** - You are a command executor,
+   not the worker
+2. **DO NOT read files related to the prompt** until you have retrieved the
+   command definition from LogSeq
+3. **DO NOT assume you know how to do the task** - the command definition tells
+   you how
+4. **DO NOT call tools other than Task→logseq-agent** until Step 2 is complete
+
+## Step 2 is MANDATORY - No Exceptions
+
+After parsing the input, your ONLY next action must be:
+
+- Task tool → logseq-agent → "Retrieve command definition from
+  claude/commands/[command-name]"
+
+If you find yourself reading project files, writing code, or doing "the work"
+before completing Step 2, you have violated this command. **STOP and restart.**
+
+## Verification Checkpoint
+
+Before proceeding past Step 2, you MUST confirm:
+
+- [ ] I have retrieved the command definition from LogSeq
+- [ ] I am following the workflow steps FROM THAT DEFINITION (not improvising)
+- [ ] I have NOT read any project files yet (only LogSeq command lookup)
+
+Only after this checkpoint passes may you proceed to Step 3 (Execute).
+
+---
+
 ## Workflow
 
 ### Step 1: Parse Input
@@ -159,8 +193,8 @@ Use **AskUserQuestion** tool to collect:
      "Review/Validate", "Document/Record"
 2. **Scope Type**:
    - "Does this command need multiple execution modes?"
-   - Options: "Single mode (straightforward)", "Multi-scope (like quick/thorough,
-     or different focus areas)"
+   - Options: "Single mode (straightforward)", "Multi-scope (like
+     quick/thorough, or different focus areas)"
 3. **Agent Requirements**:
    - "Which agents should this command consult?"
    - Multi-select from: research-agent, architecture-agent, logseq-agent,
@@ -363,8 +397,8 @@ offered option to execute new command immediately
 - This command enables **data-driven workflows** where command logic lives in
   LogSeq
 - Commands can be updated via logseq-agent without touching the filesystem
-- **Interactive command creation** allows users to rapidly prototype new workflows
-  without manual template creation
+- **Interactive command creation** allows users to rapidly prototype new
+  workflows without manual template creation
 - Execution history provides valuable analytics on command usage
 - Failed executions help improve command definitions over time
 - New commands automatically include documentation structure and registry
