@@ -88,6 +88,13 @@ cmd_create() {
     git worktree add -b "$branch_name" "$worktree_path" "$from_branch"
   fi
 
+  # Copy untracked Claude Code settings to worktree
+  if [ -f "$root/.claude/settings.local.json" ]; then
+    mkdir -p "$worktree_path/.claude"
+    cp "$root/.claude/settings.local.json" "$worktree_path/.claude/settings.local.json"
+    echo "Copied .claude/settings.local.json"
+  fi
+
   echo ""
   echo "Worktree created:"
   echo "  Path:   $worktree_path"

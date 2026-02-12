@@ -197,6 +197,54 @@ ELIXIR
   # "../ash_jobs" resolves relative to the worktree, not the repo root.
   link_path_deps "$worktree_path"
 
+  # Symlink gitignored env override files from the main repo
+  local repo_root
+  repo_root="$(git -C "$worktree_path" rev-parse --git-common-dir 2>/dev/null || true)"
+  if [ -n "$repo_root" ] && [ "$repo_root" != ".git" ]; then
+    repo_root="$(cd "$worktree_path" && cd "$repo_root" && cd .. && pwd)"
+  else
+    repo_root="$worktree_path"
+  fi
+
+  if [ "$repo_root" != "$worktree_path" ] && [ -d "$repo_root/envs" ]; then
+    for override in "$repo_root"/envs/*.overrides.env; do
+      [ -f "$override" ] || continue
+      local basename
+      basename="$(basename "$override")"
+      local target="$worktree_path/envs/$basename"
+      if [ ! -e "$target" ]; then
+        ln -s "$override" "$target"
+        echo "Symlinked envs/$basename from main repo"
+      fi
+    done
+  fi
+
+  # Generate .claude/worktree.md for Claude context
+  local claude_dir="$worktree_path/.claude"
+  mkdir -p "$claude_dir"
+  cat > "$claude_dir/worktree.md" <<WORKTREE_MD
+# Worktree Context
+
+This is an isolated git worktree, NOT the main repository.
+
+- **Worktree name**: $worktree_name
+- **Dev server port**: $port (NOT 9001)
+- **Dev database**: $dev_db
+- **Test database**: $test_db
+- **Main repo**: $repo_root
+
+When using Chrome DevTools or browser tools, navigate to \`http://localhost:$port\` (not 9001).
+When referencing tidewave MCP, it runs on port $port.
+WORKTREE_MD
+  echo "Created $claude_dir/worktree.md"
+
+  # Register tidewave MCP server for this worktree's port
+  if command -v claude >/dev/null 2>&1; then
+    echo ""
+    echo "Registering tidewave MCP server (port $port)..."
+    (cd "$worktree_path" && claude mcp add --transport http tidewave "http://localhost:${port}/tidewave/mcp" 2>/dev/null) || true
+  fi
+
   # Run deps.get + database setup
   echo ""
   echo "Running database setup..."
@@ -221,9 +269,10 @@ cmd_teardown() {
   (cd "$worktree_path" && MIX_ENV=dev mix ecto.drop 2>/dev/null || true)
   (cd "$worktree_path" && MIX_ENV=test mix ecto.drop 2>/dev/null || true)
 
-  # Remove local config files
+  # Remove local config files and worktree context
   rm -f "$worktree_path/config/dev.local.exs"
   rm -f "$worktree_path/config/test.local.exs"
+  rm -f "$worktree_path/.claude/worktree.md"
 
   echo "Teardown complete. Local config files removed."
 }
