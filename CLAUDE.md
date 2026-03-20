@@ -53,7 +53,6 @@ and tell you the result.
 1. **Shell Configuration**: Zsh with Oh My Zsh on macOS, Bash on Linux
 2. **Neovim Setup**: Comprehensive configuration in `private_dot_config/nvim/`
    - Uses lazy.nvim for plugin management
-   - AI integrations: CodeCompanion, Copilot, Avante
    - LSP support via mason.nvim
 3. **Version Management**: asdf handles multiple language versions
 4. **Installation Scripts**: Sequential scripts handle system setup:

@@ -23,10 +23,6 @@ NVIM_APPNAME=barnabasJ/dotfiles/private_dot_config/nvim nvim
 
 ## Plugins
 
-### ai
-
-- [olimorris/codecompanion.nvim](https://dotfyle.com/plugins/olimorris/codecompanion.nvim)
-
 ### colorscheme
 
 - [folke/tokyonight.nvim](https://dotfyle.com/plugins/folke/tokyonight.nvim)
