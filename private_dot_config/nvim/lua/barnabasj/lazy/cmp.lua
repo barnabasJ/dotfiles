@@ -21,6 +21,13 @@ return {
 	opts = {
 		keymap = {
 			preset = "default",
+			["<Tab>"] = {
+				"snippet_forward",
+				function()
+					return require("sidekick").nes_jump_or_apply()
+				end,
+				"fallback",
+			},
 			["<C-n>"] = { "select_next", "fallback" },
 			["<C-p>"] = { "select_prev", "fallback" },
 			["<C-b>"] = { "scroll_documentation_up", "fallback" },

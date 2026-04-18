@@ -56,6 +56,10 @@ wk.add({
 	},
 })
 
+-- scrolling (move viewport + cursor together)
+vim.keymap.set("n", "<C-e>", "<C-e>j")
+vim.keymap.set("n", "<C-y>", "<C-y>k")
+
 -- convenience
 wk.add({
 	{ "<ESC>", "<cmd>nohlsearch<CR>", desc = "clear hl search" },
