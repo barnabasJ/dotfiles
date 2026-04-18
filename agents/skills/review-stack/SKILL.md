@@ -23,24 +23,49 @@ branch until the entire stack is addressed.
 - On a branch within the stack (any position)
 - Clean working tree (no uncommitted changes)
 
+**WARNING**: Do NOT run `/fresh` or `gt checkout main` before starting this
+workflow. You must stay on a branch within the target stack so that
+`gt log short` shows the correct stack topology. Switching to `main` loses the
+stack context.
+
+## Related Skills
+
+- **`gh-pr-info`** — Look up repo, PR numbers, review status, CI checks, diffs
+- **`gh-pr-comments`** — Fetch all three comment types from a PR
+- **`gh-pr-reply`** — Post replies to inline review comments
+
 ## Workflow
 
 ### Phase 1: Reconnaissance
 
 Before touching any code, understand the full picture.
 
-```bash
-# 1. Get the repo owner/name from git remote
-gh repo view --json nameWithOwner --jq '.nameWithOwner'
+Use `gh-pr-info` to identify the stack's PRs:
 
-# 2. View the current stack
+```bash
+SCRIPT=~/.claude/skills/gh-pr-info/scripts/get-pr-info.sh
+
+# 1. Get the repo owner/name
+$SCRIPT repo
+
+# 2. View the current stack — THIS defines which branches are in the stack
 gt log short
 
-# 3. List all open PRs for branches in the stack
-gh pr list --author @me --state open --json number,headRefName,title,reviewDecision
+# 3. Get PR number for each stack branch
+$SCRIPT pr-for-branch <branch-name>
+
+# 4. Or list all open PRs and cross-reference with gt log short
+$SCRIPT list-open
 ```
 
-Build a map of `branch → PR number` for the entire stack.
+**CRITICAL**: Do NOT treat `list-open` as "the stack." It returns ALL open PRs
+across ALL stacks. Cross-reference with `gt log short` to identify which PRs are
+in the **current** stack. See the `graphite/references/identify-stack-prs.md`
+reference for details.
+
+**Build a map of `branch → PR number` for ONLY the branches shown in
+`gt log short`.** Discard PRs whose branch doesn't appear in the `gt log short`
+output — those belong to other stacks.
 
 ### Phase 2: Bottom-to-Top Traversal
 
@@ -56,30 +81,19 @@ Then for each branch, repeat the **Fix Cycle** below until you reach the top.
 #### Step 1: Identify the PR
 
 ```bash
-# Get the PR number for the current branch
-gh pr list --head "$(git branch --show-current)" --json number,title --jq '.[0]'
+~/.claude/skills/gh-pr-info/scripts/get-pr-info.sh pr-for-branch
 ```
 
 #### Step 2: Fetch ALL Comments
 
-Fetch both review comments (inline on code) and general PR comments:
+Use `gh-pr-comments` to get all three comment types:
 
 ```bash
-# Inline review comments (on specific lines of code)
-gh api repos/{owner}/{repo}/pulls/{pr_number}/comments \
-  --jq '.[] | {id: .id, path: .path, line: .line, body: .body, created_at: .created_at, user: .user.login}'
-
-# General PR comments (not inline)
-gh api repos/{owner}/{repo}/issues/{pr_number}/comments \
-  --jq '.[] | {id: .id, body: .body, created_at: .created_at, user: .user.login}'
-
-# PR reviews with body text (top-level review summaries)
-gh api repos/{owner}/{repo}/pulls/{pr_number}/reviews \
-  --jq '.[] | select(.body != "") | {id: .id, state: .state, body: .body, user: .user.login}'
+~/.claude/skills/gh-pr-comments/scripts/fetch-pr-comments.sh <owner/repo> <pr_number>
 ```
 
-**Filter out bot/automated comments** (e.g., Graphite Agent) unless the user
-specifically wants them addressed. Focus on human reviewer comments.
+This returns inline review comments, general discussion, and review summaries in
+a single JSON response with bot comments filtered out.
 
 #### Step 3: Triage Comments
 
@@ -130,7 +144,7 @@ Fix any verification failures before proceeding.
 gt modify --all
 
 # Push the entire stack (restacks upstack branches automatically)
-gt submit --stack --publish
+gt submit --stack --publish --ai
 ```
 
 **Always use `--stack`** — this ensures upstack branches are rebased onto your
@@ -166,20 +180,16 @@ Action needed:
 ### 1. Forgetting `--stack` on Submit
 
 **Wrong**: `gt submit` (only pushes current branch) **Right**:
-`gt submit --stack --publish` (pushes entire stack, keeps it in sync)
+`gt submit --stack --publish --ai` (pushes entire stack, keeps it in sync)
 
 Without `--stack`, upstack branches won't be rebased onto your fixes, causing
 divergence.
 
 ### 2. Missing Comment Types
 
-GitHub has THREE places where review feedback can appear:
-
-- **Pull request review comments** (`/pulls/{n}/comments`) — inline on code
-- **Issue comments** (`/issues/{n}/comments`) — general discussion
-- **Review bodies** (`/pulls/{n}/reviews`) — top-level review summaries
-
-Always check all three.
+GitHub has THREE places where review feedback can appear. The `gh-pr-comments`
+script fetches all three automatically. See the `gh-pr-comments` skill for
+details on comment types.
 
 ### 3. Not Handling Stale Comments
 
@@ -199,7 +209,7 @@ Each PR corresponds to a specific branch. Before making any changes:
 git branch --show-current
 
 # Verify this matches the PR you're fixing
-gh pr list --head "$(git branch --show-current)" --json number,title
+~/.claude/skills/gh-pr-info/scripts/get-pr-info.sh pr-for-branch
 ```
 
 ### 5. Not Running Verification Between Branches
@@ -228,6 +238,7 @@ Skip it — `gt up` and continue.
 ### Comment Requires Discussion, Not Code
 
 Flag it to the user with the comment text and context. Don't make changes.
+Consider using `gh-pr-reply` to respond.
 
 ### Conflict During Restack
 
@@ -239,7 +250,7 @@ git add .
 gt continue
 
 # Then retry
-gt submit --stack --publish
+gt submit --stack --publish --ai
 ```
 
 ### Branch Was Already Merged
@@ -254,15 +265,15 @@ gt log short  # Verify remaining stack
 
 ## Quick Reference
 
-| Step                   | Command                                            |
-| ---------------------- | -------------------------------------------------- |
-| View stack             | `gt log short`                                     |
-| Go to bottom           | `gt bottom`                                        |
-| Get current branch PR  | `gh pr list --head "$(git branch --show-current)"` |
-| Fetch inline comments  | `gh api repos/{o}/{r}/pulls/{n}/comments`          |
-| Fetch general comments | `gh api repos/{o}/{r}/issues/{n}/comments`         |
-| Fetch review summaries | `gh api repos/{o}/{r}/pulls/{n}/reviews`           |
-| Amend fixes            | `gt modify --all`                                  |
-| Push entire stack      | `gt submit --stack --publish`                      |
-| Move up                | `gt up`                                            |
-| Check for top of stack | `gt up` (fails if already at top)                  |
+| Step                  | Command / Skill                                           |
+| --------------------- | --------------------------------------------------------- |
+| View stack            | `gt log short`                                            |
+| Go to bottom          | `gt bottom`                                               |
+| Get repo              | `gh-pr-info` → `repo`                                     |
+| Get current branch PR | `gh-pr-info` → `pr-for-branch`                            |
+| Fetch all comments    | `gh-pr-comments` → `fetch-pr-comments.sh <repo> <number>` |
+| Reply to comment      | `gh-pr-reply` → `reply-to-comment.sh <repo> <pr> <id>`    |
+| Amend fixes           | `gt modify --all`                                         |
+| Push entire stack     | `gt submit --stack --publish --ai`                        |
+| Move up               | `gt up`                                                   |
+| Check for top         | `gt up` (fails if already at top)                         |

@@ -27,6 +27,36 @@ fast review cycles and incremental merging.
 | **Downstack** | Branches below the current one (current depends on)         |
 | **Restack**   | Rebase all branches to maintain proper parent chain         |
 
+## Critical: Stack Identity
+
+**A "stack" is the linear chain of branches the current branch belongs to — NOT
+all open PRs in the repo.** A repo can have multiple independent stacks.
+
+### Identifying the Current Stack
+
+```bash
+# CORRECT — shows only branches in the current stack
+gt log short
+
+# WRONG — shows ALL open PRs across ALL stacks
+gh pr list --author @me --state open
+```
+
+Always use `gt log short` to determine which branches are in your current stack.
+Then cross-reference with `gh pr list --head "branch-name"` to get PR numbers
+for specific branches.
+
+See `references/identify-stack-prs.md` for detailed examples and common
+mistakes.
+
+### `gt` vs `gh` Boundaries
+
+`gt` handles **stack management** (branches, rebasing, submitting). `gh` handles
+**GitHub API** (comments, reviews, CI status). There is no `gt` command for
+fetching PR review comments — use `gh api` for that.
+
+See `references/gt-vs-gh.md` for a complete reference table.
+
 ## Workflow: Tasks as Stacked PRs
 
 ### Starting a New Stack
@@ -41,7 +71,7 @@ gt checkout main
 gt create --all --message "feat(scope): description of first task"
 
 # Push and create the PR
-gt submit
+gt submit --ai
 ```
 
 ### Stacking the Next Task
@@ -52,7 +82,7 @@ gt submit
 gt create --all --message "feat(scope): description of next task"
 
 # Push the entire stack
-gt submit --stack
+gt submit --stack --ai
 ```
 
 ### Viewing Your Stack
@@ -90,7 +120,7 @@ gt modify --all
 gt modify --all --commit --message "address review feedback"
 
 # Push updates (restacks upstack branches automatically)
-gt submit --stack
+gt submit --stack --ai
 ```
 
 ### Absorb: Auto-Route Changes to Right Commit
@@ -112,7 +142,7 @@ gt create --all --message "fix(scope): inserted fix"
 
 # Restack to fix the chain
 gt restack
-gt submit --stack
+gt submit --stack --ai
 ```
 
 ### Splitting a Branch
@@ -174,7 +204,7 @@ gt undo
 ### Recovering from Merged Branch Blocking Submit
 
 After a PR in the middle of a stack is merged (e.g., via GitHub squash merge),
-`gt submit --stack` may fail with:
+`gt submit --stack --ai` may fail with:
 
 ```
 WARNING: PR for the following branch has already been merged but the merged
@@ -204,7 +234,7 @@ gt track --parent main
 gt restack
 
 # 6. Now submit works again
-gt submit --stack --publish
+gt submit --stack --ai --publish
 ```
 
 **Why this works:** The merged branch's commits were squashed into a single
@@ -219,16 +249,16 @@ rebase directly onto trunk, which already contains the merged work.
 
 ```bash
 # Submit current branch only
-gt submit
+gt submit --ai
 
 # Submit entire stack (recommended)
-gt submit --stack
+gt submit --stack --ai
 
 # Submit with reviewers
-gt submit --stack --reviewers alice,bob
+gt submit --stack --ai --reviewers alice,bob
 
-# Update PR title/body
-gt submit --edit
+# Update PR title/body interactively
+gt submit --edit --ai
 ```
 
 ### Merge
@@ -252,14 +282,14 @@ gt sync        # Cleans up merged branches, rebases remaining stack
 
 ### Core Workflow
 
-| Command               | Alias  | Purpose                                    |
-| --------------------- | ------ | ------------------------------------------ |
-| `gt init`             |        | Initialize Graphite in a repo              |
-| `gt create -am "msg"` | `gt c` | Create branch with all changes committed   |
-| `gt modify -a`        | `gt m` | Amend current commit, auto-restack upstack |
-| `gt submit`           | `gt s` | Push and create/update PR                  |
-| `gt submit --stack`   |        | Push and create/update all PRs in stack    |
-| `gt sync`             |        | Pull trunk, rebase stacks, clean merged    |
+| Command                  | Alias  | Purpose                                    |
+| ------------------------ | ------ | ------------------------------------------ |
+| `gt init`                |        | Initialize Graphite in a repo              |
+| `gt create -am "msg"`    | `gt c` | Create branch with all changes committed   |
+| `gt modify -a`           | `gt m` | Amend current commit, auto-restack upstack |
+| `gt submit --ai`         | `gt s` | Push and create/update PR                  |
+| `gt submit --stack --ai` |        | Push and create/update all PRs in stack    |
+| `gt sync`                |        | Pull trunk, rebase stacks, clean merged    |
 
 ### Navigation
 
@@ -319,10 +349,11 @@ When given a list of tasks to implement:
 
 1. **`gt sync`** — start from a clean, up-to-date trunk
 2. **For each task**: a. Make the code changes b.
-   `gt create --all --message "type(scope): description"` c. `gt submit --stack`
+   `gt create --all --message "type(scope): description"` c.
+   `gt submit --stack --ai`
 3. **Between tasks**: `gt sync` if trunk has advanced
 4. **After review feedback**: `gt checkout branch`, fix, `gt modify -a`,
-   `gt submit --stack`
+   `gt submit --stack --ai`
 5. **After merge**: `gt sync` to clean up
 
 ### Commit Message Convention
@@ -344,3 +375,66 @@ chore(scope): maintenance tasks
 - Each PR should be **independently reviewable**
 - Each PR should **compile and pass tests** on its own
 - If a task is too large, split it into multiple stacked PRs
+
+## Graphite Base Branches and CI
+
+Graphite uses temporary `graphite-base/*` branches during merge operations. In a
+stack, each PR targets its **parent branch**, not `main`. Only the bottom PR in
+a stack targets `main` directly.
+
+**CI impact:** If your CI workflow triggers only on
+`pull_request: branches: [main]`, stacked PRs above the bottom won't trigger CI
+because their base is a parent branch, not `main`.
+
+**Solutions:**
+
+- Use `gt submit --stack` which manages bases correctly
+- The bottom PR targets `main` automatically — CI runs there
+- **Never manually `gh pr edit --base main`** — this breaks Graphite's stack
+  tracking. If CI isn't running, the PR isn't the bottom of the stack yet. Merge
+  the PR below it first, then `gt sync` will update this PR's base to `main`.
+- After merging the bottom PR and running `gt sync`, the next PR becomes the new
+  bottom and targets `main` — CI will trigger
+
+## Restacking: Scope Control
+
+`gt restack` restacks the current branch **AND all descendants** (upstack
+branches). You cannot restack only the current branch without touching
+descendants — maintaining the chain is the whole point.
+
+**When downstream branches have conflicts:**
+
+- `gt restack` pauses at the first conflict
+- Resolve it, `git add <files>`, `gt continue` — or `gt abort` to cancel
+- **When merging bottom-up**, conflicts in far-downstream branches are expected
+  and don't block the current PR — they'll resolve naturally as each PR merges
+  and `gt sync` cleans up merged branches
+
+## Submitting After Restack
+
+After a restack changes commit SHAs:
+
+- `gt submit` may show a "non-fast-forward" warning because the remote has old
+  SHAs — this is normal, `gt submit` force-pushes by design
+- If `gt submit` says "No-op", the remote already has the latest commits
+- Always use `gt submit --stack` after restack to update all PRs in the stack
+
+## Advanced Workflows
+
+### Distributing Fixes Across Branches
+
+When fixes need to land on different branches in the stack (e.g., a reviewer
+comments on code introduced in a lower PR), navigate to each branch, make
+targeted edits, and `gt modify --all`. Do NOT use
+`git checkout stash@{0} -- <file>` — it brings the entire file from stash,
+leaking changes from other branches.
+
+See `references/distribute-fixes.md` for the full workflow.
+
+### Working in Git Worktrees
+
+In worktree environments, `gt sync` produces warnings about branches checked out
+in other worktrees. These are **benign** — ignore them and focus on your current
+stack with `gt log short`.
+
+See `references/worktree-tips.md` for details.

@@ -67,7 +67,7 @@ Follow conventional commits:
 #### 2d. Submit
 
 ```bash
-gt submit --stack --publish
+gt submit --stack --publish --ai
 ```
 
 The `--publish` flag creates non-draft PRs. Without it, PRs may be created as
@@ -97,7 +97,7 @@ When a reviewer requests changes on a specific PR:
 gt checkout branch-name
 # Make fixes...
 gt modify --all
-gt submit --stack --publish
+gt submit --stack --publish --ai
 ```
 
 `gt modify --all` amends the branch's commit and automatically restacks all
@@ -118,7 +118,7 @@ This pulls trunk, rebases remaining stacks, and deletes merged branches.
 - **One task = one branch = one PR** — keep changes under ~800 lines
 - **Each PR must pass verification independently** — don't rely on later PRs to
   fix earlier ones
-- **Always use `--stack`** with `gt submit` to keep the full stack in sync
+- **Always use `--stack --ai`** with `gt submit` to keep the full stack in sync
 - **Always use `--publish`** to avoid draft mode in non-interactive contexts
 - **If a task is too large**, split it into multiple stacked PRs
 - **Never use raw git** for branching/pushing when Graphite manages the stack
@@ -131,7 +131,7 @@ If a single task produces > 800 lines of changes, split it:
 2. `gt create -am "feat(scope): part 1 — description"`
 3. Implement the next chunk (stacks on top)
 4. `gt create -am "feat(scope): part 2 — description"`
-5. `gt submit --stack --publish`
+5. `gt submit --stack --publish --ai`
 
 Each chunk should compile and pass tests on its own.
 
@@ -177,14 +177,14 @@ cd .worktrees/task-api
 # implement API changes...
 mix precommit
 gt create -am "feat(api): add endpoint"
-gt submit --stack --publish
+gt submit --stack --publish --ai
 
 # Agent 2 — in .worktrees/task-ui/
 cd .worktrees/task-ui
 # implement UI changes...
 mix precommit
 gt create -am "feat(web): update landing page"
-gt submit --stack --publish
+gt submit --stack --publish --ai
 ```
 
 ### After Parallel Work

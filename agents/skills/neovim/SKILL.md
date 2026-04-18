@@ -315,6 +315,63 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 ```
 
+## Testing Neovim Configuration
+
+Use `nvim --headless` to test config changes without a running editor.
+
+### Config Location
+
+The chezmoi source config is at:
+`/home/joba/.local/share/chezmoi/private_dot_config/nvim/`
+
+### Basic Config Load Test
+
+```bash
+nvim --headless -u /home/joba/.local/share/chezmoi/private_dot_config/nvim/init.lua \
+  -c "lua print('ok')" -c "qa!" 2>&1
+```
+
+### Test Lua Code in Context
+
+Open a file, move the cursor, and run lua:
+
+```bash
+nvim --headless -u /home/joba/.local/share/chezmoi/private_dot_config/nvim/init.lua \
+  -c "edit /path/to/file.lua" \
+  -c "normal! 10G" \
+  -c "lua local result = some_function(); print(result)" \
+  -c "qa!" 2>&1
+```
+
+### Test Plugin APIs
+
+```bash
+nvim --headless -u /home/joba/.local/share/chezmoi/private_dot_config/nvim/init.lua \
+  -c "edit /path/to/file" \
+  -c "lua local ok, mod = pcall(require, 'plugin.module'); print(ok, mod)" \
+  -c "qa!" 2>&1
+```
+
+### Test Visual Mode / Selection
+
+```bash
+nvim --headless -u /home/joba/.local/share/chezmoi/private_dot_config/nvim/init.lua \
+  -c "edit /path/to/file" \
+  -c 'normal! 5GVjj"zy' \
+  -c "lua print(vim.fn.getreg('z'))" \
+  -c "qa!" 2>&1
+```
+
+### Guidelines
+
+- Always use `-u` to point at the chezmoi source config, not `~/.config/nvim`
+- Use `2>&1` to capture both stdout and stderr
+- Use `pcall` when testing plugin requires that may not be installed
+- Set a timeout (10-15s) on Bash calls — headless nvim can hang if a plugin
+  blocks
+- Chain `-c` commands for multi-step tests
+- Use `qa!` as the final command to exit cleanly
+
 ## Error Prevention
 
 **Common Issues:**

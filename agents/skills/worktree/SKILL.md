@@ -81,7 +81,7 @@ mix test         # Uses isolated test database
 
 ```bash
 # Use --publish to avoid draft mode in non-interactive (agent) contexts
-gt submit --stack --publish
+gt submit --stack --publish --ai
 ```
 
 Without `--publish`, non-interactive `gt submit` creates PRs in draft mode.
