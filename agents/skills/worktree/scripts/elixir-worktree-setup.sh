@@ -207,7 +207,7 @@ ELIXIR
   fi
 
   if [ "$repo_root" != "$worktree_path" ] && [ -d "$repo_root/envs" ]; then
-    for override in "$repo_root"/envs/*.overrides.env; do
+    for override in "$repo_root"/envs/.*.overrides.env; do
       [ -f "$override" ] || continue
       local basename
       basename="$(basename "$override")"
@@ -242,7 +242,18 @@ WORKTREE_MD
   if command -v claude >/dev/null 2>&1; then
     echo ""
     echo "Registering tidewave MCP server (port $port)..."
-    (cd "$worktree_path" && claude mcp add --transport http tidewave "http://localhost:${port}/tidewave/mcp" 2>/dev/null) || true
+    # Unset CLAUDECODE to avoid env var guard when called from within a Claude session
+    (cd "$worktree_path" && unset CLAUDECODE && claude mcp add --transport http --scope project tidewave "http://localhost:${port}/tidewave/mcp") || \
+      echo "  Warning: could not register tidewave MCP — register manually with: claude mcp add --transport http --scope project tidewave http://localhost:${port}/tidewave/mcp"
+    # Mark .mcp.json as assume-unchanged so the worktree-specific port doesn't show as dirty
+    git -C "$worktree_path" update-index --assume-unchanged .mcp.json 2>/dev/null || true
+  fi
+
+  # Initialize git submodules (worktrees don't auto-checkout submodules)
+  if [ -f "$worktree_path/.gitmodules" ]; then
+    echo ""
+    echo "Initializing git submodules..."
+    (cd "$worktree_path" && git submodule update --init --recursive)
   fi
 
   # Run deps.get + database setup
