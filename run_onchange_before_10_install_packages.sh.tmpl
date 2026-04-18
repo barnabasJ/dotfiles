@@ -1,28 +1,14 @@
 #!/bin/bash
-echo "Installing packages via asdf"
+echo "Installing asdf plugin dependencies"
 
 {{ range $key, $value := .packages.asdf -}}
-echo " "
-echo "====================================================="
-echo "          Installing {{ $key }} "
-echo "====================================================="
-echo " "
-echo "Installing asdf plugin {{ $key }}"
-asdf plugin add {{ $key }}
-
 {{if eq $.chezmoi.os "darwin" -}}
 {{ else }}
 {{ if eq $.chezmoi.osRelease.id "ubuntu" -}}
 {{ if index $value.dependencies "ubuntu" -}}
-echo "Installing dependencies"
+echo "Installing dependencies for {{ $key }}"
 sudo apt install -y {{ $value.dependencies.ubuntu }}
 {{ end -}}
 {{ end -}}
 {{ end -}}
-
-echo "Installing {{ $key }}:{{ $value.version }}"
-asdf install {{ $key }} {{ $value.version }}
-
-echo "Setting {{ $key }}:{{ $value.version }} as the global version"
-asdf set --home {{ $key }} {{ $value.version }}
 {{ end -}}

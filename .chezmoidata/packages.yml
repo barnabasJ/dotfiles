@@ -19,8 +19,10 @@ packages:
       dependencies: {}
     lua:
       version: 5.1.5
+      env:
+        ASDF_LUA_LUAROCKS_VERSION: "3.11.1"
       dependencies:
-        ubuntu: "build-essential"
+        ubuntu: "build-essential libreadline-dev"
     nodejs:
       version: 22.14.0
       dependencies: {}
@@ -54,6 +56,9 @@ packages:
       dependencies: {}
     postgres:
       version: 16.8
+      dependencies: {}
+    rust:
+      version: 1.91.1
       dependencies: {}
     github-cli:
       version: 2.67.0
