@@ -1,0 +1,45 @@
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV HOME=/home/testuser
+ENV PATH="/home/testuser/.local/bin:/home/testuser/.asdf/shims:/home/testuser/.cargo/bin:/home/testuser/go/bin:${PATH}"
+
+# Install prerequisites
+RUN apt-get update && apt-get install -y \
+    curl git sudo locales ca-certificates unzip \
+    && locale-gen en_US.UTF-8 \
+    && useradd -m -s /bin/bash testuser \
+    && echo "testuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install BATS and helpers
+RUN git clone --depth 1 https://github.com/bats-core/bats-core.git /tmp/bats \
+    && /tmp/bats/install.sh /usr/local \
+    && rm -rf /tmp/bats \
+    && git clone --depth 1 https://github.com/bats-core/bats-support.git /usr/local/lib/bats-support \
+    && git clone --depth 1 https://github.com/bats-core/bats-assert.git /usr/local/lib/bats-assert \
+    && git clone --depth 1 https://github.com/bats-core/bats-file.git /usr/local/lib/bats-file
+
+USER testuser
+WORKDIR /home/testuser
+
+# Install chezmoi
+RUN sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"
+
+# Copy chezmoi source
+COPY --chown=testuser:testuser . /home/testuser/.local/share/chezmoi/
+
+# Provide chezmoi config (no bitwarden needed on Linux)
+RUN mkdir -p /home/testuser/.config/chezmoi \
+    && printf '[data]\n  podman = false\n' > /home/testuser/.config/chezmoi/chezmoi.toml
+
+# Refresh apt cache so install scripts can install dependencies
+RUN sudo apt-get update
+
+# Apply chezmoi (runs install scripts)
+RUN chezmoi apply --no-tty --force 2>&1 | tee /tmp/chezmoi-apply.log | tail -50
+
+# Copy test files
+COPY --chown=testuser:testuser test/*.bats /tests/
+
+CMD ["bats", "--tap", "/tests/"]
