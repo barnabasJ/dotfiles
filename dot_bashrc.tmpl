@@ -131,9 +131,12 @@ fi
 
 
 # asdf-vm
-export ASDF_DATA_DIR=/home/joba/.asdf
+export ASDF_DATA_DIR={{ .chezmoi.homeDir }}/.asdf
 export PATH="$ASDF_DATA_DIR/shims:$PATH"
 . <(asdf completion bash)
+
+# mise
+eval "$(mise activate bash)"
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
@@ -185,8 +188,8 @@ if [ -f $HOME/Apps/exercism/shell/exercism_completion.bash ]; then
 fi
 
 # nvim avante code ai
-# export ANTHROPIC_API_KEY="{{ (bitwarden "item" "avante key").login.password }}"
-# export TAVILY_API_KEY="{{ (bitwarden "item" "avante search key").login.password }}"
+{{/* export ANTHROPIC_API_KEY="{{ (bitwarden "item" "avante key").login.password }}" */}}
+{{/* export TAVILY_API_KEY="{{ (bitwarden "item" "avante search key").login.password }}" */}}
 
 # direnv
 
