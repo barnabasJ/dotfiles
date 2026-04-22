@@ -1,8 +1,9 @@
 ---
-name: work
+name: work-stacked
 description:
-  Execute work plans efficiently while maintaining quality and finishing
-  features
+  Execute a list of tasks as a stack of PRs using Graphite (`gt`). Each task
+  becomes one branch, one commit, one PR. Use when the project uses stacked
+  PRs via Graphite and you have multiple tasks to ship.
 ---
 
 # Work: Task Execution as Stacked PRs
