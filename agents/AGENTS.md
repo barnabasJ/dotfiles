@@ -15,6 +15,11 @@ implement a workaround, stop and investigate deeper.
 
 1. **Root cause > workarounds** - Always fix the real problem
 2. **Research before acting** - Understand before implementing
+3. **Always run tests** - After any code change, run the project's test
+   suite before reporting work as done. Compiling clean is not enough.
+   If a test fails, investigate whether it's caused by your change
+   (re-run with the same seed, run in isolation) before dismissing it
+   as flaky.
 
 ## Skills (Auto-loaded)
 
