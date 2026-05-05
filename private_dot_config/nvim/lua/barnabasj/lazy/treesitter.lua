@@ -105,8 +105,14 @@ return {
 	build = ":TSUpdate",
 	config = function()
 		local ts = require("nvim-treesitter")
-		-- README "Setup": calling setup is optional; defaults are fine.
-		ts.setup()
+		-- We MUST pass install_dir explicitly — `setup()` only prepends it
+		-- to `runtimepath` when given a value. Lazy.nvim's default
+		-- `performance.rtp.reset = true` strips `stdpath('data')/site` from
+		-- rtp, so without this prepend Neovim can't find installed parsers
+		-- or queries even though they're on disk. Symptom: a parser appears
+		-- in `:checkhealth nvim-treesitter` and `get_installed("parsers")`
+		-- but `vim.treesitter.start()` does nothing.
+		ts.setup({ install_dir = vim.fn.stdpath("data") .. "/site" })
 
 		-- README "Installation": parsers are installed explicitly via
 		-- `require('nvim-treesitter').install({...})`. There is no
