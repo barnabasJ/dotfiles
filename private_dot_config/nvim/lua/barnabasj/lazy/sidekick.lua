@@ -115,15 +115,16 @@ return {
 			"<leader>ai",
 			function()
 				local cli = require("sidekick.cli")
-				-- Leave visual mode first so '<,'> marks are updated before rendering
-				if vim.fn.mode():match("[vV\22]") then
-					vim.cmd("normal! \27")
-				end
-				-- Render context before vim.ui.input changes the buffer
+				-- Render context BEFORE leaving visual mode — sidekick's
+				-- {selection} requires being in visual mode (it exits and
+				-- restores via `gv` internally to read the '<,'> marks).
 				local pos = cli.render({ msg = "{position}" }) or ""
 				local sel = cli.render({ msg = "{selection}" })
 				if type(sel) ~= "string" then
 					sel = nil
+				end
+				if vim.fn.mode():match("[vV\22]") then
+					vim.cmd("normal! \27")
 				end
 				local ctx = sel and (pos .. "\n\n" .. sel) or pos
 				vim.ui.input({ prompt = "Ask: " }, function(input)
