@@ -511,5 +511,3 @@ complete -F _complete_alias dc
 complete -F _complete_alias gwtr
 complete -F _complete_alias gwtm
 complete -F _complete_alias gwtp
-complete -F _complete_alias gwtp
-complete -F _complete_alias gwtr
