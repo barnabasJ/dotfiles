@@ -59,6 +59,60 @@ find_project_root() {
     echo "$1"
 }
 
+# Function to find a Biome config by walking up from a directory
+find_biome_config() {
+    local dir="$1"
+    while [[ "$dir" != "/" ]]; do
+        for candidate in biome.json biome.jsonc .biome.json; do
+            if [[ -f "$dir/$candidate" ]]; then
+                echo "$dir/$candidate"
+                return 0
+            fi
+        done
+        dir=$(dirname "$dir")
+    done
+    return 1
+}
+
+# Function to find a runnable biome binary, walking up from a directory.
+# Prefers a project-local node_modules/.bin/biome (matches the project's pinned version).
+find_biome_binary() {
+    local dir="$1"
+    while [[ "$dir" != "/" ]]; do
+        if [[ -x "$dir/node_modules/.bin/biome" ]]; then
+            echo "$dir/node_modules/.bin/biome"
+            return 0
+        fi
+        dir=$(dirname "$dir")
+    done
+    if command_exists biome; then
+        command -v biome
+        return 0
+    fi
+    return 1
+}
+
+# Function to format JavaScript/TypeScript/JSON/CSS files with Biome
+format_with_biome() {
+    local file_path="$1"
+    local biome_bin
+
+    if ! biome_bin=$(find_biome_binary "$(dirname "$file_path")"); then
+        log_debug "Biome binary not found, skipping Biome formatting for: $file_path"
+        return 1
+    fi
+
+    log_info "Formatting with Biome: $file_path"
+
+    if timeout 30s "$biome_bin" format --write "$file_path" >/dev/null 2>&1; then
+        log_debug "Successfully formatted with Biome: $file_path"
+        return 0
+    else
+        log_error "Failed to format with Biome: $file_path"
+        return 1
+    fi
+}
+
 # Function to format JavaScript/TypeScript/Markdown files with Prettier
 format_with_prettier() {
     local file_path="$1"
@@ -150,7 +204,15 @@ format_file() {
     
     # Format based on file extension
     case "$file_extension" in
-        js|jsx|ts|tsx|md|mdx|json|css|scss|less|html|yaml|yml)
+        js|jsx|ts|tsx|json|jsonc|css)
+            # Prefer Biome when the project has a biome config; otherwise fall back to Prettier.
+            if find_biome_config "$(dirname "$file_path")" >/dev/null; then
+                format_with_biome "$file_path" || format_with_prettier "$file_path"
+            else
+                format_with_prettier "$file_path"
+            fi
+            ;;
+        md|mdx|scss|less|html|yaml|yml)
             format_with_prettier "$file_path"
             ;;
         ex|exs)
