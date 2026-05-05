@@ -1,0 +1,19 @@
+{{ if or (eq .chezmoi.os "darwin") (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu")) -}}
+#!/bin/bash
+
+set -e
+
+if [ ! -f "$HOME/.local/bin/mise" ]; then
+  echo "Installing mise..."
+  if ! command -v curl &>/dev/null; then
+    echo "Error: curl is required but not installed."
+    exit 1
+  fi
+  curl -fsSL https://mise.run | sh
+  echo "Successfully installed mise to ~/.local/bin/mise"
+else
+  echo "mise already installed"
+fi
+{{ else -}}
+echo "Unsupported OS: {{ .chezmoi.os }}"
+{{ end -}}

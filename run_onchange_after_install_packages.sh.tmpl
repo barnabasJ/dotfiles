@@ -1,23 +1,34 @@
 #!/bin/bash
-echo "Installing packages via asdf"
+set -e
+echo "Installing packages via mise"
 
-{{ range $key, $value := .packages.asdf -}}
-echo " "
-echo "====================================================="
-echo "          Installing {{ $key }} "
-echo "====================================================="
-echo " "
-echo "Installing asdf plugin {{ $key }}"
-asdf plugin add {{ $key }}
+export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"
 
-{{ if index $value "env" -}}
-{{ range $envKey, $envVal := $value.env -}}
-export {{ $envKey }}={{ $envVal }}
-{{ end -}}
-{{ end -}}
-echo "Installing {{ $key }}:{{ $value.version }}"
-asdf install {{ $key }} {{ $value.version }}
+mkdir -p "$HOME/.config/mise"
 
-echo "Setting {{ $key }}:{{ $value.version }} as the global version"
-asdf set --home {{ $key }} {{ $value.version }}
-{{ end -}}
+cat > "$HOME/.config/mise/config.toml" <<'EOF'
+[settings]
+paranoid = true
+
+[settings.go]
+default_packages_file = "~/.default-golang-pkgs"
+
+[env]
+{{- range $key, $value := .packages.mise }}
+{{- if index $value "env" }}
+{{- range $envKey, $envVal := $value.env }}
+{{ $envKey }} = "{{ $envVal }}"
+{{- end }}
+{{- end }}
+{{- end }}
+
+[tools]
+{{- range $key, $value := .packages.mise }}
+{{ $key }} = "{{ $value.version }}"
+{{- end }}
+{{- range $key, $value := .packages.cargo }}
+"cargo:{{ $key }}" = "{{ $value.version }}"
+{{- end }}
+EOF
+
+mise install

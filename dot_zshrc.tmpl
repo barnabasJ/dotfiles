@@ -4,8 +4,10 @@
 # user only bin
 export PATH="$HOME/.local/bin:$PATH"
 
-# asdf
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+# mise
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -72,14 +74,14 @@ ZSH_THEME="agnoster"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # fzf base for oh-my-zsh fzf plugin
-export FZF_BASE=$(asdf where fzf)
+export FZF_BASE=$(mise where fzf 2>/dev/null)
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git asdf chezmoi fzf)
+plugins=(git chezmoi fzf)
 
 source $ZSH/oh-my-zsh.sh
 

@@ -1,7 +1,7 @@
 packages:
-  asdf:
+  mise:
     neovim:
-      version: 0.11.1
+      version: 0.12.2
       dependencies: {}
     erlang:
       version: 27.2
@@ -27,7 +27,7 @@ packages:
       version: 22.14.0
       dependencies: {}
     python:
-      version: 3.11.10
+      version: 3.11.13
       dependencies:
         ubuntu:
           "build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev
@@ -62,4 +62,8 @@ packages:
       dependencies: {}
     github-cli:
       version: 2.67.0
+      dependencies: {}
+  cargo:
+    starship:
+      version: latest
       dependencies: {}

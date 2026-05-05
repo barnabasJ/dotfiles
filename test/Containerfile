@@ -2,13 +2,14 @@ FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV HOME=/home/testuser
-ENV PATH="/home/testuser/.local/bin:/home/testuser/.asdf/shims:/home/testuser/.cargo/bin:/home/testuser/go/bin:${PATH}"
+ENV PATH="/home/testuser/.local/bin:/home/testuser/.local/share/mise/shims:/home/testuser/.cargo/bin:/home/testuser/go/bin:${PATH}"
 
 # Install prerequisites
 RUN apt-get update && apt-get install -y \
     curl git sudo locales ca-certificates unzip \
     && locale-gen en_US.UTF-8 \
-    && useradd -m -s /bin/bash testuser \
+    && (userdel -r ubuntu 2>/dev/null || true) \
+    && useradd -m -s /bin/bash -u 1000 testuser \
     && echo "testuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
     && rm -rf /var/lib/apt/lists/*
 
@@ -37,7 +38,15 @@ RUN mkdir -p /home/testuser/.config/chezmoi \
 RUN sudo apt-get update
 
 # Apply chezmoi (runs install scripts)
-RUN chezmoi apply --no-tty --force 2>&1 | tee /tmp/chezmoi-apply.log | tail -50
+# Mount GITHUB_TOKEN as a secret to avoid GitHub API rate limits during mise installs
+RUN --mount=type=secret,id=gh_token,uid=1000,mode=0400,required=false \
+    if [ -s /run/secrets/gh_token ]; then \
+      echo ">>> GitHub token loaded from build secret"; \
+      export GITHUB_TOKEN="$(cat /run/secrets/gh_token)"; \
+    else \
+      echo ">>> no GitHub token; running anonymous"; \
+    fi && \
+    chezmoi apply --no-tty --force 2>&1 | tee /tmp/chezmoi-apply.log | tail -50
 
 # Copy test files
 COPY --chown=testuser:testuser test/*.bats /tests/

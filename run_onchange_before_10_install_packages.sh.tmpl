@@ -1,7 +1,7 @@
 #!/bin/bash
-echo "Installing asdf plugin dependencies"
+echo "Installing package build dependencies"
 
-{{ range $key, $value := .packages.asdf -}}
+{{ range $key, $value := .packages.mise -}}
 {{if eq $.chezmoi.os "darwin" -}}
 {{ else }}
 {{ if eq $.chezmoi.osRelease.id "ubuntu" -}}

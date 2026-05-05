@@ -13,8 +13,8 @@ setup() {
   assert_success
 }
 
-@test "bashrc configures asdf PATH" {
-  run grep -q 'ASDF_DATA_DIR' "$HOME/.bashrc"
+@test "bashrc activates mise" {
+  run grep -q 'mise activate bash' "$HOME/.bashrc"
   assert_success
 }
 

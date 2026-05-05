@@ -82,10 +82,6 @@ setup() {
   assert_file_exists "$HOME/.default-python-packages"
 }
 
-@test ".default-cargo-crates exists" {
-  assert_file_exists "$HOME/.default-cargo-crates"
-}
-
 @test ".default-golang-pkgs exists" {
   assert_file_exists "$HOME/.default-golang-pkgs"
 }
@@ -96,12 +92,20 @@ setup() {
   assert_dir_exists "$HOME/.tmux/plugins/tpm"
 }
 
-@test "asdf data directory exists" {
-  assert_dir_exists "$HOME/.asdf"
+@test "mise data directory exists" {
+  assert_dir_exists "$HOME/.local/share/mise"
 }
 
-@test "asdf binary exists and is executable" {
-  assert_file_executable "$HOME/.local/bin/asdf"
+@test "mise binary exists and is executable" {
+  assert_file_executable "$HOME/.local/bin/mise"
+}
+
+@test "asdf binary is not installed" {
+  assert_file_not_exists "$HOME/.local/bin/asdf"
+}
+
+@test "asdf data directory is not present" {
+  assert_dir_not_exists "$HOME/.asdf"
 }
 
 # --- Template rendering (Linux should NOT have macOS files) ---

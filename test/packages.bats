@@ -5,7 +5,7 @@ setup() {
   load '/usr/local/lib/bats-assert/load'
 }
 
-# --- asdf-managed packages ---
+# --- mise-managed packages ---
 
 @test "neovim is installed at correct version" {
   run nvim --version
@@ -40,7 +40,7 @@ setup() {
 @test "python is installed at correct version" {
   run python3 --version
   assert_success
-  assert_output --partial "3.11.10"
+  assert_output --partial "3.11.13"
 }
 
 @test "lua is installed" {

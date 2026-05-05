@@ -130,12 +130,8 @@ if [ -f ~/.bash_files/functions ]; then
 fi
 
 
-# asdf-vm
-export ASDF_DATA_DIR={{ .chezmoi.homeDir }}/.asdf
-export PATH="$ASDF_DATA_DIR/shims:$PATH"
-. <(asdf completion bash)
-
 # mise
+export PATH="$HOME/.local/bin:$PATH"
 if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate bash)"
 fi
@@ -155,12 +151,10 @@ eval "$(fzf --bash)"
 source <(flyctl completion bash)
 
 # Android Stuff
-
-export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+#
+# ANDROID_HOME, ANDROID_SDK_ROOT, and the cmdline-tools bin dir are exported by
+# the mise `android-sdk` plugin. Per-project paths (platform-tools, emulator,
+# NDK) are added via project-level mise.toml.
 
 # Docker routing
 
