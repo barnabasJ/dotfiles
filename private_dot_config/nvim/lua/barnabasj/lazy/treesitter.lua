@@ -86,7 +86,10 @@
 --
 -- ## Things we dropped from the old (master-branch) config
 --
---   - `auto_install = true` — no equivalent on main; install list is explicit.
+--   - `auto_install = true` — `main` removed the option. We re-implement it
+--     manually in the FileType autocmd below: if a parser isn't installed but
+--     IS in the nvim-treesitter parser registry, fire `ts.install({lang})`
+--     async and re-run vim.treesitter.start when it finishes.
 --   - `incremental_selection` (was `v` / `V`) — Nvim 0.12 ships built-in.
 --   - `additional_vim_regex_highlighting = { "ruby" }` — semantically a no-op
 --     on main: `vim.treesitter.start()` doesn't disable Vim regex syntax.
@@ -108,47 +111,92 @@ return {
 		-- README "Installation": parsers are installed explicitly via
 		-- `require('nvim-treesitter').install({...})`. There is no
 		-- `auto_install` / `ensure_installed` option anymore.
+		--
+		-- Eager-install everything we hit often. Less common langs are picked
+		-- up by the auto-install fallback in the FileType autocmd below, which
+		-- is what restores the old `auto_install = true` behavior we lost in
+		-- the master→main migration.
 		ts.install({
 			"bash",
 			"c",
+			"comment",
+			"css",
 			"diff",
+			"dockerfile",
 			"eex",
 			"elixir",
+			"gitcommit",
+			"gitignore",
+			"go",
 			"heex",
 			"html",
 			"javascript",
 			"jsdoc",
+			"json",
+			"jsonc",
 			"lua",
 			"luadoc",
 			"markdown",
 			"markdown_inline",
+			"python",
 			"query",
+			"regex",
 			"rust",
 			"sql",
+			"toml",
 			"typescript",
 			"vim",
 			"vimdoc",
-			"go",
+			"yaml",
 			"zig",
 		})
+
+		local function enable_for_buf(buf)
+			if not vim.api.nvim_buf_is_valid(buf) then
+				return
+			end
+			-- README "Highlighting": features are no longer auto-enabled —
+			-- `vim.treesitter.start()` must be called per-buffer (see
+			-- `:h treesitter-highlight`).
+			if not pcall(vim.treesitter.start, buf) then
+				return
+			end
+			-- README "Indentation": opt-in via this exact indentexpr value
+			-- (note the embedded single quotes — they're required).
+			-- Skipping ruby preserves the previous `indent.disable = { "ruby" }`.
+			if vim.bo[buf].filetype ~= "ruby" then
+				vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+			end
+		end
+
+		-- Track in-flight installs so a flurry of FileType events for the
+		-- same lang doesn't fire N parallel installs.
+		local installing = {}
 
 		vim.api.nvim_create_autocmd("FileType", {
 			callback = function(args)
 				local buf = args.buf
 				local ft = vim.bo[buf].filetype
-				-- README "Highlighting": features are no longer auto-enabled —
-				-- `vim.treesitter.start()` must be called per-buffer (see
-				-- `:h treesitter-highlight`). pcall handles filetypes with no
-				-- installed parser.
-				if not pcall(vim.treesitter.start, buf) then
+				local lang = vim.treesitter.language.get_lang(ft) or ft
+
+				-- Fast path: parser already installed.
+				if vim.list_contains(require("nvim-treesitter.config").get_installed("parsers"), lang) then
+					enable_for_buf(buf)
 					return
 				end
-				-- README "Indentation": opt-in via this exact indentexpr value
-				-- (note the embedded single quotes — they're required).
-				-- Skipping ruby preserves the previous `disable = { "ruby" }`.
-				if ft ~= "ruby" then
-					vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
+				-- Auto-install fallback (replaces old `auto_install = true`).
+				-- Only install parsers nvim-treesitter actually knows about.
+				if installing[lang] or not require("nvim-treesitter.parsers")[lang] then
+					return
 				end
+				installing[lang] = true
+				ts.install({ lang }):await(function()
+					vim.schedule(function()
+						installing[lang] = nil
+						enable_for_buf(buf)
+					end)
+				end)
 			end,
 		})
 	end,
