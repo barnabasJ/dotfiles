@@ -4,6 +4,16 @@ return {
 	opts = {},
 	keys = {
 		{
+			"<tab>",
+			function()
+				if not require("sidekick").nes_jump_or_apply() then
+					return "<tab>"
+				end
+			end,
+			expr = true,
+			desc = "Goto/Apply Next Edit Suggestion",
+		},
+		{
 			"<leader>aa",
 			function()
 				require("sidekick.cli").toggle()
@@ -115,23 +125,26 @@ return {
 			"<leader>ai",
 			function()
 				local cli = require("sidekick.cli")
-				-- Render context BEFORE leaving visual mode — sidekick's
-				-- {selection} requires being in visual mode (it exits and
-				-- restores via `gv` internally to read the '<,'> marks).
-				local pos = cli.render({ msg = "{position}" }) or ""
-				local sel = cli.render({ msg = "{selection}" })
-				if type(sel) ~= "string" then
-					sel = nil
-				end
-				if vim.fn.mode():match("[vV\22]") then
+				local Context = require("sidekick.cli.context")
+				local Text = require("sidekick.text")
+				-- Render placeholders ONCE while still in visual mode so
+				-- `{selection}` can read '<,'> marks. Then send via `text`
+				-- to skip cli.send's render pass — otherwise braces inside
+				-- the selected code (e.g. `{ ... }`) would be re-interpreted
+				-- as `%b{}` placeholders, fail lookup, and the whole message
+				-- gets dropped with "Nothing to send".
+				local in_visual = vim.fn.mode():match("[vV\22]") ~= nil
+				local template = in_visual and "{position}\n\n{selection}" or "{position}"
+				local rendered = Context.get():render({ msg = template }) or ""
+				if in_visual then
 					vim.cmd("normal! \27")
 				end
-				local ctx = sel and (pos .. "\n\n" .. sel) or pos
 				vim.ui.input({ prompt = "Ask: " }, function(input)
-					if input and input ~= "" then
-						local msg = ctx .. "\n\n" .. input
-						cli.send({ msg = msg, submit = true })
+					if not input or input == "" then
+						return
 					end
+					local final = rendered .. "\n\n" .. input
+					cli.send({ text = Text.to_text(final), submit = true })
 				end)
 			end,
 			mode = { "n", "x" },
