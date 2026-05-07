@@ -44,7 +44,6 @@ return {
 			sqlls = {},
 			bashls = {},
 			yamlls = {},
-			elixirls = {},
 			expert = {},
 			zls = {},
 			lua_ls = {
