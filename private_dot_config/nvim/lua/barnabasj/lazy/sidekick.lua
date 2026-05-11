@@ -139,13 +139,58 @@ return {
 				if in_visual then
 					vim.cmd("normal! \27")
 				end
-				vim.ui.input({ prompt = "Ask: " }, function(input)
-					if not input or input == "" then
+
+				-- Floating prompt so we can distinguish <CR> (send + submit)
+				-- from <C-s> (queue without submitting), letting the user
+				-- stack multiple messages before the agent runs them.
+				local buf = vim.api.nvim_create_buf(false, true)
+				vim.bo[buf].buftype = "nofile"
+				vim.bo[buf].bufhidden = "wipe"
+
+				local width = math.min(80, math.max(40, math.floor(vim.o.columns * 0.6)))
+				local win = vim.api.nvim_open_win(buf, true, {
+					relative = "editor",
+					row = math.floor(vim.o.lines / 2) - 1,
+					col = math.floor((vim.o.columns - width) / 2),
+					width = width,
+					height = 1,
+					style = "minimal",
+					border = "rounded",
+					title = " Ask Sidekick — <CR> send · <C-s> queue · <Esc> cancel ",
+					title_pos = "center",
+				})
+
+				local function close()
+					if vim.api.nvim_win_is_valid(win) then
+						vim.api.nvim_win_close(win, true)
+					end
+					-- Mode is global in Neovim, so leaving the prompt while in
+					-- insert mode would carry insert mode into the underlying
+					-- buffer. Drop back to normal explicitly.
+					vim.cmd("stopinsert")
+				end
+
+				local function finish(submit)
+					local input = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
+					close()
+					if input == "" then
 						return
 					end
 					local final = rendered .. "\n\n" .. input
-					cli.send({ text = Text.to_text(final), submit = true })
-				end)
+					-- focus = false so we stay in the editor instead of being
+					-- pulled into the CLI terminal (which lands in terminal/insert).
+					cli.send({ text = Text.to_text(final), submit = submit, focus = false })
+				end
+
+				local map = function(mode, lhs, fn)
+					vim.keymap.set(mode, lhs, fn, { buffer = buf, nowait = true, silent = true })
+				end
+				map({ "i", "n" }, "<CR>", function() finish(true) end)
+				map({ "i", "n" }, "<C-s>", function() finish(false) end)
+				map({ "i", "n" }, "<Esc>", close)
+				map("n", "q", close)
+
+				vim.cmd("startinsert")
 			end,
 			mode = { "n", "x" },
 			desc = "Sidekick Ask with Context",
