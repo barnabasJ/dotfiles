@@ -139,7 +139,6 @@ return {
 			"javascript",
 			"jsdoc",
 			"json",
-			"jsonc",
 			"lua",
 			"luadoc",
 			"markdown",
