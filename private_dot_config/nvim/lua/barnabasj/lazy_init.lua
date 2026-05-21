@@ -18,6 +18,10 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	spec = "barnabasj.lazy",
 	change_detection = { notify = false },
+	-- Force lazy's bundled hererocks instead of any system luarocks. Avoids
+	-- LuaJIT/lua-5.1 ABI mismatches and PATH discovery failures when fetching
+	-- rocks declared by plugin rockspecs (e.g. `magick` for image.nvim).
+	rocks = { hererocks = true },
 }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the

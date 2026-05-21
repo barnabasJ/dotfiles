@@ -67,3 +67,7 @@ packages:
     starship:
       version: 1.25.1
       dependencies: {}
+  npm:
+    "@mermaid-js/mermaid-cli":
+      version: 11.15.0
+      dependencies: {}

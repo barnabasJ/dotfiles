@@ -29,6 +29,9 @@ default_packages_file = "~/.default-golang-pkgs"
 {{- range $key, $value := .packages.cargo }}
 "cargo:{{ $key }}" = "{{ $value.version }}"
 {{- end }}
+{{- range $key, $value := .packages.npm }}
+"npm:{{ $key }}" = "{{ $value.version }}"
+{{- end }}
 EOF
 
 mise install

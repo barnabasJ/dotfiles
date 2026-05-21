@@ -16,7 +16,24 @@ fi
 # bitwarden cli
 brew install bitwarden-cli
 
+# ImageMagick — runtime dep for image.nvim's `magick` luarock
+brew install imagemagick
+
 {{ else if (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu")) -}}
+
+# Print the apt commands to run by hand — chezmoi shouldn't be invoking sudo.
+# Each command is idempotent; re-running is safe. Only prints what's missing.
+
+MISSING=""
+dpkg -s imagemagick >/dev/null 2>&1 || MISSING="$MISSING imagemagick"
+dpkg -s libmagickwand-dev >/dev/null 2>&1 || MISSING="$MISSING libmagickwand-dev"
+if [ -n "$MISSING" ]; then
+  echo
+  echo "ACTION REQUIRED — install image.nvim runtime deps:"
+  echo "  sudo apt install -y$MISSING"
+  echo
+fi
+
 {{ else -}}
 echo "Unsupported OS: {{ .chezmoi.os }}"
 {{ end -}}
