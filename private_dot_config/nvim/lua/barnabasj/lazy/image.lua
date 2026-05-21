@@ -21,10 +21,16 @@ return {
 			html = { enabled = false },
 			css = { enabled = false },
 		},
-		max_width = 100,
-		max_height = 30,
-		max_width_window_percentage = nil,
-		max_height_window_percentage = 50,
+		-- Keep at 1.0 — anything above stretches the PNG across more cells
+		-- than its pixel count supports, and the terminal interpolates,
+		-- producing visible blur. For "bigger diagrams" we instead render
+		-- a bigger PNG via mmdc's `scale` in diagram.lua.
+		scale_factor = 1.0,
+		-- Ceilings only — the smaller of (natural × scale_factor) and these
+		-- wins. 80% of the window keeps full-screen diagrams from blowing
+		-- off the visible area.
+		max_width_window_percentage = 80,
+		max_height_window_percentage = 80,
 		window_overlap_clear_enabled = true,
 		editor_only_render_when_focused = true,
 		tmux_show_only_in_active_window = true,
