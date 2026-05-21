@@ -1,0 +1,15 @@
+[Unit]
+Description=Ghostty dropdown terminal (KWin script controls visibility)
+PartOf=graphical-session.target
+After=plasma-workspace.target
+
+[Service]
+# --gtk-single-instance=false → don't join Ghostty's packaged single-instance
+# daemon (app-com.mitchellh.ghostty.service). Otherwise our --class= is
+# silently dropped because the daemon's app-id wins.
+ExecStart=/usr/bin/ghostty --gtk-single-instance=false --class=com.mitchellh.ghostty-dropdown --window-decoration=none
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=plasma-workspace.target

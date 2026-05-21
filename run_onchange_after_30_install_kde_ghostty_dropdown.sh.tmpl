@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# Wire up the KWin-script-based Ghostty drop-down:
+#   1. Enable our KWin script (dot_local/share/kwin/scripts/ghostty-dropdown).
+#      The script registers Alt+T inside KWin itself — works on X11 and
+#      Wayland, Plasma 5 and 6.
+#   2. Demote Yakuake's Alt+T (to F12 only) so the two terminals don't
+#      compete for the same key.
+#   3. Clean up artefacts from earlier (xdotool/tdrop/desktop-launcher) versions
+#      of this setup: the [ghostty-dropdown] KWin rule and the
+#      [ghostty-dropdown.desktop] global-shortcut entry.
+#   4. Reload KWin and the global-shortcuts daemon.
+{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu") -}}
+set -e
+
+if ! command -v kwriteconfig5 >/dev/null 2>&1; then
+  echo "kwriteconfig5 not found — skipping KDE setup (install kconfig-bin)."
+  exit 0
+fi
+
+# --- Enable the KWin script ---
+# Plugins are gated by `<id>Enabled=true` in kwinrc's [Plugins] group.
+kwriteconfig5 --file kwinrc --group Plugins --key ghostty-dropdownEnabled true
+
+# --- Enable the systemd user service that keeps Ghostty running ---
+# Restart=always in the unit means "if you kill ghostty, it comes back".
+# That replaces the old autostart .desktop (less robust — wouldn't restart
+# on accidental exit).
+systemctl --user daemon-reload >/dev/null 2>&1 || true
+systemctl --user enable --now ghostty-dropdown.service >/dev/null 2>&1 || true
+
+# --- Yakuake: keep F12, drop Alt+T (so it doesn't fire alongside Ghostty) ---
+kwriteconfig5 --file kglobalshortcutsrc --group yakuake --key "toggle-window-state" "F12,F12,Open/Retract Yakuake"
+
+# --- Cleanup of earlier-iteration artefacts ---
+# The desktop-launcher-style binding (before we moved to a KWin script):
+kwriteconfig5 --file kglobalshortcutsrc --group "ghostty-dropdown.desktop" --key "_launch" ""
+kwriteconfig5 --file kglobalshortcutsrc --group "ghostty-dropdown.desktop" --key "_k_friendly_name" ""
+
+# The KWin window rule (we no longer need it; KWin script handles
+# everything). Drop the [ghostty-dropdown] section and any stale numeric
+# rules matching our wmclass, and re-derive [General] rules/count from
+# what's actually present.
+KRC=${XDG_CONFIG_HOME:-$HOME/.config}/kwinrulesrc
+if [ -f "$KRC" ]; then
+  awk -v cls="com.mitchellh.ghostty-dropdown" '
+    BEGIN { buf=""; section=""; drop=0 }
+    /^\[/ {
+      if (section != "" && drop == 0) printf "%s", buf
+      section = $0; buf = $0 ORS; drop = 0
+      if (section == "[ghostty-dropdown]") { drop = 1 }
+      else if (match(section, /^\[[0-9]+\]$/)) { candidate = 1 } else { candidate = 0 }
+      next
+    }
+    {
+      buf = buf $0 ORS
+      if (candidate && $0 == "wmclass=" cls) drop = 1
+    }
+    END { if (drop == 0) printf "%s", buf }
+  ' "$KRC" > "$KRC.tmp" && mv "$KRC.tmp" "$KRC"
+
+  # Re-derive the [General] rules list from the remaining sections.
+  REMAINING=$(awk '
+    /^\[/ && $0 !~ /^\[(General|\$Version)\]$/ { gsub(/[\[\]]/, ""); print }
+  ' "$KRC" | paste -sd,)
+  if [ -n "$REMAINING" ]; then
+    kwriteconfig5 --file kwinrulesrc --group General --key rules "$REMAINING"
+    kwriteconfig5 --file kwinrulesrc --group General --key count "$(echo "$REMAINING" | tr ',' '\n' | wc -l)"
+  else
+    kwriteconfig5 --file kwinrulesrc --group General --key rules ""
+    kwriteconfig5 --file kwinrulesrc --group General --key count 0
+  fi
+fi
+
+# --- Reload KWin (picks up script + drops the old rule) ---
+qdbus org.kde.KWin /KWin reconfigure 2>/dev/null || true
+
+# Restart kglobalaccel so the shortcut registered by the KWin script lands
+# without needing a logout. D-Bus name is org.kde.kglobalaccel (no trailing 5),
+# even though the binary is kglobalaccel5.
+if command -v kquitapp5 >/dev/null 2>&1; then
+  kquitapp5 kglobalaccel 2>/dev/null || true
+  sleep 0.5
+  (kglobalaccel5 >/dev/null 2>&1 &)
+fi
+
+echo "Ghostty drop-down KWin script enabled. Restart KWin or log out + in if Alt+T isn't responsive yet."
+{{ end -}}

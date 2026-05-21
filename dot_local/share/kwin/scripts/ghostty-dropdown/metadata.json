@@ -1,0 +1,14 @@
+{
+  "KPackageStructure": "KWin/Script",
+  "KPlugin": {
+    "Authors": [{ "Name": "Barnabas Jovanovics" }],
+    "Description": "Toggle Ghostty drop-down terminal with Alt+T",
+    "EnabledByDefault": true,
+    "Id": "ghostty-dropdown",
+    "License": "MIT",
+    "Name": "Ghostty Dropdown Toggle",
+    "Version": "1.0"
+  },
+  "X-Plasma-API": "javascript",
+  "X-Plasma-MainScript": "code/main.js"
+}

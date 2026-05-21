@@ -1,0 +1,14 @@
+# Ghostty configuration.
+# Full reference: https://ghostty.org/docs/config
+
+# Match the Catppuccin Mocha palette we used in Konsole/Yakuake. Ghostty
+# ships the theme — see `ghostty +list-themes`.
+theme = Catppuccin Mocha
+
+# Semi-transparent background, matching the Yakuake feel. Tweak between
+# 0.0 (fully transparent) and 1.0 (opaque). 0.85 is a sane default.
+background-opacity = 0.85
+# Optional: blur whatever is behind the window. KWin honours this on X11
+# with compositing enabled; on Wayland it requires the kwin-blur protocol
+# extension (present in Plasma 5.27+).
+background-blur = false

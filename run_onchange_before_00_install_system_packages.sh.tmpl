@@ -34,6 +34,15 @@ if [ -n "$MISSING" ]; then
   echo
 fi
 
+if ! grep -rq "mkasberg/ghostty-ubuntu" /etc/apt/sources.list.d/ 2>/dev/null; then
+  echo
+  echo "ACTION REQUIRED — add Ghostty PPA (no official Ubuntu package exists;"
+  echo "mkasberg's community PPA is the canonical path):"
+  echo "  sudo add-apt-repository -y ppa:mkasberg/ghostty-ubuntu"
+  echo "  sudo apt install -y ghostty"
+  echo
+fi
+
 {{ else -}}
 echo "Unsupported OS: {{ .chezmoi.os }}"
 {{ end -}}
