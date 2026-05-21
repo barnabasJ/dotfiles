@@ -65,5 +65,5 @@ packages:
       dependencies: {}
   cargo:
     starship:
-      version: latest
+      version: 1.25.1
       dependencies: {}
