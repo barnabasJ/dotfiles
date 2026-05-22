@@ -67,3 +67,17 @@ setup() {
   assert_success
   assert_output --partial "ok"
 }
+
+# --- tmux: passthrough for terminal graphics ---
+
+@test "tmux.conf allows APC/DCS passthrough (image.nvim graphics)" {
+  run grep -E '^set -g allow-passthrough on' "$HOME/.tmux.conf"
+  assert_success
+}
+
+# --- nvim: catppuccin transparent background ---
+
+@test "nvim catppuccin enables transparent_background" {
+  run grep -E 'transparent_background = true' "$HOME/.config/nvim/lua/barnabasj/lazy/colors.lua"
+  assert_success
+}

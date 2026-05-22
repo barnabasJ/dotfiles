@@ -64,6 +64,61 @@ setup() {
   assert_output --partial "WantedBy=default.target"
 }
 
+# --- Ghostty drop-down terminal ---
+
+@test "ghostty config exists" {
+  assert_file_exists "$HOME/.config/ghostty/config"
+}
+
+@test "ghostty config sets Catppuccin Mocha theme" {
+  run cat "$HOME/.config/ghostty/config"
+  assert_output --partial "theme = Catppuccin Mocha"
+}
+
+@test "ghostty-dropdown systemd service exists" {
+  assert_file_exists "$HOME/.config/systemd/user/ghostty-dropdown.service"
+}
+
+@test "ghostty-dropdown service is configured to restart" {
+  run cat "$HOME/.config/systemd/user/ghostty-dropdown.service"
+  assert_output --partial "Restart=always"
+  assert_output --partial "ghostty-dropdown"
+}
+
+@test "KWin script main.js exists" {
+  assert_file_exists "$HOME/.local/share/kwin/scripts/ghostty-dropdown/contents/code/main.js"
+}
+
+@test "KWin script metadata.json exists" {
+  assert_file_exists "$HOME/.local/share/kwin/scripts/ghostty-dropdown/metadata.json"
+}
+
+@test "KWin script registers Alt+T shortcut" {
+  run cat "$HOME/.local/share/kwin/scripts/ghostty-dropdown/contents/code/main.js"
+  assert_output --partial "registerShortcut"
+  assert_output --partial "Alt+T"
+}
+
+# --- nvim markdown rendering ---
+
+@test "render-markdown.nvim plugin file exists" {
+  assert_file_exists "$HOME/.config/nvim/lua/barnabasj/lazy/render-markdown.lua"
+}
+
+@test "image.nvim plugin file exists" {
+  assert_file_exists "$HOME/.config/nvim/lua/barnabasj/lazy/image.lua"
+}
+
+@test "diagram.nvim plugin file exists" {
+  assert_file_exists "$HOME/.config/nvim/lua/barnabasj/lazy/diagram.lua"
+}
+
+@test "diagram.nvim passes scale via cli_args to mmdc" {
+  run cat "$HOME/.config/nvim/lua/barnabasj/lazy/diagram.lua"
+  assert_output --partial 'cli_args'
+  assert_output --partial '"-s"'
+}
+
 @test "environment.d ssh_auth_socket.conf exists" {
   assert_file_exists "$HOME/.config/environment.d/ssh_auth_socket.conf"
 }

@@ -10,7 +10,7 @@ setup() {
 @test "neovim is installed at correct version" {
   run nvim --version
   assert_success
-  assert_line --index 0 --partial "NVIM v0.11.1"
+  assert_line --index 0 --partial "NVIM v0.12.2"
 }
 
 @test "erlang is installed" {
@@ -100,6 +100,12 @@ setup() {
 @test "prettier is installed" {
   run prettier --version
   assert_success
+}
+
+@test "mermaid-cli (mmdc) is installed at correct version" {
+  run mmdc --version
+  assert_success
+  assert_output --partial "11.15.0"
 }
 
 # --- pip packages ---
