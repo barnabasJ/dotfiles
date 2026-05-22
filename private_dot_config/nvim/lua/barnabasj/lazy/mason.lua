@@ -46,6 +46,10 @@ return {
 			yamlls = {},
 			expert = {},
 			zls = {},
+			-- Markdown LSP: gd jumps to [text](other.md) and #heading anchors,
+			-- completion for link targets, document outline. Pairs with the
+			-- existing LspAttach gd/gr/K maps in lsp.lua.
+			marksman = {},
 			lua_ls = {
 				-- cmd = {...},
 				-- filetypes = { ...},
