@@ -49,6 +49,33 @@ return { -- Autoformat
 					return { "-l", "postgresql" } -- Replace "postgresql" with your desired SQL dialect
 				end,
 			},
+			-- Run the project's own `mix format` over stdin. Because it reads
+			-- the project's .formatter.exs, this also runs the
+			-- Phoenix.LiveView.HTMLFormatter plugin and — on LiveView
+			-- 1.2.0-rc.0+ — its TagFormatter behaviour, which is what formats
+			-- the JS/CSS inside colocated <script>/<style> tags (via prettier)
+			-- in ~H sigils. `mix format` is a compile-time pass, so it formats
+			-- that content regardless of the editor's treesitter/LSP setup.
+			--
+			-- `--stdin-filename` is required so mix picks the right formatter
+			-- by extension (.heex -> heex plugin; without it stdin is assumed
+			-- to be .exs). `require_cwd` keeps it from erroring on stray .ex
+			-- files outside a mix project — conform then LSP-formats instead.
+			--
+			-- cwd is a function (not `require("conform.util").root_file(...)`)
+			-- because the spec table is evaluated before conform.nvim loads, so
+			-- requiring it here at module-load time fails.
+			mix_format = {
+				command = "mix",
+				args = function(_, ctx)
+					return { "format", "--stdin-filename", ctx.filename, "-" }
+				end,
+				stdin = true,
+				cwd = function(_, ctx)
+					return vim.fs.root(ctx.dirname, { "mix.exs", ".formatter.exs" })
+				end,
+				require_cwd = true,
+			},
 		},
 		notify_on_error = false,
 		format_on_save = function(bufnr)
@@ -59,14 +86,18 @@ return { -- Autoformat
 			-- have a well standardized coding style. You can add additional
 			-- languages here or re-enable it for the disabled ones.
 			local disable_filetypes = { c = true, cpp = true }
+			local ft = vim.bo[bufnr].filetype
 			local lsp_format_opt
-			if disable_filetypes[vim.bo[bufnr].filetype] then
+			if disable_filetypes[ft] then
 				lsp_format_opt = "never"
 			else
 				lsp_format_opt = "fallback"
 			end
+			-- `mix format` cold-starts the BEAM (~1-2s), so the default 500ms
+			-- would time out and silently skip on save. Give Elixir/HEEx room.
+			local timeout = (ft == "elixir" or ft == "heex") and 3000 or 500
 			return {
-				timeout_ms = 500,
+				timeout_ms = timeout,
 				lsp_format = lsp_format_opt,
 			}
 		end,
@@ -75,6 +106,10 @@ return { -- Autoformat
 			-- python = { "isort", "black" },
 			--
 			-- You can use 'stop_after_first' to run the first available formatter from the list
+			-- Elixir/HEEx go through `mix format` so colocated <script>/<style>
+			-- contents get formatted by the LiveView HTMLFormatter TagFormatter.
+			elixir = { "mix_format" },
+			heex = { "mix_format" },
 			html = { "prettier" },
 			javascript = { "prettier" },
 			typescript = { "prettier" },
