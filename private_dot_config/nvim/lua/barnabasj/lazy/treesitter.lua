@@ -156,6 +156,66 @@ return {
 			"zig",
 		})
 
+		-- ----------------------------------------------------------------
+		-- Patched heex parser for colocated JS/CSS (LiveView colocated hooks).
+		-- Our fork (barnabasJ/tree-sitter-heex) adds a `raw_text` node for the
+		-- body of <script>/<style> elements, so JavaScript/CSS can be injected
+		-- there — the stock grammar shreds them ({ becomes interpolation, <
+		-- becomes a tag). Built by run_onchange_after_40_build_heex_parser.sh.
+		--
+		-- The FIRST `language.add` for a language wins, so we must register our
+		-- parser before nvim-treesitter starts heex (this runs at startup,
+		-- before any FileType handler). Guarded: if the parser hasn't been
+		-- built we keep the stock parser and stock injections — nothing breaks.
+		-- ----------------------------------------------------------------
+		local heex_so = vim.fn.stdpath("data") .. "/heex-fork/parser/heex.so"
+		if (vim.uv or vim.loop).fs_stat(heex_so) and pcall(vim.treesitter.language.add, "heex", { path = heex_so }) then
+			-- query.set replaces the whole injections query, so we inline
+			-- nvim-treesitter's heex base verbatim and then add script/style.
+			-- Setting it at runtime (not as an after/queries file) keeps the
+			-- raw_text reference from erroring when the stock parser is active.
+			-- If the upstream base query changes, refresh this copy.
+			vim.treesitter.query.set(
+				"heex",
+				"injections",
+				[==[
+; --- nvim-treesitter heex base (verbatim) ---
+(directive
+  [
+    (partial_expression_value)
+    (ending_expression_value)
+  ] @injection.content
+  (#set! injection.language "elixir")
+  (#set! injection.include-children)
+  (#set! injection.combined))
+
+((directive
+  (expression_value) @injection.content)
+  (#set! injection.language "elixir"))
+
+(expression
+  (expression_value) @injection.content
+  (#set! injection.language "elixir"))
+
+((comment) @injection.content
+  (#set! injection.language "comment"))
+
+; --- colocated <script>/<style> bodies (our raw_text node) ---
+((tag
+   (start_tag (tag_name) @_tag)
+   (raw_text) @injection.content)
+ (#eq? @_tag "script")
+ (#set! injection.language "javascript"))
+
+((tag
+   (start_tag (tag_name) @_tag)
+   (raw_text) @injection.content)
+ (#eq? @_tag "style")
+ (#set! injection.language "css"))
+]==]
+			)
+		end
+
 		local function enable_for_buf(buf)
 			if not vim.api.nvim_buf_is_valid(buf) then
 				return
