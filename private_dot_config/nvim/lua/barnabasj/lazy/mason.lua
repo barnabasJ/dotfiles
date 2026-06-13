@@ -39,6 +39,32 @@ return {
 
 			efm = {},
 			gopls = {},
+			-- JS language server. Attaches to real .js/.ts files and to otter's
+			-- hidden buffers for colocated hooks (see otter.lua). Bare package
+			-- imports in a hook need a jsconfig.json paths shim in the project
+			-- (assets/node_modules) to resolve — see repo notes.
+			ts_ls = {},
+			-- General CSS language server (properties, values, at-rules,
+			-- same-file variables). Without this, the only CSS server is the
+			-- narrow css_variables below, so inside a colocated <style> block
+			-- you'd get no CSS completion and Elixir (expert) would fill in.
+			cssls = {},
+			-- CSS custom-property (variable) completion across the workspace.
+			-- Complements cssls: it indexes files via lookupFiles, so `var(--…)`
+			-- resolves to variables defined in other files (e.g. assets/app.css)
+			-- even inside the hidden otter buffer.
+			css_variables = {
+				settings = {
+					cssVariables = {
+						lookupFiles = {
+							"**/*.css",
+							"**/*.scss",
+							"**/*.less",
+							"assets/**/*.css",
+						},
+					},
+				},
+			},
 			-- ruby_lsp = {},
 			rust_analyzer = {},
 			sqlls = {},
