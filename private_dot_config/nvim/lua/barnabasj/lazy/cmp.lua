@@ -64,6 +64,31 @@ return {
 		sources = {
 			default = { "lsp", "path", "snippets", "buffer" },
 			providers = {
+				lsp = {
+					-- Rank real LSP completions above path/snippets/buffer
+					-- (blink defaults put path at +3, lsp at 0).
+					score_offset = 10,
+					-- All LSP clients funnel through this one source, but each
+					-- item keeps its `client_name`. Boost embedded CSS/JS (served
+					-- by otter-ls) so it ranks above Elixir's `expert` inside ~H
+					-- sigils. Tune per client here. (css_variables vs cssls can't
+					-- be split — both arrive merged under otter-ls.)
+					transform_items = function(_, items)
+						local boost = function(name)
+							if type(name) ~= "string" then
+								return 0
+							end
+							if name:match("^otter%-ls") then
+								return 5
+							end
+							return 0
+						end
+						for _, item in ipairs(items) do
+							item.score_offset = (item.score_offset or 0) + boost(item.client_name)
+						end
+						return items
+					end,
+				},
 				lazydev = {
 					name = "LazyDev",
 					module = "lazydev.integrations.blink",
