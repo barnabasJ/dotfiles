@@ -54,9 +54,6 @@ packages:
     fd:
       version: 10.2.0
       dependencies: {}
-    postgres:
-      version: 16.8
-      dependencies: {}
     rust:
       version: 1.91.1
       dependencies: {}
