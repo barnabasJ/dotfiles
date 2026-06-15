@@ -1,6 +1,23 @@
 return {
 	"3rd/image.nvim",
+	-- Load on markdown (inline images + mermaid via diagram.nvim) AND when an
+	-- image file is opened directly. image.nvim renders standalone images via a
+	-- BufWinEnter "hijack" autocmd (hijack_file_patterns), but that autocmd is
+	-- only registered when the plugin's setup() runs. With `ft = { "markdown" }`
+	-- alone, opening a *.png in a fresh session never loaded the plugin, so the
+	-- hijack never registered and the PNG showed as binary garbage — it only
+	-- "worked" if a markdown buffer had been opened earlier that session. Adding
+	-- BufReadPre on image patterns loads it before BufWinEnter fires, so directly
+	-- opened screenshots (e.g. logseq_mcp's e2e/QA PNGs) render reliably.
 	ft = { "markdown" },
+	event = {
+		"BufReadPre *.png",
+		"BufReadPre *.jpg",
+		"BufReadPre *.jpeg",
+		"BufReadPre *.gif",
+		"BufReadPre *.webp",
+		"BufReadPre *.avif",
+	},
 	opts = {
 		-- Ghostty implements the full Kitty graphics protocol (delete ops,
 		-- animations, unicode placeholders). Use it — faster, cleaner
