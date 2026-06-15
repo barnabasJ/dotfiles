@@ -75,6 +75,16 @@ setup() {
   assert_success
 }
 
+@test "tmux.conf disables visual-activity (image.nvim active-window clearing)" {
+  run grep -E '^set -g visual-activity off' "$HOME/.tmux.conf"
+  assert_success
+}
+
+@test "tmux.conf enables focus-events (image.nvim focus hide/show)" {
+  run grep -E '^set(-option)? -g focus-events on' "$HOME/.tmux.conf"
+  assert_success
+}
+
 # --- nvim: catppuccin transparent background ---
 
 @test "nvim catppuccin enables transparent_background" {
