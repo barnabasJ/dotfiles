@@ -52,4 +52,29 @@ return {
 		editor_only_render_when_focused = true,
 		tmux_show_only_in_active_window = true,
 	},
+	config = function(_, opts)
+		require("image").setup(opts)
+
+		-- Recovery for ghost/stale images. image.nvim clears on buffer/window/
+		-- tab leave and on FocusLost, but switching tmux SESSIONS doesn't
+		-- deliver a focus-out to this nvim, so a lingering image can survive
+		-- (upstream image.nvim #233 — no complete config fix). On the kitty
+		-- backend clear() issues real delete ops, so this reliably wipes any
+		-- leftover. Manual because there's no nvim event to hook for that case.
+		vim.api.nvim_create_user_command("ImageClear", function()
+			require("image").clear()
+		end, { desc = "Clear all rendered images (recover from ghost/stale images)" })
+
+		vim.keymap.set("n", "<leader>ic", "<cmd>ImageClear<cr>", { desc = "[I]mage: [C]lear ghosts" })
+
+		-- Optional aggressive auto-clear, left OFF on purpose: image.nvim already
+		-- clears a buffer's images on BufLeave/WinClosed/TabEnter, so this is
+		-- redundant for file switching AND it clears ALL images, which would wipe
+		-- diagrams still visible in other split windows (flicker/over-clear). It
+		-- also can't fix the real gap (tmux session switch fires no nvim event).
+		-- Enable only if you want every buffer/tab switch to wipe all images:
+		-- vim.api.nvim_create_autocmd({ "BufLeave", "TabLeave" }, {
+		-- 	callback = function() pcall(require("image").clear) end,
+		-- })
+	end,
 }
