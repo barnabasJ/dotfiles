@@ -234,3 +234,18 @@ alias twt='taskwarrior-tui --taskrc ~/.taskrc'
 ################################################################################
 
 alias cc='NO_LOGSEQ_INIT=1 claude'
+alias rc='CLAUDE_CONFIG_DIR=~/coinbits/.claude claude'
+alias ac='CLAUDE_CONFIG_DIR=~/alembic/.claude claude'
+
+################################################################################
+# opencode
+################################################################################
+
+# Auth is shared in ~/.local/share/opencode/auth.json, so each alias only picks
+# the model (provider/model). `oc` uses the default from ~/.config/opencode.
+alias oc='opencode'
+# codex sub — the openai oauth (ChatGPT/Codex subscription) is already logged in.
+# Swap to any openai/* model (e.g. gpt-5.5) as desired.
+alias occ='opencode --model openai/gpt-5.3-codex-spark'
+# z.ai GLM coding plan — one-time: `opencode auth login` -> "Z.AI Coding Plan".
+alias ocz='opencode --model zai-coding-plan/glm-5.2'
