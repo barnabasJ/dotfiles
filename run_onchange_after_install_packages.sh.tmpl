@@ -9,6 +9,7 @@ mkdir -p "$HOME/.config/mise"
 cat > "$HOME/.config/mise/config.toml" <<'EOF'
 [settings]
 paranoid = true
+lockfile = true
 
 [settings.go]
 default_packages_file = "~/.default-golang-pkgs"
@@ -24,7 +25,11 @@ default_packages_file = "~/.default-golang-pkgs"
 
 [tools]
 {{- range $key, $value := .packages.mise }}
+{{- if and (eq $.chezmoi.osRelease.id "nixos") (or (eq $key "neovim") (eq $key "direnv")) }}
+{{- /* Nix owns durable bootstrap executables on the workstation. */}}
+{{- else }}
 {{ $key }} = "{{ $value.version }}"
+{{- end }}
 {{- end }}
 {{- range $key, $value := .packages.cargo }}
 "cargo:{{ $key }}" = "{{ $value.version }}"

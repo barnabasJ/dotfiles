@@ -1,3 +1,24 @@
+{{- if eq .chezmoi.osRelease.id "nixos" }}
+# Writable workstation shell configuration. Nix supplies Zsh itself plus
+# completion, autosuggestions, and syntax highlighting; this file owns only
+# personal shell behavior and deliberately has no Oh My Zsh dependency.
+export PATH="$HOME/.local/bin:$PATH"
+
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
+if command -v direnv >/dev/null 2>&1; then
+  eval "$(direnv hook zsh)"
+fi
+
+[[ -r "$HOME/.aliases" ]] && source "$HOME/.aliases"
+export EDITOR=nvim
+export VISUAL=nvim
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory sharehistory hist_ignore_dups
+{{- else }}
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
@@ -118,3 +139,4 @@ fi
 # nvim avante code ai
 export export ANTHROPIC_API_KEY="{{ (bitwarden "item" "avante key").login.password }}"
 export export TAVALY_API_KEY="{{ (bitwarden "item" "avante search key").login.password }}"
+{{- end }}

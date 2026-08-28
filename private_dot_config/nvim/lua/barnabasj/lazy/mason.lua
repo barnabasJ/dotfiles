@@ -99,7 +99,8 @@ return {
 		--    :Mason
 		--
 		--  You can press `g?` for help in this menu.
-		require("mason").setup()
+		-- Project-local mise/Nix tools must win over Mason's editor-only tools.
+		require("mason").setup({ PATH = "append" })
 
 		-- You can add other tools here that you want Mason to install
 		-- for you, so that they are available from within Neovim.

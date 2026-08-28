@@ -5,7 +5,6 @@ notes/
 agents/
 test/
 Makefile
-.config/nvim/lazy-lock.json
 {{ if eq .chezmoi.os "darwin" }}
 .bash*
 Scripts/
@@ -14,6 +13,9 @@ Scripts/
 .config/environment.d
 .config/systemd
 .config/.kwalletrc
+{{ else if eq .chezmoi.osRelease.id "nixos" }}
+.zprofile
+.config/ghostty
 {{ else }}
 .zprofile
 .zshrc
