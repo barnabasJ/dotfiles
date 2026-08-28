@@ -245,7 +245,7 @@ alias ac='CLAUDE_CONFIG_DIR=~/alembic/.claude claude'
 # the model (provider/model). `oc` uses the default from ~/.config/opencode.
 alias oc='opencode'
 # codex sub — the openai oauth (ChatGPT/Codex subscription) is already logged in.
-# Swap to any openai/* model (e.g. gpt-5.5) as desired.
-alias occ='opencode --model openai/gpt-5.3-codex-spark'
+# gpt-5.5 matches Codex CLI's own default (gpt-5.4 is the fallback tier).
+alias occ='opencode --model openai/gpt-5.6-sol'
 # z.ai GLM coding plan — one-time: `opencode auth login` -> "Z.AI Coding Plan".
 alias ocz='opencode --model zai-coding-plan/glm-5.2'

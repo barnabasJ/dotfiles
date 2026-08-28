@@ -121,6 +121,9 @@ if [ -f ~/.bash_files/personal ]; then
   . ~/.bash_files/personal
 fi
 
+# Keep opencode local conversation data for later analysis.
+export OPENCODE_DISABLE_PRUNE=1
+
 if [ -f ~/.bash_completion ]; then
   . ~/.bash_completion
 fi
