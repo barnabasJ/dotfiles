@@ -53,4 +53,3 @@ function M.is_valid_window_number(key, max_num)
 end
 
 return M
-

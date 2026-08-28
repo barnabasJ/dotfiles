@@ -81,8 +81,11 @@ return {
 				local function reply()
 					if not replied then
 						replied = true
-						handler(nil, { isIncomplete = true, items = items },
-							{ bufnr = bufnr, method = method, params = params })
+						handler(
+							nil,
+							{ isIncomplete = true, items = items },
+							{ bufnr = bufnr, method = method, params = params }
+						)
 					end
 				end
 				if remaining == 0 then
