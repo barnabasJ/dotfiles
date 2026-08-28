@@ -1,8 +1,10 @@
 {
+  "cleanupPeriodDays": 9999999,
   "attribution": {
     "commit": "",
     "pr": ""
   },
+  "model": "opus[1m]",
   "hooks": {
     "PostToolUse": [
       {
@@ -15,33 +17,65 @@
         ]
       }
     ],
-    "Notification": [{
-      "hooks": [{
-        "type": "command",
-        {{- if eq .chezmoi.os "darwin" }}
-        "command": "afplay /System/Library/Sounds/Glass.aiff"
-        {{- else if eq .chezmoi.os "linux" }}
-        "command": "spd-say -t female1 \"Notification from $(tmux display-message -p '#S' 2>/dev/null || echo terminal)\""
-        {{- end }}
-      }]
-    }],
-    "Stop": [{
-      "hooks": [{
-        "type": "command",
-        {{- if eq .chezmoi.os "darwin" }}
-        "command": "afplay /System/Library/Sounds/Tink.aiff"
-        {{- else if eq .chezmoi.os "linux" }}
-        "command": "spd-say -t female1 \"Claude finished in $(tmux display-message -p '#S' 2>/dev/null || echo terminal)\""
-        {{- end }}
-      }]
-    }]
-  },
-  "feedbackSurveyState": {
-    "lastShownTime": 1754008701811
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            {{- if eq .chezmoi.os "darwin" }}
+            "command": "afplay /System/Library/Sounds/Glass.aiff"
+            {{- else if eq .chezmoi.os "linux" }}
+            "command": "spd-say -t female1 \"Notification from $(tmux display-message -p '#S' 2>/dev/null || echo terminal)\""
+            {{- end }}
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            {{- if eq .chezmoi.os "darwin" }}
+            "command": "afplay /System/Library/Sounds/Tink.aiff"
+            {{- else if eq .chezmoi.os "linux" }}
+            "command": "spd-say -t female1 \"Claude finished in $(tmux display-message -p '#S' 2>/dev/null || echo terminal)\""
+            {{- end }}
+          }
+        ]
+      }
+    ]
   },
   "statusLine": {
     "type": "command",
     "command": "printf '%s\\033[01;32m%s@%s\\033[00m:\\033[01;34m%s\\033[00m' \"${debian_chroot:+($debian_chroot)}\" \"$(whoami)\" \"$(hostname -s)\" \"$(pwd)\""
   },
-  "cleanupPeriodDays": 9999999
+  "enabledPlugins": {
+    "nix-and-nixos@dev-workflow-skills": true,
+    "dev-workflow@dev-workflow-skills": true,
+    "elixir-stack@dev-workflow-skills": true,
+    "web-platform@dev-workflow-skills": true,
+    "data-and-databases@dev-workflow-skills": true,
+    "llm-engineering@dev-workflow-skills": true,
+    "native-mobile@dev-workflow-skills": true,
+    "platform-and-infrastructure@dev-workflow-skills": true,
+    "security-engineering@dev-workflow-skills": true,
+    "algorithms-and-data-structures@dev-workflow-skills": true,
+    "applied-math@dev-workflow-skills": true,
+    "linux-sysadmin@dev-workflow-skills": true
+  },
+  "extraKnownMarketplaces": {
+    "dev-workflow-skills": {
+      "source": {
+        "source": "directory",
+        "path": "/home/joba/sandbox/claude-skills"
+      }
+    }
+  },
+  "effortLevel": "high",
+  "tui": "fullscreen",
+  "skipWorkflowUsageWarning": true,
+  "feedbackSurveyState": {
+    "lastShownTime": 1754008701811
+  }
 }
