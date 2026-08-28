@@ -561,6 +561,39 @@ local function await_pr_details(stack, async)
 	return changed
 end
 
+--- The leading path segments every branch in the stack shares. Whole stacks tend
+--- to sit under one prefix -- an author name, a feature slug -- and repeating it
+--- on every row costs the width that tells the branches apart. Only whole
+--- segments are dropped, so what is left still starts at a `/` boundary.
+---@return string
+function M.shared_prefix(branches)
+	if #branches < 2 then
+		return ""
+	end
+	local prefix = nil
+	for _, b in ipairs(branches) do
+		local segments = vim.split(b.name, "/", { plain = true })
+		table.remove(segments) -- never eat the part that names the branch
+		if not prefix then
+			prefix = segments
+		else
+			local shared = {}
+			for i, seg in ipairs(prefix) do
+				if segments[i] == seg then
+					shared[i] = seg
+				else
+					break
+				end
+			end
+			prefix = shared
+		end
+		if #prefix == 0 then
+			return ""
+		end
+	end
+	return table.concat(prefix, "/") .. "/"
+end
+
 --- Icon and highlight for a branch's PR state. Merged/queued/needs-rebase come
 --- straight from gh-stack; the rest is inferred from whether a PR exists at all.
 local function pr_icon(b)
@@ -597,8 +630,11 @@ local function format(item)
 		b.current and "SnacksPickerGitBranchCurrent" or "SnacksPickerTree",
 	}
 	ret[#ret + 1] = { " " }
+	-- The branch is the stable name for what this step of the stack is for; the
+	-- commit subject is whatever the last commit happened to say. Spend the width
+	-- on the former.
 	ret[#ret + 1] = {
-		a(b.name, 32, { truncate = true }),
+		a(item.short_name, 52, { truncate = true }),
 		b.current and "SnacksPickerGitBranchCurrent" or "SnacksPickerGitBranch",
 	}
 
@@ -615,7 +651,7 @@ local function format(item)
 	ret[#ret + 1] = { a("-" .. (b.removed or 0), 6), "SnacksPickerGitStatusDeleted" }
 	ret[#ret + 1] = { a(b.age or "", 5), "SnacksPickerGitDate" }
 	ret[#ret + 1] = { " " }
-	ret[#ret + 1] = { b.subject or "", "SnacksPickerGitMsg" }
+	ret[#ret + 1] = { a(b.subject or "", 40, { truncate = true }), "SnacksPickerGitMsg" }
 	return ret
 end
 
@@ -627,6 +663,8 @@ function M.pick()
 		return
 	end
 	enrich(stack)
+
+	local prefix = M.shared_prefix(stack.branches)
 
 	Snacks.picker({
 		-- An async finder rather than a plain item list, for two reasons: the
@@ -643,6 +681,7 @@ function M.pick()
 						cwd = stack.cwd,
 						position = i,
 						total = #stack.branches,
+						short_name = prefix ~= "" and b.name:sub(#prefix + 1) or b.name,
 						top = i == #stack.branches,
 						-- What the fuzzy matcher sees: branch name plus PR number and
 						-- title, so "42" or a word from the title both find the row.
@@ -662,11 +701,13 @@ function M.pick()
 		format = format,
 		title = (function()
 			local i = M.index(stack)
-			return ("Stack (%s) — %s · %s of %d"):format(
+			-- The prefix is named here because the rows no longer repeat it.
+			return ("Stack (%s) — %s · %s of %d%s"):format(
 				stack.source,
 				stack.trunk,
 				i and tostring(i) or "off-stack",
-				#stack.branches
+				#stack.branches,
+				prefix ~= "" and (" · " .. prefix) or ""
 			)
 		end)(),
 		-- The rows carry a lot of columns, so the list takes the full width and

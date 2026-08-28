@@ -244,6 +244,50 @@ describe("git_stack", function()
 		end)
 	end)
 
+	describe("branch name prefixes", function()
+		-- Stacks tend to sit under one prefix, and repeating it on every row costs
+		-- the width that actually tells the branches apart.
+		local function names_of(...)
+			return vim.tbl_map(function(n)
+				return { name = n }
+			end, { ... })
+		end
+
+		it("finds the leading segments every branch shares", function()
+			local prefix = stack.shared_prefix(names_of("me/eden-01-a", "me/eden-02-b", "me/eden-03-c"))
+
+			assert.are.equal("me/", prefix)
+		end)
+
+		it("keeps whole segments, so what is left starts at a boundary", function()
+			-- "feat/" is shared but "eden-0" is only a partial segment match.
+			local prefix = stack.shared_prefix(names_of("feat/eden-01", "feat/eden-02"))
+
+			assert.are.equal("feat/", prefix)
+		end)
+
+		it("strips nothing when the branches share no prefix", function()
+			assert.are.equal("", stack.shared_prefix(names_of("me/one", "you/two")))
+		end)
+
+		it("never eats the segment that names the branch", function()
+			-- Both sit at "me/eden/", and dropping that last shared segment would
+			-- leave two rows both reading "a" and "b".
+			local prefix = stack.shared_prefix(names_of("me/eden/a", "me/eden/b"))
+
+			assert.are.equal("me/eden/", prefix)
+			assert.are.equal("a", ("me/eden/a"):sub(#prefix + 1))
+		end)
+
+		it("strips nothing from a stack of one, having nothing to compare against", function()
+			assert.are.equal("", stack.shared_prefix(names_of("me/only")))
+		end)
+
+		it("strips nothing when the branches are unprefixed", function()
+			assert.are.equal("", stack.shared_prefix(names_of("one", "two")))
+		end)
+	end)
+
 	describe("diff commands", function()
 		local captured
 
