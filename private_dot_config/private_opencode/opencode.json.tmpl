@@ -1,6 +1,24 @@
+{{- $zaiKey := (bitwarden "item" "z.ai api key").login.password -}}
+{{- $k3d := bitwarden "item" "makewright k3d dev-mcp" -}}
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "anthropic/claude-sonnet-4-5",
+  "skills": {
+    "paths": [
+      "/home/joba/sandbox/claude-skills/plugins/dev-workflow/skills",
+      "/home/joba/sandbox/claude-skills/plugins/elixir-stack/skills",
+      "/home/joba/sandbox/claude-skills/plugins/web-platform/skills",
+      "/home/joba/sandbox/claude-skills/plugins/data-and-databases/skills",
+      "/home/joba/sandbox/claude-skills/plugins/llm-engineering/skills",
+      "/home/joba/sandbox/claude-skills/plugins/native-mobile/skills",
+      "/home/joba/sandbox/claude-skills/plugins/platform-and-infrastructure/skills",
+      "/home/joba/sandbox/claude-skills/plugins/security-engineering/skills",
+      "/home/joba/sandbox/claude-skills/plugins/algorithms-and-data-structures/skills",
+      "/home/joba/sandbox/claude-skills/plugins/applied-math/skills",
+      "/home/joba/sandbox/claude-skills/plugins/linux-sysadmin/skills",
+      "/home/joba/sandbox/claude-skills/plugins/nix-and-nixos/skills"
+    ]
+  },
   "agent": {
     "logseq-agent": {
       "description": "LogSeq gateway for all LogSeq operations, memory management, and review orchestration",
@@ -22,6 +40,50 @@
     "ash-logseq": {
       "type": "remote",
       "url": "http://localhost:9000/mcp"
+    },
+    "zai-vision": {
+      "type": "local",
+      "command": ["npx", "-y", "@z_ai/mcp-server@latest"],
+      "environment": {
+        "Z_AI_MODE": "ZAI",
+        "Z_AI_API_KEY": "{{ $zaiKey }}"
+      },
+      "enabled": true
+    },
+    "zai-web-search": {
+      "type": "remote",
+      "url": "https://api.z.ai/api/mcp/web_search_prime/mcp",
+      "headers": {
+        "Authorization": "Bearer {{ $zaiKey }}"
+      },
+      "enabled": true
+    },
+    "zai-web-reader": {
+      "type": "remote",
+      "url": "https://api.z.ai/api/mcp/web_reader/mcp",
+      "headers": {
+        "Authorization": "Bearer {{ $zaiKey }}"
+      },
+      "enabled": true
+    },
+    "zread": {
+      "type": "remote",
+      "url": "https://api.z.ai/api/mcp/zread/mcp",
+      "headers": {
+        "Authorization": "Bearer {{ $zaiKey }}"
+      },
+      "enabled": true
+    },
+    "makewright-k3d": {
+      "type": "remote",
+      "url": "http://localhost:9010/dev-mcp",
+      "headers": {
+        "Authorization": "Basic {{ printf "%s:%s" $k3d.login.username $k3d.login.password | b64enc }}"
+      },
+      "enabled": true
     }
+  },
+  "compaction": {
+    "prune": false
   }
 }
