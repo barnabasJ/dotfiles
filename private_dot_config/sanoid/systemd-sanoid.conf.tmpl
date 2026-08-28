@@ -1,0 +1,17 @@
+# systemd drop-in for sanoid.service.
+#
+# Points sanoid at the chezmoi-managed policy in $HOME instead of
+# /etc/sanoid/sanoid.conf, so editing the policy never needs root again.
+# Install once with the command printed by run_onchange_after_20_install_sanoid.sh.
+#
+# sanoid still runs as root — creating and destroying ZFS snapshots requires it.
+# Only sanoid.conf is read from --configdir; sanoid.defaults.conf still comes
+# from /usr/share/sanoid/.
+
+[Unit]
+ConditionFileNotEmpty=
+ConditionFileNotEmpty={{ .chezmoi.homeDir }}/.config/sanoid/sanoid.conf
+
+[Service]
+ExecStart=
+ExecStart=/usr/sbin/sanoid --take-snapshots --verbose --configdir={{ .chezmoi.homeDir }}/.config/sanoid

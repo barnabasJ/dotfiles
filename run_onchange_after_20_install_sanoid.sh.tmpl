@@ -1,0 +1,43 @@
+#!/bin/bash
+
+set -e
+
+{{ if (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu")) -}}
+
+# Re-run this script whenever the policy changes.
+# sanoid.conf hash: {{ include "private_dot_config/sanoid/sanoid.conf" | sha256sum }}
+
+# Sanoid owns automated ZFS snapshots + retention. Its config lives in /etc,
+# which chezmoi does not manage, and installing it needs root — so, like the
+# apt steps in run_onchange_before_00, this only prints what to run by hand.
+
+command -v zfs >/dev/null 2>&1 || exit 0
+
+SRC="{{ .chezmoi.homeDir }}/.config/sanoid/sanoid.conf"
+
+if ! command -v sanoid >/dev/null 2>&1; then
+  echo
+  echo "ACTION REQUIRED — install sanoid:"
+  echo "  sudo apt install -y sanoid"
+  echo
+fi
+
+if ! cmp -s "$SRC" /etc/sanoid/sanoid.conf 2>/dev/null; then
+  echo
+  echo "ACTION REQUIRED — /etc/sanoid/sanoid.conf differs from the managed copy:"
+  echo "  sudo diff -u /etc/sanoid/sanoid.conf $SRC"
+  echo "  sudo install -Dm644 $SRC /etc/sanoid/sanoid.conf"
+  echo
+  echo "Then dry-run before letting the timer touch anything:"
+  echo "  sudo sanoid --cron --readonly --verbose"
+  echo
+fi
+
+if ! systemctl is-enabled --quiet sanoid.timer 2>/dev/null; then
+  echo
+  echo "ACTION REQUIRED — enable the sanoid timer (fires every 15 min):"
+  echo "  sudo systemctl enable --now sanoid.timer"
+  echo
+fi
+
+{{ end -}}

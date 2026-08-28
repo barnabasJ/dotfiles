@@ -1,0 +1,9 @@
+# systemd drop-in for sanoid-prune.service. See systemd-sanoid.conf for why.
+
+[Unit]
+ConditionFileNotEmpty=
+ConditionFileNotEmpty={{ .chezmoi.homeDir }}/.config/sanoid/sanoid.conf
+
+[Service]
+ExecStart=
+ExecStart=/usr/sbin/sanoid --prune-snapshots --verbose --configdir={{ .chezmoi.homeDir }}/.config/sanoid

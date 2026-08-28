@@ -1,0 +1,67 @@
+#!/bin/bash
+
+set -e
+
+{{ if (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu")) -}}
+
+# Re-run whenever the policy or the drop-ins change.
+# sanoid.conf hash:  {{ include "private_dot_config/sanoid/sanoid.conf" | sha256sum }}
+# drop-in hashes:    {{ include "private_dot_config/sanoid/systemd-sanoid.conf.tmpl" | sha256sum }} {{ include "private_dot_config/sanoid/systemd-sanoid-prune.conf.tmpl" | sha256sum }}
+
+# Sanoid owns automated ZFS snapshots + retention.
+#
+# The policy lives in $HOME under chezmoi and is read from there directly via
+# --configdir, so editing it needs no root. sanoid itself still runs as root
+# from the system timer: creating and destroying snapshots is not something an
+# unprivileged user can do.
+#
+# The only root steps are one-time plumbing. Like run_onchange_before_00, this
+# script only prints them.
+
+command -v zfs >/dev/null 2>&1 || exit 0
+
+CONF="{{ .chezmoi.homeDir }}/.config/sanoid/sanoid.conf"
+SRCDIR="{{ .chezmoi.homeDir }}/.config/sanoid"
+
+if ! command -v sanoid >/dev/null 2>&1; then
+  echo
+  echo "ACTION REQUIRED — install sanoid:"
+  echo "  sudo apt install -y sanoid"
+  echo
+fi
+
+for unit in sanoid sanoid-prune; do
+  dropin="/etc/systemd/system/${unit}.service.d/configdir.conf"
+  if ! cmp -s "$SRCDIR/systemd-${unit}.conf" "$dropin" 2>/dev/null; then
+    NEED_DROPIN=1
+  fi
+done
+
+if [ -n "$NEED_DROPIN" ]; then
+  echo
+  echo "ACTION REQUIRED — point the sanoid units at the config in \$HOME:"
+  echo "  sudo install -Dm644 $SRCDIR/systemd-sanoid.conf \\"
+  echo "    /etc/systemd/system/sanoid.service.d/configdir.conf"
+  echo "  sudo install -Dm644 $SRCDIR/systemd-sanoid-prune.conf \\"
+  echo "    /etc/systemd/system/sanoid-prune.service.d/configdir.conf"
+  echo "  sudo systemctl daemon-reload"
+  echo
+fi
+
+if [ -f /etc/sanoid/sanoid.conf ]; then
+  echo
+  echo "NOTE — /etc/sanoid/sanoid.conf exists but is now ignored (--configdir"
+  echo "points at $SRCDIR). Remove it so it can't mislead later:"
+  echo "  sudo rm /etc/sanoid/sanoid.conf"
+  echo
+fi
+
+if ! systemctl is-enabled --quiet sanoid.timer 2>/dev/null; then
+  echo
+  echo "ACTION REQUIRED — dry-run the policy, then enable the timer:"
+  echo "  sudo sanoid --cron --readonly --verbose --configdir=$SRCDIR"
+  echo "  sudo systemctl enable --now sanoid.timer"
+  echo
+fi
+
+{{ end -}}
