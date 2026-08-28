@@ -8,7 +8,7 @@ describe("split-navigator utils", function()
 	describe("get_visible_windows", function()
 		it("should return only normal windows", function()
 			local wins = utils.get_visible_windows()
-			assert.equals(1, #wins)
+			assert.are.equal(1, #wins)
 		end)
 
 		it("should exclude floating windows", function()
@@ -23,7 +23,7 @@ describe("split-navigator utils", function()
 			})
 
 			local wins = utils.get_visible_windows()
-			assert.equals(1, #wins) -- Should still be 1 (only the normal window)
+			assert.are.equal(1, #wins) -- Should still be 1 (only the normal window)
 		end)
 	end)
 
@@ -35,8 +35,8 @@ describe("split-navigator utils", function()
 			local width = vim.api.nvim_win_get_width(win)
 			local height = vim.api.nvim_win_get_height(win)
 
-			assert.equals(math.floor(height / 2), center.row)
-			assert.equals(math.floor(width / 2), center.col)
+			assert.are.equal(math.floor(height / 2), center.row)
+			assert.are.equal(math.floor(width / 2), center.col)
 		end)
 	end)
 
@@ -52,7 +52,7 @@ describe("split-navigator utils", function()
 
 		it("should create a non-modifiable buffer", function()
 			local buf = utils.create_overlay_buffer(" 1 ")
-			local modifiable = vim.api.nvim_buf_get_option(buf, "modifiable")
+			local modifiable = vim.bo[buf].modifiable
 			assert.is_false(modifiable)
 		end)
 	end)
@@ -72,4 +72,3 @@ describe("split-navigator utils", function()
 		end)
 	end)
 end)
-

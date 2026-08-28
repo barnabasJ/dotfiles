@@ -30,6 +30,7 @@ describe("split-navigator", function()
 			local messages = {}
 			-- Mock vim.notify to capture messages
 			local original_notify = vim.notify
+			---@diagnostic disable-next-line: duplicate-set-field
 			vim.notify = function(msg, level)
 				table.insert(messages, { msg = msg, level = level })
 			end
@@ -39,9 +40,9 @@ describe("split-navigator", function()
 			-- Restore original notify
 			vim.notify = original_notify
 
-			assert.equals(1, #messages)
-			assert.equals("Only one window open", messages[1].msg)
-			assert.equals(vim.log.levels.INFO, messages[1].level)
+			assert.are.equal(1, #messages)
+			assert.are.equal("Only one window open", messages[1].msg)
+			assert.are.equal(vim.log.levels.INFO, messages[1].level)
 		end)
 	end)
 
@@ -59,4 +60,3 @@ describe("split-navigator", function()
 		end)
 	end)
 end)
-
