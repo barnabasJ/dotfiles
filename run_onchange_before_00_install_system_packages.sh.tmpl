@@ -43,8 +43,13 @@ if ! grep -rq "mkasberg/ghostty-ubuntu" /etc/apt/sources.list.d/ 2>/dev/null; th
   echo
 fi
 
+{{ else if eq .chezmoi.osRelease.id "nixos" -}}
+# Nix owns system packages on NixOS. Keep this shared chezmoi hook as an
+# explicit no-op so applying the same source remains portable and unprivileged.
+echo "NixOS system packages are managed declaratively; skipping host package installation."
 {{ else -}}
-echo "Unsupported OS: {{ .chezmoi.os }}"
+echo "Unsupported OS: {{ .chezmoi.os }} ({{ .chezmoi.osRelease.id }})" >&2
+exit 1
 {{ end -}}
 
 # install tmux plugin manager
