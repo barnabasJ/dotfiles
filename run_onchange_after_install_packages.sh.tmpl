@@ -36,8 +36,8 @@ default_packages_file = "~/.default-golang-pkgs"
 
 [tools]
 {{- range $key, $value := .packages.mise }}
-{{- if and (eq $.chezmoi.osRelease.id "nixos") (or (eq $key "neovim") (eq $key "direnv") (eq $key "lua")) }}
-{{- /* Nix owns durable bootstrap tools; Lua is source-only in this global profile. */}}
+{{- if and (eq $.chezmoi.osRelease.id "nixos") (or (eq $key "neovim") (eq $key "direnv") (eq $key "lua") (eq $key "erlang") (eq $key "elixir")) }}
+{{- /* Nix owns durable bootstrap tools; source-only runtimes belong in project dev shells. */}}
 {{- else }}
 {{ $key }} = "{{ $value.version }}"
 {{- end }}
