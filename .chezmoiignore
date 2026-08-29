@@ -16,6 +16,8 @@ Scripts/
 {{ else if eq .chezmoi.osRelease.id "nixos" }}
 .zprofile
 .config/ghostty
+# The NixOS profile must not fetch external credentials during bootstrap.
+.config/opencode
 {{ else }}
 .zprofile
 .zshrc
