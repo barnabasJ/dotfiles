@@ -15,14 +15,14 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+
 require("lazy").setup({
 	spec = "barnabasj.lazy",
 	change_detection = { notify = false },
-	-- Force lazy's bundled hererocks instead of any system luarocks. Avoids
-	-- LuaJIT/lua-5.1 ABI mismatches and PATH discovery failures when fetching
-	-- rocks declared by plugin rockspecs (e.g. `magick` for image.nvim).
-	rocks = { hererocks = true },
-}, {
+	-- image.nvim uses its supported ImageMagick CLI processor, so this plugin
+	-- set needs no Lua rocks. Keeping rock resolution disabled avoids an
+	-- unmanaged hererocks/Lua toolchain on both NixOS and the current host.
+	rocks = { enabled = false },
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
 		-- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table

@@ -24,7 +24,10 @@ return {
 		-- clipping, and proper image cleanup on buffer/tab switch (which
 		-- Sixel couldn't do because the Sixel protocol has no delete op).
 		backend = "kitty",
-		processor = "magick_rock",
+		-- The upstream default needs only the ImageMagick executable. This is
+		-- portable across the current host and NixOS and avoids a mutable
+		-- LuaRocks/hererocks toolchain inside lazy.nvim.
+		processor = "magick_cli",
 		integrations = {
 			markdown = {
 				enabled = true,
