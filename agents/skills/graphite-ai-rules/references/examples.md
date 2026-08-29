@@ -71,7 +71,7 @@ source code. Use environment variables or a secrets manager.
 **Bad example:**
 
 ```python
-STRIPE_KEY = "sk_live_abc123def456"
+STRIPE_KEY = "<stripe-secret-key>"
 client = stripe.Client(api_key=STRIPE_KEY)
 ```
 
