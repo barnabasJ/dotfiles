@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 export SSH\_ASKPASS=/usr/bin/ksshaskpass
 

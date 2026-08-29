@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Method: Create the exact layout we want step by step
 # Step 1: Split horizontally to create left side (25%) and right side (75%)

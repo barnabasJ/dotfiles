@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Claude Code Formatting Hook
 # Automatically formats code files after Edit, Write, and MultiEdit operations

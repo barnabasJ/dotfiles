@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Install dependencies =========================================================
 
@@ -39,4 +39,3 @@ if [ ! -d "$HOME/.local/bin" ] ; then
 fi
 
 ln -s "$HOME/Apps/docker-compose" "$HOME/.local/bin/docker-compose"
-

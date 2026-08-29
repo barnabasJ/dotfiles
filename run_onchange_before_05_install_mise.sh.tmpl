@@ -1,5 +1,5 @@
+#!/usr/bin/env bash
 {{ if or (eq .chezmoi.os "darwin") (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu")) -}}
-#!/bin/bash
 
 set -e
 
