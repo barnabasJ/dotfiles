@@ -110,7 +110,7 @@ function gw() {
 # docker
 ################################################################################
 
-{{ if eq .podman true -}}
+{{ if and (hasKey . "podman") .podman -}}
 alias docker='podman'
 {{ end -}}
 alias d='docker'
