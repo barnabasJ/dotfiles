@@ -1,3 +1,21 @@
+-- Gitignored dirs that are never worth opening. Used by the pickers below that
+-- deliberately look past .gitignore, so ignored-but-interesting files (.env,
+-- local configs, generated code) show up without drowning in dependencies.
+local noise = {
+	"node_modules",
+	"_build",
+	"deps",
+	".elixir_ls",
+	"target",
+	".venv",
+	"__pycache__",
+	".direnv",
+	".terraform",
+	".next",
+	"dist",
+	".cache",
+}
+
 ---@type LazySpec
 return {
 	"folke/snacks.nvim",
@@ -111,6 +129,13 @@ return {
 			desc = "Find Files",
 		},
 		{
+			"<leader>fi",
+			function()
+				Snacks.picker.files({ hidden = true, ignored = true, exclude = noise })
+			end,
+			desc = "Find Files (incl. ignored)",
+		},
+		{
 			"<leader>fg",
 			function()
 				Snacks.picker.git_files()
@@ -202,6 +227,13 @@ return {
 				Snacks.picker.grep()
 			end,
 			desc = "Grep",
+		},
+		{
+			"<leader>sI",
+			function()
+				Snacks.picker.grep({ hidden = true, ignored = true, exclude = noise })
+			end,
+			desc = "Grep (incl. ignored)",
 		},
 		{
 			"<leader>sw",
