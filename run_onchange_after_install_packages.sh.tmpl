@@ -10,29 +10,42 @@ cat > "$HOME/.config/mise/config.toml" <<'EOF'
 [settings]
 paranoid = true
 lockfile = true
+{{ if eq .chezmoi.osRelease.id "nixos" -}}
+# NixOS provides nix-ld, so require precompiled runtimes instead of silently
+# falling back to host-global source builds without a project dev shell.
+# https://mise.jdx.dev/configuration/settings.html#all-compile
+all_compile = false
+erlang.compile = false
+node.compile = false
+python.compile = false
+{{ end -}}
 
 [settings.go]
 default_packages_file = "~/.default-golang-pkgs"
 
 [env]
 {{- range $key, $value := .packages.mise }}
+{{- if not (and (eq $.chezmoi.osRelease.id "nixos") (eq $key "lua")) }}
 {{- if index $value "env" }}
 {{- range $envKey, $envVal := $value.env }}
 {{ $envKey }} = "{{ $envVal }}"
 {{- end }}
 {{- end }}
 {{- end }}
+{{- end }}
 
 [tools]
 {{- range $key, $value := .packages.mise }}
-{{- if and (eq $.chezmoi.osRelease.id "nixos") (or (eq $key "neovim") (eq $key "direnv")) }}
-{{- /* Nix owns durable bootstrap executables on the workstation. */}}
+{{- if and (eq $.chezmoi.osRelease.id "nixos") (or (eq $key "neovim") (eq $key "direnv") (eq $key "lua")) }}
+{{- /* Nix owns durable bootstrap tools; Lua is source-only in this global profile. */}}
 {{- else }}
 {{ $key }} = "{{ $value.version }}"
 {{- end }}
 {{- end }}
+{{- if ne .chezmoi.osRelease.id "nixos" }}
 {{- range $key, $value := .packages.cargo }}
 "cargo:{{ $key }}" = "{{ $value.version }}"
+{{- end }}
 {{- end }}
 {{- range $key, $value := .packages.npm }}
 "npm:{{ $key }}" = "{{ $value.version }}"
