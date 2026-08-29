@@ -1,0 +1,5 @@
+{{- if eq .chezmoi.osRelease.id "nixos" -}}
+{{ template "nvim-lazy-lock-nixos.json" . }}
+{{- else -}}
+{{ template "nvim-lazy-lock-default.json" . }}
+{{- end -}}
