@@ -16,6 +16,8 @@ Scripts/
 {{ else if eq .chezmoi.osRelease.id "nixos" }}
 .zprofile
 .config/ghostty
+.config/environment.d/ssh_auth_socket.conf
+.config/systemd/user/ssh-agent.service
 {{ else }}
 .zprofile
 .zshrc

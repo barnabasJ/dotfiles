@@ -1,0 +1,14 @@
+[user]
+	name = Barnabas Jovanovics
+	email = barnabas.jovanovics@gmail.com
+	signingkey = 6933B4B941F4166F2C6E5CAC17670E012F15022A
+[gpg]
+	format = openpgp
+[commit]
+	gpgsign = true
+[tag]
+	gpgsign = true
+[init]
+	defaultBranch = main
+[url "git@github.com:"]
+	pushInsteadOf = https://github.com/
