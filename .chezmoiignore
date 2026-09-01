@@ -18,6 +18,11 @@ Scripts/
 .config/ghostty
 .config/environment.d/ssh_auth_socket.conf
 .config/systemd/user/ssh-agent.service
+.config/kwalletrc
+.docker/config.json
+.gnupg/gpg.conf
+.gnupg/gpg-agent.conf
+.local/share/kwalletd
 {{ else }}
 .zprofile
 .zshrc
