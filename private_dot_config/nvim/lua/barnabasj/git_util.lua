@@ -2,7 +2,26 @@
 -- a lot of git at once, finding the repo, and working out what trunk is. Nothing
 -- in here knows about stacks, PRs, or pickers.
 
+local progress = require("barnabasj.git_progress")
+
 local M = {}
+
+--- Every blocking git call goes through here rather than `vim.system():wait()`.
+--- Same wait, but routed through the progress module, which is what lets the
+--- spinner keep moving while a slow call is in flight -- and what counts the
+--- processes the profile reports.
+---@return vim.SystemCompleted
+local function run(cmd, opts)
+	progress.count()
+	local done, result = false, nil
+	vim.system(cmd, opts, function(res)
+		result, done = res, true
+	end)
+	progress.wait(function()
+		return done
+	end)
+	return result or { code = -1, stdout = "", stderr = "git: timed out" }
+end
 
 ---@return string|nil # trimmed stdout, or nil when git exits non-zero
 function M.git(cwd, ...)
@@ -10,7 +29,7 @@ function M.git(cwd, ...)
 	for _, arg in ipairs({ ... }) do
 		cmd[#cmd + 1] = arg
 	end
-	local res = vim.system(cmd, { cwd = cwd, text = true }):wait()
+	local res = run(cmd, { cwd = cwd, text = true })
 	if res.code ~= 0 then
 		return nil
 	end
@@ -24,16 +43,20 @@ end
 ---@param batch table<any, string[]>
 ---@return table<any, string|nil>
 function M.git_all(cwd, batch)
-	local handles, out = {}, {}
+	local pending, out = 0, {}
 	for key, args in pairs(batch) do
+		pending = pending + 1
 		local cmd = { "git" }
 		vim.list_extend(cmd, args)
-		handles[key] = vim.system(cmd, { cwd = cwd, text = true })
+		progress.count()
+		vim.system(cmd, { cwd = cwd, text = true }, function(res)
+			out[key] = res.code == 0 and vim.trim(res.stdout or "") or nil
+			pending = pending - 1
+		end)
 	end
-	for key, handle in pairs(handles) do
-		local res = handle:wait()
-		out[key] = res.code == 0 and vim.trim(res.stdout or "") or nil
-	end
+	progress.wait(function()
+		return pending == 0
+	end)
 	return out
 end
 
@@ -49,6 +72,7 @@ function M.git_all_async(cwd, batch, async)
 		pending = pending + 1
 		local cmd = { "git" }
 		vim.list_extend(cmd, args)
+		progress.count()
 		vim.system(cmd, { cwd = cwd, text = true }, function(res)
 			out[key] = res.code == 0 and vim.trim(res.stdout or "") or nil
 			pending = pending - 1
@@ -56,6 +80,43 @@ function M.git_all_async(cwd, batch, async)
 	end
 	while pending > 0 do
 		async:sleep(20)
+	end
+	return out
+end
+
+--- Read many objects with one git process instead of a `cat-file -p` each.
+---
+--- The per-object version is what made reading a stacking tool's metadata cost a
+--- process per branch in the repo -- 214 of them, 420ms, where this returns the
+--- same bytes in 4ms. `--batch` answers in input order, so the results line up
+--- with `revs` by position; an object that isn't there leaves its slot nil.
+---@param revs string[]
+---@return string[] # contents, indexed as `revs` is
+function M.cat_file_batch(cwd, revs)
+	if #revs == 0 then
+		return {}
+	end
+	-- Deliberately not `text = true`: that rewrites CRLF, and the byte counts in
+	-- the batch headers are what the contents are sliced by.
+	local res = run({ "git", "cat-file", "--batch" }, { cwd = cwd, stdin = table.concat(revs, "\n") .. "\n" })
+	if res.code ~= 0 then
+		return {}
+	end
+
+	local data, out, pos = res.stdout or "", {}, 1
+	for i = 1, #revs do
+		local eol = data:find("\n", pos, true)
+		if not eol then
+			break
+		end
+		-- Either "<oid> <type> <size>" followed by that many bytes and a newline,
+		-- or "<rev> missing", which has no body and leaves out[i] unset.
+		local size = data:sub(pos, eol - 1):match("^%S+ %S+ (%d+)$")
+		pos = eol + 1
+		if size then
+			out[i] = data:sub(pos, pos + tonumber(size) - 1)
+			pos = pos + tonumber(size) + 1
+		end
 	end
 	return out
 end
@@ -96,14 +157,14 @@ end
 ---@param async? snacks.picker.Async
 ---@return string|nil trunk, string|nil ref
 function M.detect_trunk(cwd, async)
-	local run = M.runner(cwd, async)
+	local batched = M.runner(cwd, async)
 	local names = { "main", "master", "trunk", "develop" }
 
 	local batch = { head = { "symbolic-ref", "--short", "refs/remotes/origin/HEAD" } }
 	for _, name in ipairs(names) do
 		batch["local:" .. name] = { "rev-parse", "--verify", "--quiet", name }
 	end
-	local out = run(batch)
+	local out = batched(batch)
 
 	local trunk ---@type string|nil
 	local head = out.head
@@ -122,14 +183,14 @@ function M.detect_trunk(cwd, async)
 	end
 
 	local remote = "origin/" .. trunk
-	return trunk, run({ remote = { "rev-parse", "--verify", "--quiet", remote } }).remote and remote or trunk
+	return trunk, batched({ remote = { "rev-parse", "--verify", "--quiet", remote } }).remote and remote or trunk
 end
 
 --- Check out a branch and let the editor catch up with what changed underneath
 --- it. Reporting the failure here means every caller does not have to.
 ---@return boolean ok
 function M.checkout(cwd, branch)
-	local res = vim.system({ "git", "checkout", branch }, { cwd = cwd, text = true }):wait()
+	local res = run({ "git", "checkout", branch }, { cwd = cwd, text = true })
 	if res.code ~= 0 then
 		vim.notify(vim.trim(res.stderr or "git checkout failed"), vim.log.levels.ERROR)
 		return false

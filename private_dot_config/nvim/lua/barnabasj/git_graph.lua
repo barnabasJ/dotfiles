@@ -21,6 +21,7 @@
 -- the plain all-branches picker, which is also on <leader>gb.
 
 local git_util = require("barnabasj.git_util")
+local progress = require("barnabasj.git_progress")
 
 local M = {}
 
@@ -180,11 +181,14 @@ function M.checkout(choice)
 		vim.notify("git-graph: that commit has no branch on it", vim.log.levels.WARN)
 		return false
 	end
-	local tracked = name:match("^origin/(.+)$")
-	if tracked and git_util.git(choice.cwd, "rev-parse", "--verify", "--quiet", tracked) then
-		name = tracked
-	end
-	return git_util.checkout(choice.cwd, name)
+	return progress.run("git-graph", function(run)
+		run:phase("checking out " .. name)
+		local tracked = name:match("^origin/(.+)$")
+		if tracked and git_util.git(choice.cwd, "rev-parse", "--verify", "--quiet", tracked) then
+			name = tracked
+		end
+		return git_util.checkout(choice.cwd, name)
+	end)
 end
 
 --- Pick a ref off the graph.

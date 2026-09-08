@@ -1,3 +1,17 @@
+--- Open a diffview with something on screen saying what is being opened.
+---
+--- Diffview builds its whole view synchronously, so nothing can tick while it
+--- runs and no spinner would ever animate: the label is painted going in, or it
+--- is never seen. It is also reliably the slowest part of these maps, which is
+--- why it is worth saying. `git_progress` also times it, so `<leader>g?` can
+--- answer "was that git being slow, or diffview?".
+local function diffing(label, fn)
+	require("barnabasj.git_progress").run("git", function(run)
+		run:phase(label, true)
+		fn()
+	end)
+end
+
 ---@type LazySpec
 return {
 	"sindrets/diffview.nvim",
@@ -5,8 +19,10 @@ return {
 		{
 			"<leader>gm",
 			function()
-				vim.cmd("DiffviewClose")
-				vim.cmd("DiffviewOpen origin/main")
+				diffing("diffing against origin/main", function()
+					vim.cmd("DiffviewClose")
+					vim.cmd("DiffviewOpen origin/main")
+				end)
 			end,
 			desc = "Diff against origin/main",
 		},
@@ -27,18 +43,20 @@ return {
 							graph.pick({
 								title = "PR Review — branch under review (<a-a> for all branches)",
 								on_choose = function(head)
-									vim.cmd("DiffviewClose")
-									-- --imply-local swaps whichever side resolves to HEAD for the
-									-- working tree, so reviewing the checked-out branch leaves the
-									-- right pane editable and agent fixes land in the real files
-									-- (refresh with <leader>gR). It is a no-op when neither side
-									-- is HEAD, so it is always safe to pass.
-									vim.cmd(
-										("DiffviewOpen %s...%s --imply-local"):format(
-											base.branch or base.commit,
-											head.branch or head.commit
+									diffing("opening the PR diff", function()
+										vim.cmd("DiffviewClose")
+										-- --imply-local swaps whichever side resolves to HEAD for the
+										-- working tree, so reviewing the checked-out branch leaves the
+										-- right pane editable and agent fixes land in the real files
+										-- (refresh with <leader>gR). It is a no-op when neither side
+										-- is HEAD, so it is always safe to pass.
+										vim.cmd(
+											("DiffviewOpen %s...%s --imply-local"):format(
+												base.branch or base.commit,
+												head.branch or head.commit
+											)
 										)
-									)
+									end)
 								end,
 							})
 						end)
@@ -64,8 +82,10 @@ return {
 				require("barnabasj.git_graph").pick({
 					title = "Diff against… (<c-o> checkout, <a-a> all branches)",
 					on_choose = function(choice)
-						vim.cmd("DiffviewClose")
-						vim.cmd(("DiffviewOpen %s --imply-local"):format(choice.branch or choice.commit))
+						diffing("diffing against " .. (choice.branch or choice.commit), function()
+							vim.cmd("DiffviewClose")
+							vim.cmd(("DiffviewOpen %s --imply-local"):format(choice.branch or choice.commit))
+						end)
 					end,
 				})
 			end,
@@ -93,13 +113,22 @@ return {
 					confirm = function(picker, item)
 						picker:close()
 						if item and item.commit then
-							vim.cmd("DiffviewClose")
-							vim.cmd("DiffviewOpen " .. item.commit)
+							diffing("diffing against " .. item.commit, function()
+								vim.cmd("DiffviewClose")
+								vim.cmd("DiffviewOpen " .. item.commit)
+							end)
 						end
 					end,
 				})
 			end,
 			desc = "Diff against commit",
+		},
+		{
+			"<leader>g?",
+			function()
+				require("barnabasj.git_progress").report()
+			end,
+			desc = "Where the time went in the last git command",
 		},
 		{
 			"<leader>gR",

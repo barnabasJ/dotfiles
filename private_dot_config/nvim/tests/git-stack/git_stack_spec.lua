@@ -301,7 +301,12 @@ describe("git_stack", function()
 			-- working, since the surrounding hooks still need them.
 			vim.cmd = setmetatable({}, {
 				__call = function(_, c)
-					captured[#captured + 1] = c
+					-- What is under test is which diffview commands get issued. The
+					-- progress module repaints its label around them, and those are
+					-- not part of the answer.
+					if c ~= "redraw" then
+						captured[#captured + 1] = c
+					end
 				end,
 				__index = function(_, key)
 					return real_cmd[key]
@@ -331,6 +336,118 @@ describe("git_stack", function()
 				"DiffviewClose",
 				("DiffviewOpen %s...HEAD --imply-local"):format(run("rev-parse", "main")),
 			}, captured)
+		end)
+	end)
+
+	describe("branch points", function()
+		--- feat/two grows a second branch on top of it, so above it the stack is no
+		--- longer a chain but a fork.
+		local function fork_above_two()
+			run("checkout", "-q", "-b", "feat/other", "feat/two")
+			commit("other.txt", "other")
+		end
+
+		it("climbs to the branch point and stops rather than picking a side", function()
+			fork_above_two()
+			run("checkout", "-q", "feat/one")
+
+			local s = get_stack()
+			assert.are.same({ "feat/one", "feat/two" }, names(s))
+			assert.is_true(s.forked)
+		end)
+
+		it("says so when the branch point is the branch you are on", function()
+			fork_above_two()
+			run("checkout", "-q", "feat/two")
+
+			local s = get_stack()
+			assert.are.same({ "feat/one", "feat/two" }, names(s))
+			assert.is_true(s.forked)
+		end)
+
+		it("keeps climbing when there is only ever one way up", function()
+			run("checkout", "-q", "feat/one")
+
+			local s = get_stack()
+			assert.are.same({ "feat/one", "feat/two", "feat/three" }, names(s))
+			assert.is_false(s.forked)
+		end)
+	end)
+
+	-- These maps run from a keypress, so how much git they run is part of what
+	-- they are: the same answer computed twice is time spent staring at a frozen
+	-- editor. Both of these were real, and both cost roughly a doubling.
+	describe("the work it does", function()
+		local spawned, real_system
+
+		before_each(function()
+			spawned = {}
+			real_system = vim.system
+			vim.system = function(cmd, opts, cb)
+				spawned[#spawned + 1] = table.concat(cmd, " ")
+				return real_system(cmd, opts, cb)
+			end
+		end)
+
+		after_each(function()
+			vim.system = real_system
+		end)
+
+		---@return integer
+		local function count(pattern)
+			local n = 0
+			for _, cmd in ipairs(spawned) do
+				if cmd:match(pattern) then
+					n = n + 1
+				end
+			end
+			return n
+		end
+
+		it("reads every branch's stacking metadata with one git process", function()
+			for _, branch in ipairs({ "feat/one", "feat/two", "feat/three" }) do
+				write_branch_metadata(branch, { parentBranchName = "main" })
+			end
+			-- Metadata refs outlive the branches they describe, so a repo carries
+			-- far more of them than the stack has branches.
+			for i = 1, 20 do
+				write_branch_metadata("stale/" .. i, { parentBranchName = "main" })
+			end
+			run("checkout", "-q", "feat/two")
+
+			get_stack()
+			assert.are.equal(1, count("cat%-file"))
+		end)
+
+		it("resolves the stack once per step, with a diffview open", function()
+			run("checkout", "-q", "feat/one")
+			local height = #names(get_stack())
+
+			-- The retarget path only runs when a view is up, which is exactly the
+			-- case that used to resolve the whole stack a second time.
+			local real_lib = package.loaded["diffview.lib"]
+			package.loaded["diffview.lib"] = {
+				get_current_view = function()
+					return {}
+				end,
+			}
+			local real_cmd = vim.cmd
+			vim.cmd = setmetatable({}, {
+				__call = function() end,
+				__index = function(_, key)
+					return real_cmd[key]
+				end,
+			})
+
+			spawned = {}
+			stack.move(1)
+
+			vim.cmd = real_cmd
+			package.loaded["diffview.lib"] = real_lib
+
+			assert.are.equal("feat/two", run("branch", "--show-current"))
+			-- One fork-point batch, so one merge-base per branch in the stack.
+			assert.are.equal(height, count("merge%-base"))
 		end)
 	end)
 

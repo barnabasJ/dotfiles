@@ -30,6 +30,7 @@
 -- navigation below are written once against that one shape.
 
 local git_util = require("barnabasj.git_util")
+local progress = require("barnabasj.git_progress")
 
 local M = {}
 
@@ -137,16 +138,26 @@ local function from_gh_stack(cwd, current)
 end
 
 ---@return table|nil
-local function from_graphite(cwd)
+local function from_graphite(cwd, current)
 	local refs = git(cwd, "for-each-ref", "--format=%(refname:lstrip=2)", "refs/branch-metadata/")
 	if not refs or refs == "" then
 		return nil
 	end
 
-	local meta, children = {}, {}
+	-- One `cat-file --batch` for the lot. Graphite keeps a metadata ref for every
+	-- branch it has ever tracked, so reading them one `cat-file -p` at a time was
+	-- a git process per branch in the repo -- 214 processes and 420ms of the
+	-- 530ms a stack resolve cost, for data the batch returns in 4ms.
+	local names, revs = {}, {}
 	for name in vim.gsplit(refs, "\n", { trimempty = true }) do
-		local blob = git(cwd, "cat-file", "-p", "refs/branch-metadata/" .. name)
-		local ok, data = pcall(vim.json.decode, blob or "")
+		names[#names + 1] = name
+		revs[#revs + 1] = "refs/branch-metadata/" .. name
+	end
+	local blobs = git_util.cat_file_batch(cwd, revs)
+
+	local meta, children = {}, {}
+	for i, name in ipairs(names) do
+		local ok, data = pcall(vim.json.decode, blobs[i] or "")
 		if ok and type(data) == "table" then
 			meta[name] = data
 			local parent = data.parentBranchName
@@ -157,7 +168,6 @@ local function from_graphite(cwd)
 		end
 	end
 
-	local current = git(cwd, "branch", "--show-current")
 	if not current or current == "" or not meta[current] then
 		return nil
 	end
@@ -221,27 +231,49 @@ local function from_graphite(cwd)
 	return { trunk = trunk, branches = branches, source = "graphite", forked = forked }
 end
 
---- The nearest branch below `branch`: walk its commits back toward trunk and
---- return the first one that is some other branch's tip. Walking in commit order
---- is what makes it "nearest", so each step resolves exactly one level down.
-local function nearest_parent(cwd, branch, trunk, tips)
-	local revs = git(cwd, "rev-list", branch, "^" .. trunk)
-	if not revs or revs == "" then
-		return nil
+--- The branch tips sitting between `from` and `upto`, nearest to `from` first.
+---
+--- One topo-ordered walk answers the whole question a chain needs: every branch
+--- below `from` is a tip the walk passes through, and the order it passes them
+--- in is the order they are stacked. Asking level by level instead -- a
+--- `rev-list` to find the next branch down, then another from there -- is the
+--- same walk repeated once per level, and it is the round trips that cost.
+---
+--- Batched over `froms`, because the walks do not depend on each other.
+---@param froms string[]
+---@return table<string, string[]>
+local function branches_between_all(cwd, froms, upto, tips)
+	local batch = {}
+	for i, from in ipairs(froms) do
+		-- Topological, not the default reverse-chronological: committer dates
+		-- survive rebases and cherry-picks in whatever order they like, and the
+		-- order these are read in *is* the stack order.
+		batch[i] = { "rev-list", "--topo-order", from, "^" .. upto }
 	end
-	for sha in vim.gsplit(revs, "\n", { trimempty = true }) do
-		for _, name in ipairs(tips[sha] or {}) do
-			if name ~= branch then
-				return name
+	local out = git_all(cwd, batch)
+
+	local found = {}
+	for i, from in ipairs(froms) do
+		local between = {}
+		for sha in vim.gsplit(out[i] or "", "\n", { trimempty = true }) do
+			for _, name in ipairs(tips[sha] or {}) do
+				if name ~= from and name ~= upto then
+					between[#between + 1] = name
+				end
 			end
 		end
+		found[from] = between
 	end
-	return nil
+	return found
+end
+
+---@return string[]
+local function branches_between(cwd, from, upto, tips)
+	return branches_between_all(cwd, { from }, upto, tips)[from]
 end
 
 ---@return table|nil
-local function from_git_ancestry(cwd)
-	local current = git(cwd, "branch", "--show-current")
+local function from_git_ancestry(cwd, current)
 	if not current or current == "" then
 		return nil
 	end
@@ -260,15 +292,18 @@ local function from_git_ancestry(cwd)
 		end
 	end
 
-	-- Standing on trunk, the stack to walk is the one whose bottom forks off it.
-	-- `--no-merged` cuts a repo full of stale branches down to the few with work
-	-- of their own, which is what keeps the rev-list per candidate affordable.
+	-- Standing on trunk, the stack to walk is the one whose bottom forks off it:
+	-- the branch with nothing between it and trunk. `--no-merged` cuts a repo full
+	-- of stale branches down to the few with work of their own, which is what
+	-- keeps the walk per candidate affordable.
 	local entry = current
 	if current == trunk then
 		local open = git(cwd, "branch", "--format=%(refname:short)", "--no-merged", trunk_ref)
+		local candidates = vim.split(open or "", "\n", { trimempty = true })
+		local below = branches_between_all(cwd, candidates, trunk_ref, tips)
 		local bottoms = {}
-		for name in vim.gsplit(open or "", "\n", { trimempty = true }) do
-			if not nearest_parent(cwd, name, trunk_ref, tips) then
+		for _, name in ipairs(candidates) do
+			if #below[name] == 0 then
 				bottoms[#bottoms + 1] = name
 			end
 		end
@@ -278,36 +313,63 @@ local function from_git_ancestry(cwd)
 		entry = bottoms[1]
 	end
 
-	local chain = { entry }
-	local node = entry
-	for _ = 1, 50 do
-		local parent = nearest_parent(cwd, node, trunk_ref, tips)
-		if not parent then
-			break
+	-- Downstack, in one walk. It comes back nearest-first, so reversing it gives
+	-- the bottom-to-top order the rest of this module is written against.
+	local below = branches_between(cwd, entry, trunk_ref, tips)
+	local chain = {}
+	for i = #below, 1, -1 do
+		chain[#chain + 1] = below[i]
+	end
+	chain[#chain + 1] = entry
+
+	-- Upstack. `branch --contains` names everything built on top of the entry in
+	-- one call, and one batched walk per candidate says how far up each one sits:
+	-- the number of other candidates between it and the entry. Depth 0 is the
+	-- direct child, 1 the branch above that, and so on. Two candidates at the same
+	-- depth is a branch point, which is where the climb stops rather than silently
+	-- picking a side.
+	local contains = git(cwd, "branch", "--format=%(refname:short)", "--contains", entry)
+	local above = {}
+	for name in vim.gsplit(contains or "", "\n", { trimempty = true }) do
+		if name ~= entry and name ~= trunk then
+			above[#above + 1] = name
 		end
-		table.insert(chain, 1, parent)
-		node = parent
 	end
 
-	-- `git branch --contains` is one call that yields everything built on top of
-	-- this branch; the direct child is whichever of those claims it as its own
-	-- nearest parent.
 	local forked = false
-	node = entry
-	for _ = 1, 50 do
-		local contains = git(cwd, "branch", "--format=%(refname:short)", "--contains", node)
-		local kids = {}
-		for name in vim.gsplit(contains or "", "\n", { trimempty = true }) do
-			if name ~= node and name ~= trunk and nearest_parent(cwd, name, trunk_ref, tips) == node then
-				kids[#kids + 1] = name
+	if #above > 0 then
+		local is_above = {}
+		for _, name in ipairs(above) do
+			is_above[name] = true
+		end
+
+		local between = branches_between_all(cwd, above, entry, tips)
+		local at_depth = {}
+		for _, name in ipairs(above) do
+			local depth = 0
+			for _, seen in ipairs(between[name]) do
+				-- Only other candidates count towards the depth. Anything else the
+				-- walk passed is a branch that does not sit on the entry at all.
+				if is_above[seen] then
+					depth = depth + 1
+				end
 			end
+			at_depth[depth] = at_depth[depth] or {}
+			table.insert(at_depth[depth], name)
 		end
-		if #kids ~= 1 then
-			forked = #kids > 1
-			break
+
+		local climbed = 0
+		for depth = 0, #above - 1 do
+			local at = at_depth[depth]
+			if not at or #at ~= 1 then
+				break
+			end
+			chain[#chain + 1] = at[1]
+			climbed = climbed + 1
 		end
-		node = kids[1]
-		chain[#chain + 1] = node
+		-- Whatever the climb could not take in is a branch point: two branches at
+		-- the same height above the entry, which is not a choice this can make.
+		forked = climbed < #above
 	end
 
 	local branches = {}
@@ -321,46 +383,64 @@ end
 ---@return table|nil
 function M.get(opts)
 	opts = opts or {}
-	local cwd = repo_root()
-	if not cwd then
-		if opts.notify ~= false then
-			vim.notify("git-stack: not inside a git repository", vim.log.levels.WARN)
+	return progress.run("git-stack", function(run)
+		run:phase("resolving the stack")
+		local cwd = repo_root()
+		if not cwd then
+			if opts.notify ~= false then
+				vim.notify("git-stack: not inside a git repository", vim.log.levels.WARN)
+			end
+			return nil
 		end
-		return nil
-	end
 
-	local current = git(cwd, "branch", "--show-current")
-	local stack, hint = from_gh_stack(cwd, current)
-	stack = stack or from_graphite(cwd) or from_git_ancestry(cwd)
-	if not stack then
-		if opts.notify ~= false then
-			vim.notify("git-stack: " .. (hint or "no stack found for the current branch"), vim.log.levels.WARN)
+		-- Asked once and handed to each source: all three need to know where HEAD
+		-- is and none of them can answer it more cheaply than the others.
+		local current = git(cwd, "branch", "--show-current")
+		local stack, hint = from_gh_stack(cwd, current)
+		stack = stack or from_graphite(cwd, current) or from_git_ancestry(cwd, current)
+		if not stack then
+			if opts.notify ~= false then
+				vim.notify("git-stack: " .. (hint or "no stack found for the current branch"), vim.log.levels.WARN)
+			end
+			return nil
 		end
-		return nil
-	end
-	stack.cwd = cwd
-	local _, trunk_ref = detect_trunk(cwd)
-	stack.trunk_ref = trunk_ref or stack.trunk
+		stack.cwd = cwd
 
-	-- Recorded bases are discarded here, deliberately. gh-stack stores the SHA a
-	-- branch was first created from, so once main moves and the stack is rebased
-	-- that SHA is still an *ancestor* of the branch but no longer its fork point
-	-- -- which is why running merge-base against the record repairs nothing: the
-	-- record is an ancestor, so merge-base hands it straight back. `base..branch`
-	-- then sweeps in every main commit in between. On a real 13-branch stack that
-	-- turned 10-40 file PR diffs into 1200+ file ones.
-	--
-	-- The fork point is whatever merge-base says about the branch below, so ask
-	-- git about that instead, every time. The whole batch goes out at once.
-	local batch = {}
-	for i, b in ipairs(stack.branches) do
-		batch[i] = { "merge-base", i == 1 and stack.trunk_ref or stack.branches[i - 1].name, b.name }
-	end
-	local bases = git_all(cwd, batch)
-	for i, b in ipairs(stack.branches) do
-		b.base = bases[i] or b.base
-	end
-	return stack
+		-- Measure against the remote copy of whatever trunk this stack names, when
+		-- there is one. A local `main` sits wherever it was last pulled -- 163
+		-- commits behind origin in the repo that turned this up -- and measuring a
+		-- stack against a stale trunk makes the bottom branch look like it contains
+		-- all of main's catch-up commits too. `origin/<trunk>` is what the PRs are
+		-- opened against, so that is what the diffs are taken from.
+		--
+		-- One rev-parse rather than a full `detect_trunk` round: the source has
+		-- already named its trunk, and re-detecting could disagree with it -- a
+		-- stack recorded against `develop` would end up measured against
+		-- `origin/main`.
+		local remote = "origin/" .. stack.trunk
+		stack.trunk_ref = git(cwd, "rev-parse", "--verify", "--quiet", remote) and remote or stack.trunk
+
+		-- Recorded bases are discarded here, deliberately. gh-stack stores the SHA a
+		-- branch was first created from, so once main moves and the stack is rebased
+		-- that SHA is still an *ancestor* of the branch but no longer its fork point
+		-- -- which is why running merge-base against the record repairs nothing: the
+		-- record is an ancestor, so merge-base hands it straight back. `base..branch`
+		-- then sweeps in every main commit in between. On a real 13-branch stack that
+		-- turned 10-40 file PR diffs into 1200+ file ones.
+		--
+		-- The fork point is whatever merge-base says about the branch below, so ask
+		-- git about that instead, every time. The whole batch goes out at once.
+		run:phase("finding the fork points")
+		local batch = {}
+		for i, b in ipairs(stack.branches) do
+			batch[i] = { "merge-base", i == 1 and stack.trunk_ref or stack.branches[i - 1].name, b.name }
+		end
+		local bases = git_all(cwd, batch)
+		for i, b in ipairs(stack.branches) do
+			b.base = bases[i] or b.base
+		end
+		return stack
+	end)
 end
 
 ---@return integer|nil # index of the branch HEAD is on, nil when off the stack
@@ -379,12 +459,18 @@ function M.root(stack)
 end
 
 local function open(rev_arg)
-	-- Reopening is the only reliable way to retarget a view that is already up.
-	vim.cmd("DiffviewClose")
-	-- --imply-local swaps whichever side resolves to HEAD for the working tree,
-	-- so that pane stays editable and edits land in the real files (<leader>gR
-	-- refreshes). It is a no-op when neither side is HEAD.
-	vim.cmd(("DiffviewOpen %s --imply-local"):format(rev_arg))
+	progress.run("git-stack", function(run)
+		-- Diffview builds the whole view synchronously, so nothing can tick while
+		-- it runs: the label is painted going in or it is never seen. It is also
+		-- usually the longest phase, which is exactly why it needs saying.
+		run:phase("opening the diff", true)
+		-- Reopening is the only reliable way to retarget a view that is already up.
+		vim.cmd("DiffviewClose")
+		-- --imply-local swaps whichever side resolves to HEAD for the working tree,
+		-- so that pane stays editable and edits land in the real files (<leader>gR
+		-- refreshes). It is a no-op when neither side is HEAD.
+		vim.cmd(("DiffviewOpen %s --imply-local"):format(rev_arg))
+	end)
 end
 
 --- Diff one branch against its own base: exactly what its PR shows.
@@ -407,70 +493,86 @@ function M.diff_root(stack, head)
 end
 
 function M.checkout(stack, branch)
-	if not git_util.checkout(stack.cwd, branch) then
-		return false
-	end
-
-	-- A diffview left open still points at the branch we just left. Retarget it
-	-- so stepping through the stack walks the diffs, not just the checkouts.
-	local ok, lib = pcall(require, "diffview.lib")
-	if ok and lib.get_current_view() then
-		local fresh = M.get({ notify = false })
-		local i = fresh and M.index(fresh)
-		if fresh and i then
-			M.diff_branch(fresh.branches[i])
+	return progress.run("git-stack", function(run)
+		run:phase("checking out " .. branch)
+		if not git_util.checkout(stack.cwd, branch) then
+			return false
 		end
-	end
-	return true
+
+		-- Moving HEAD is the only thing that changed, so the stack in hand is
+		-- updated rather than resolved from scratch: the order, the fork points and
+		-- the trunk ref are all still the ones just computed. Resolving again here
+		-- is what made a step through the stack with a diffview open -- which is
+		-- when these maps are actually used -- cost two full resolves instead of
+		-- one.
+		for _, b in ipairs(stack.branches) do
+			b.current = b.name == branch
+		end
+
+		-- A diffview left open still points at the branch we just left. Retarget it
+		-- so stepping through the stack walks the diffs, not just the checkouts.
+		local ok, lib = pcall(require, "diffview.lib")
+		if ok and lib.get_current_view() then
+			local i = M.index(stack)
+			if i then
+				M.diff_branch(stack.branches[i])
+			end
+		end
+		return true
+	end)
 end
 
 --- Step `delta` branches through the stack; +1 is up (away from trunk).
 function M.move(delta)
-	local stack = M.get()
-	if not stack then
-		return
-	end
-	local i = M.index(stack)
-	local target
-	if not i then
-		-- Sitting on trunk or off the stack entirely: "up" enters at the bottom.
-		target = delta > 0 and stack.branches[1] and stack.branches[1].name or nil
-	elseif i + delta < 1 then
-		target = stack.trunk
-	elseif i + delta > #stack.branches then
-		vim.notify(
-			stack.forked and "git-stack: at a branch point -- pick the next branch with the stack picker"
-				or "git-stack: already at the top of the stack",
-			vim.log.levels.INFO
-		)
-		return
-	else
-		target = stack.branches[i + delta].name
-	end
+	return progress.run("git-stack", function()
+		local stack = M.get()
+		if not stack then
+			return
+		end
+		local i = M.index(stack)
+		local target
+		if not i then
+			-- Sitting on trunk or off the stack entirely: "up" enters at the bottom.
+			target = delta > 0 and stack.branches[1] and stack.branches[1].name or nil
+		elseif i + delta < 1 then
+			target = stack.trunk
+		elseif i + delta > #stack.branches then
+			vim.notify(
+				stack.forked and "git-stack: at a branch point -- pick the next branch with the stack picker"
+					or "git-stack: already at the top of the stack",
+				vim.log.levels.INFO
+			)
+			return
+		else
+			target = stack.branches[i + delta].name
+		end
 
-	if not target then
-		vim.notify("git-stack: nothing to check out", vim.log.levels.INFO)
-		return
-	end
-	M.checkout(stack, target)
+		if not target then
+			vim.notify("git-stack: nothing to check out", vim.log.levels.INFO)
+			return
+		end
+		M.checkout(stack, target)
+	end)
 end
 
 --- Go straight to one end of the stack.
 ---@param where "top"|"bottom"
 function M.jump(where)
-	local stack = M.get()
-	if not stack then
-		return
-	end
-	local target = where == "top" and stack.branches[#stack.branches] or stack.branches[1]
-	if not target then
-		return
-	end
-	if target.current then
-		vim.notify(("git-stack: already at the %s of the stack"):format(where), vim.log.levels.INFO)
-		return
-	end
-	M.checkout(stack, target.name)
+	return progress.run("git-stack", function()
+		local stack = M.get()
+		if not stack then
+			return
+		end
+		local target = where == "top" and stack.branches[#stack.branches] or stack.branches[1]
+		if not target then
+			return
+		end
+		if target.current then
+			vim.notify(("git-stack: already at the %s of the stack"):format(where), vim.log.levels.INFO)
+			return
+		end
+		M.checkout(stack, target.name)
+	end)
 end
 
 --- "3 hours ago" is too wide for a column; "3h" is not.
@@ -662,8 +764,10 @@ function M.pick()
 	if not stack then
 		return
 	end
-	enrich(stack)
 
+	-- Not enriched here. The finder below does it anyway, with the picker already
+	-- on screen and its spinner running; doing it first as well only held the
+	-- keypress for a second batch of git nobody ever saw the result of.
 	local prefix = M.shared_prefix(stack.branches)
 
 	Snacks.picker({
